@@ -106,7 +106,7 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
-                <Button text="Login" />
+                <Button text="Register" />
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<a href="" className="text-[#FF8906] pl-1">Login</a></p>
             <div className="flex items-center gap-5">

@@ -14,7 +14,7 @@ export function Input({ label, name, leftIcon, rightIcon, ...atr }) {
                     {...atr}
                     name={name}
                     className={`w-full py-2 border border-gray-300 rounded-lg text-xs text-[#4F5665]
-                        ${leftIcon ? "pl-10" : "pl-3"} 
+                        ${leftIcon ? "pl-11" : "pl-3"} 
                         ${rightIcon ? "pr-10" : "pr-3"}`}
                 />
 
