@@ -6,8 +6,13 @@ export function AuthLayout(){
     const { title, desc} = current.handle
     return(
         <>
-         {title && desc && <TitleAuth title={title} desc={desc}/>}
-        <Outlet/>
+        <div className="container mx-auto p-5">
+            <div className="flex flex-col gap-5">
+            {title && desc && <TitleAuth title={title} desc={desc}/>}
+            <Outlet/>
+            </div>
+        
+        </div>
         </>
     )
 }
