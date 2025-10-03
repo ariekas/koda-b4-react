@@ -12,7 +12,7 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage/>,
-        handle: { title: "Login", desc: "Masuk ke akun kamu" }
+        handle: { title: "Login", desc: "Fill out the form correctly" }
       }
     ]
   },

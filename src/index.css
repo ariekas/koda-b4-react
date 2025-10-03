@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  
+@layer utilities {
+    .text-primary {
+      @apply text-[#8E6447] text-lg font-semibold;
+    }
+  }
