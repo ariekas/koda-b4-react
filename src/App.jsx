@@ -3,6 +3,7 @@ import { AuthLayout } from "./components/layout/AuthLayout"
 import { LoginPage } from "./page/LoginPage"
 import { NotFoud } from "./page/NotFound"
 import { RegisterPage } from "./page/RegisterPage"
+import { ForgetPassword } from "./page/ForgetPassword"
 
 
 const router = createBrowserRouter([
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterPage/>,
         handle: { title: "Register", desc: "Fill out the form correctly" }
+      },
+      {
+        path: "/forget-password",
+        element: <ForgetPassword/>,
+        handle: { title: "Fill Out The Form Correctly", desc: "We will send new password to your email" }
       }
     ]
   },
