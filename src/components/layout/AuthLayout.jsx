@@ -1,10 +1,10 @@
+import { Outlet } from "react-router-dom"
 import { TitleAuth } from "../TitleAuth"
-import { LoginPage } from "../../page/LoginPage"
 export function AuthLayout(){
     return(
         <>
         <TitleAuth/>
-        <LoginPage/>
+        <Outlet/>
         </>
     )
 }
