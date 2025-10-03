@@ -11,7 +11,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <LoginPage/>
+        element: <LoginPage/>,
+        handle: { title: "Login", desc: "Masuk ke akun kamu" }
       }
     ]
   },
