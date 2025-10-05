@@ -1,7 +1,7 @@
-export function Icon({children}){
+export function Icon({children,style}){
     return(
         <>
-        <button className="p-5 bg-white  shadow-lg">
+        <button className={style}>
         {children}
         </button>
         </>

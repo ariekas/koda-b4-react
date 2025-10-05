@@ -1,8 +1,8 @@
-export function Button({text}){
+export function Button({children, style}){
     return (
         <>
-            <button className="w-full bg-[#FF8906] text-black py-3  rounded-md">
-                {text}
+            <button className={`${style} w-full bg-[#FF8906] text-black py-1.5 rounded-md`}>
+                {children}
             </button>
         </>
     )

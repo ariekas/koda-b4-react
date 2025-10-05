@@ -4,6 +4,8 @@ import { LoginPage } from "./page/LoginPage"
 import { NotFoud } from "./page/NotFound"
 import { RegisterPage } from "./page/RegisterPage"
 import { ForgetPassword } from "./page/ForgetPassword"
+import { MainLayout } from "./components/layout/MainLayout"
+import { HomePage } from "./page/HomePage"
 
 
 const router = createBrowserRouter([
@@ -26,6 +28,16 @@ const router = createBrowserRouter([
         element: <ForgetPassword/>,
         handle: { title: "Fill Out The Form Correctly", desc: "We will send new password to your email" }
       }
+    ]
+  },
+  {
+    path: "/",
+    element: <MainLayout/>,
+    children: [
+      {
+        path: "/home",
+        element: <HomePage/>,
+      },
     ]
   },
   {

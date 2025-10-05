@@ -115,10 +115,10 @@ export function RegisterPage() {
                 <div className="bg-[#DEDEDE] w-full h-0.5"></div>
             </div>
             <div className="flex justify-center items-center gap-8">
-                <Icon>
+                <Icon style={"p-5 bg-white  shadow-lg"}>
                     <img src="/public/icons/google.png" alt="" />
                 </Icon>
-                <Icon>
+                <Icon style={"p-5 bg-white  shadow-lg"}>
                     <img src="/public/icons/facebook.png" alt="" />
                 </Icon>
             </div>
