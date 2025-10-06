@@ -7,6 +7,7 @@ import { ForgetPassword } from "./page/ForgetPassword"
 import { MainLayout } from "./components/layout/MainLayout"
 import { HomePage } from "./page/HomePage"
 import { ProductPage } from "./page/ProductPage"
+import { DetailPage } from "./page/DetailPage"
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/product",
         element: <ProductPage/>,
+      },
+      {
+        path: "/detail-product",
+        element: <DetailPage/>,
       },
     ]
   },

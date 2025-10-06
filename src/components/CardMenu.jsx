@@ -1,6 +1,6 @@
 import { Button } from "./Button"
 
-export function CardMenu() {
+export function CardMenu({children}) {
     return (
         <>
             <div className="flex flex-col gap-3">
@@ -12,6 +12,7 @@ export function CardMenu() {
                 </div>
                 <h1 className="font-bold">Hazelnut Latte</h1>
                 <p className="text-sm font-light">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
+                {children}
                 <p className=" text-red-500 text-sm line-through">IDR 10.000</p>
                 <p className="text-[#FF8906]">IDR 20.000</p>
                 <Button>Buy</Button>

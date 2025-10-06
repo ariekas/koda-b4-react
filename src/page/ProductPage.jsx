@@ -46,13 +46,33 @@ export function ProductPage() {
 
                 <div className="flex flex-col gap-6 my-10">
                     <h2 className="text-2xl font-semibold">Our <span className="text-[#8E6447]">Product</span></h2>
-                    <div className="grid grid-cols-2 gap-3">
-                        <CardMenu />
-                        <CardMenu />
+                    <div className="grid grid-cols-2 gap-5">
+                        <CardMenu>
+                            <div className="flex gap-1 items-center text-[#FF8906]">
+                                {[...Array(5)].map((_, i) => (
+                                    <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z" />
+                                    </svg>
+                                ))}
+                                <span className="ml-2 text-black">5.0</span>
+                            </div>
+
+                        </CardMenu>
+                        <CardMenu>
+                            <div className="flex gap-1 items-center text-[#FF8906]">
+                                {[...Array(5)].map((_, i) => (
+                                    <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z" />
+                                    </svg>
+                                ))}
+                                <span className="ml-2 text-black">5.0</span>
+                            </div>
+
+                        </CardMenu >
                     </div>
                 </div>
 
-                <div className="flex gap-2 items-center w-full justify-between mb-10">
+                <div className="flex gap-5 items-center   justify-center my-10 ">
                     {/* 1 */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
                         <h1>1</h1>
