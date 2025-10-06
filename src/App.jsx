@@ -8,6 +8,7 @@ import { MainLayout } from "./components/layout/MainLayout"
 import { HomePage } from "./page/HomePage"
 import { ProductPage } from "./page/ProductPage"
 import { DetailPage } from "./page/DetailPage"
+import { CheckoutPage } from "./page/CheckouPage"
 
 
 const router = createBrowserRouter([
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/detail-product",
         element: <DetailPage/>,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage/>,
       },
     ]
   },
