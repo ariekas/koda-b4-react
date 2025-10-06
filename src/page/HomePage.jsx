@@ -11,7 +11,7 @@ export function HomePage() {
     }
     return (
         <>
-            <div className="flex flex-col relative">
+            <div className="flex flex-col relative mb-15">
                 <img src="/public/images/home.png" alt="" />
                 <div className="p-5 bg-gradient-to-t from-[#0B0909] from-55% to-[#777C82] text-white px-5 py-10 gap-6 flex flex-col ">
                     {showChat && (
@@ -182,7 +182,6 @@ export function HomePage() {
                         <div className="p-1 rounded-full bg-white"></div>
                     </div>
                 </div>
-                <Footer />
             </div>
 
         </>

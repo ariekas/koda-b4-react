@@ -3,7 +3,7 @@ import { Icon } from "./Icon"
 export function Footer() {
     return (
         <>
-            <div className="flex flex-col p-5 gap-4">
+            <div className="flex flex-col p-5 gap-4 bg-[#F8F8F8]">
                 <img src="/public/images/logo.png" alt="" className="w-[55%]" />
                 <p className="text-[#4F5665] text-sm">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
                 <div className="flex justify-between">
