@@ -8,8 +8,6 @@ export function CheckoutPage() {
         { id: 6, img: "/public/images/bri.png", alt: "BRI" },
         { id: 6, img: "/public/images/bca.png", alt: "BCA" },
         { id: 6, img: "/public/images/dana.png", alt: "Dana" },
-
-
     ];
     return (
         <>

@@ -9,6 +9,7 @@ import { HomePage } from "./page/HomePage"
 import { ProductPage } from "./page/ProductPage"
 import { DetailPage } from "./page/DetailPage"
 import { CheckoutPage } from "./page/CheckouPage"
+import { HistoryPage } from "./page/HistoryPage"
 
 
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <CheckoutPage/>,
+      },
+      {
+        path: "/history",
+        element: <HistoryPage/>,
       },
     ]
   },
