@@ -17,7 +17,7 @@ export function ForgetPassword() {
                         </svg>
                     }
                 />
-                <Button text="Submit" />
+                <Button>Submit</Button>
             </form>
         </div>
     )

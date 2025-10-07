@@ -106,7 +106,7 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
-                <Button text="Register" />
+                <Button>Register</Button>
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<a href="" className="text-[#FF8906] pl-1">Login</a></p>
             <div className="flex items-center gap-5">
@@ -115,13 +115,19 @@ export function RegisterPage() {
                 <div className="bg-[#DEDEDE] w-full h-0.5"></div>
             </div>
             <div className="flex justify-center items-center gap-8">
-                <Icon style={"p-5 bg-white  shadow-lg"}>
-                    <img src="/public/icons/google.png" alt="" />
-                </Icon>
-                <Icon style={"p-5 bg-white  shadow-lg"}>
-                    <img src="/public/icons/facebook.png" alt="" />
-                </Icon>
-            </div>
+                    <Icon style={"p-5 bg-white  shadow-lg"}>
+                        <div className="flex items-center gap-2">
+                            <img src="/public/icons/google.png" alt="" />
+                            <p className="hidden md:flex">Google</p>
+                        </div>
+                    </Icon>
+                    <Icon style={"p-5 bg-white  shadow-lg"}>
+                        <div className="flex items-center gap-2">
+                            <img src="/public/icons/facebook.png" alt="" />
+                            <p className="hidden md:flex">Facebook</p>
+                        </div>
+                    </Icon>
+                </div>
         </div>
     )
 }
