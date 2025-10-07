@@ -10,7 +10,7 @@ import { ProductPage } from "./page/ProductPage"
 import { DetailPage } from "./page/DetailPage"
 import { CheckoutPage } from "./page/CheckouPage"
 import { HistoryPage } from "./page/HistoryPage"
-
+import { DetailOrder } from "./page/DetailOrder"
 
 const router = createBrowserRouter([
   {
@@ -57,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/history",
         element: <HistoryPage/>,
+      },
+      {
+        path: "/detail-order",
+        element: <DetailOrder/>,
       },
     ]
   },
