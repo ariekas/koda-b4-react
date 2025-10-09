@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Hazelnut Latte",
+    "slug": "Hazelnut Latte",
+    "category": "Minuman",
+    "image": "/public/images/coffe.png",
+    "price": 20000,
+    "diskonPrice": 10000,
+    "rating": 3.0,
+    "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+    "isFlashSale": false
+  }
+]

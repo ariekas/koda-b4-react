@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CardMenu } from "../components/CardMenu"
 import { Icon } from "../components/Icon"
 import { Button } from "../components/Button"
@@ -6,6 +6,7 @@ export function ProductPage() {
     const arr = [1, 2]
     const [showFilter, setShowFilter] = useState(false)
     const [priceRange, setPriceRange] = useState([0, 100000])
+    const [products, setProducts] = useState([]);
 
     function toggleFilter() {
         setShowFilter(!showFilter)
@@ -15,6 +16,21 @@ export function ProductPage() {
         const value = Number(e.target.value)
         setPriceRange([10000, value])
     }
+
+    async function getDataProduct() {
+        try {
+            const url = "/data/dataProduct.json"
+            const data = await fetch(url)
+            const response = await data.json()
+            setProducts(response);
+        } catch (error) {
+            console.log("error :" + error)
+        }
+    }
+
+    useEffect(() => {
+        getDataProduct()
+    }, [])
     return (
         <>
             <div className="pt-22 p-5">
@@ -164,28 +180,50 @@ export function ProductPage() {
                 <div className="flex flex-col gap-6 my-10">
                     <h2 className="text-2xl font-semibold">Our <span className="text-[#8E6447]">Product</span></h2>
                     <div className="grid grid-cols-2 gap-5">
-                        <CardMenu>
-                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z" />
-                                    </svg>
-                                ))}
-                                <span className="ml-2 text-black">5.0</span>
-                            </div>
+                        {products.map((item) => (
+                            <CardMenu
+                                key={item.id}
+                                name={item.name}
+                                description={item.description}
+                                price={item.price}
+                                diskonPrice={item.diskonPrice}
+                                image={item.image}
+                                isFlashSale={item.isFlashSale}
+                            >
+                                <div className="flex gap-1 items-center text-[#FF8906]">
+                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`full-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#FF8906"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
 
-                        </CardMenu>
-                        <CardMenu>
-                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z" />
-                                    </svg>
-                                ))}
-                                <span className="ml-2 text-black">5.0</span>
-                            </div>
+                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`empty-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#4d4d4d"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
 
-                        </CardMenu >
+                                    <span className="ml-2 text-black">{item.rating}</span>
+                                </div>
+                            </CardMenu>
+                        ))}
+
                     </div>
                 </div>
 

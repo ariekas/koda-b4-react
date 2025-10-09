@@ -4,26 +4,38 @@ import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
 import { authRegister } from "../redux/reducers/auth";
 import { useForm } from "react-hook-form";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup"
+
+const Registerschema = yup.object({
+    fullname: yup.string().required("Fullname wajib diisi"),
+    email: yup.string().email("Format email tidak valid").required("Email wajib diisi"),
+    password: yup.string().min(6, "Password minimal 6 karakter").required("Password wajib diisi"),
+    confirm_password: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Konfirmasi password tidak sama")
+        .required("Konfirmasi password wajib diisi"),
+});
+
 
 export function RegisterPage() {
-    const { register, handleSubmit } = useForm()
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
-
     const dispatch = useDispatch()
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(Registerschema),
+    });
+
     function onSubmit(data) {
-        if(data){
-            if(data.password === data.confirm_password)
-            {
-                dispatch(authRegister(data))
-                navigate("/login")
-            }else{
-                return window.alert("password dan confirm_password harus sama")
-            }
-        }
+        dispatch(authRegister(data))
+        navigate("/login")
     }
 
 
@@ -44,6 +56,8 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
+                {errors.fullname && <p className="text-red-500 text-sm">{errors.fullname.message}</p>}
+
                 <Input
                     label="Email"
                     name="email"
@@ -57,6 +71,8 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+
                 <Input
                     label="Password"
                     name="password"
@@ -95,6 +111,7 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
+                {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                 <Input
                     label="Confirm Password"
                     name="confirm_password"
@@ -133,6 +150,9 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
+                {errors.confirm_password && (
+                    <p className="text-red-500 text-sm">{errors.confirm_password.message}</p>
+                )}
                 <Button type={"submit"}>Register</Button>
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<a href="" className="text-[#FF8906] pl-1">Login</a></p>

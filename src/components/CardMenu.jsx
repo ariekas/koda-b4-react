@@ -1,28 +1,35 @@
-import { Button } from "./Button"
+import { Button } from "./Button";
 
-export function CardMenu({children}) {
+export function CardMenu({ children, name, description, price, diskonPrice, image, isFlashSale }) {
     return (
-        <>
-            <div className="flex flex-col gap-3">
-                <div className="relative">
-                    <img src="/public/images/image2.png" alt="" />
-                    <div className="py-1 px-2 bg-red-500  text-white rounded-full absolute top-0 m-1">
+        <div className="flex flex-col gap-3">
+            <div className="relative">
+                <img src={image} alt={name} />
+                {isFlashSale && (
+                    <div className="py-1 px-2 bg-red-500 text-white rounded-full absolute top-0 m-1">
                         <p className="text-xs">FLASH SALE!</p>
                     </div>
-                </div>
-                <h1 className="font-bold">Hazelnut Latte</h1>
-                <p className="text-sm font-light">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
-                {children}
-                <p className=" text-red-500 text-sm line-through">IDR 10.000</p>
-                <p className="text-[#FF8906]">IDR 20.000</p>
-                <Button>Buy</Button>
-                <Button style={"border bg-white flex justify-center border-[#FF8906]"}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#FF8906" d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M18 6H4.27l2.55 6H15c.33 0 .62-.16.8-.4l3-4c.13-.17.2-.38.2-.6a1 1 0 0 0-1-1m-3 7H6.87l-.77 1.56L6 15a1 1 0 0 0 1 1h11v1H7a2 2 0 0 1-2-2a2 2 0 0 1 .25-.97l.72-1.47L2.34 4H1V3h2l.85 2H18a2 2 0 0 1 2 2c0 .5-.17.92-.45 1.26l-2.91 3.89c-.36.51-.96.85-1.64.85" />
-                    </svg>
-                </Button>
+                )}
             </div>
-
-        </>
-    )
+            <h1 className="font-bold">{name}</h1>
+            <p className="text-sm font-light text-justify">{description}</p>
+            {children}
+            <p className="text-red-500 text-sm line-through">IDR {diskonPrice}</p>
+            <p className="text-[#FF8906]">IDR {price}</p>
+            <Button>Buy</Button>
+            <Button style={"border bg-white flex justify-center border-[#FF8906]"}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        fill="#FF8906"
+                        d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M18 6H4.27l2.55 6H15c.33 0 .62-.16.8-.4l3-4c.13-.17.2-.38.2-.6a1 1 0 0 0-1-1m-3 7H6.87l-.77 1.56L6 15a1 1 0 0 0 1 1h11v1H7a2 2 0 0 1-2-2a2 2 0 0 1 .25-.97l.72-1.47L2.34 4H1V3h2l.85 2H18a2 2 0 0 1 2 2c0 .5-.17.92-.45 1.26l-2.91 3.89c-.36.51-.96.85-1.64.85"
+                    />
+                </svg>
+            </Button>
+        </div>
+    );
 }

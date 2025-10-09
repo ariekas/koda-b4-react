@@ -6,15 +6,33 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authLogin } from "../redux/reducers/auth";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
+
+const Loginschema = yup.object().shape({
+    email: yup
+        .string()
+        .required("Email wajib diisi")
+        .email("Format email tidak valid"),
+    password: yup
+        .string()
+        .required("Password wajib diisi")
+        .min(6, "Password minimal 6 karakter"),
+});
 export function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
-    const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
-
     const dataUser = useSelector(state => state.authReducers.dataUser)
-
     const dispatch = useDispatch()
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(Loginschema),
+    });
 
     function onsubmit(data) {
         const findUser = dataUser.find((user) => user.email === data.email && user.password === data.password)
@@ -47,6 +65,9 @@ export function LoginPage() {
                             </svg>
                         }
                     />
+                    {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    )}
                     <Input
                         label="Password"
                         name="password"
@@ -85,6 +106,9 @@ export function LoginPage() {
                             </svg>
                         }
                     />
+                    {errors.password && (
+                        <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                    )}
                     <p className="text-[#FF8906] text-sm flex justify-end">Forget Password?</p>
                     <Button type={"submit"}>Login</Button>
                 </form>
