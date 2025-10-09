@@ -1,3 +1,11 @@
+/**
+ * @component
+ * @param {Object} props
+ * @param {string} props.label - Teks label.
+ * @param {React.ReactNode} [props.leftIcon] - Ikon opsional yang ditampilkan di sisi kiri input.
+ * @param {React.ReactNode} [props.rightIcon] - Ikon opsional yang ditampilkan di sisi kanan input.
+ * @returns {JSX.Element}
+ */
 export function Input({ label, leftIcon, rightIcon, ...atr }) {
     return (
         <div className="flex flex-col gap-3 w-full">

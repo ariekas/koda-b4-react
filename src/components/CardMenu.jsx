@@ -1,5 +1,17 @@
 import { Button } from "./Button";
 
+/**
+ * @param {Object} props.
+ * @param {React.ReactNode} [props.children] - Berisi code yang akan diterapkan di dalam component
+ * @param {string} props.name - Nama menu produk.
+ * @param {string} props.description - Deskripsi menu produk.
+ * @param {number|string} props.price - Harga produk yang sedang berlaku.
+ * @param {number|string} props.diskonPrice - Harga diskon produk.
+ * @param {string} props.image -  path gambar produk.
+ * @param {boolean} [props.isFlashSale=false] - Menentukan apakah menu sedang dalam flash sale.
+ * @returns 
+ */
+
 export function CardMenu({ children, name, description, price, diskonPrice, image, isFlashSale }) {
     return (
         <div className="flex flex-col gap-3">
