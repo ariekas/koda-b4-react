@@ -1,5 +1,18 @@
+import { useDispatch, useSelector } from "react-redux"
 import { Button } from "./Button"
+import { authLogout } from "../redux/reducers/auth"
+import { useNavigate } from "react-router-dom"
 export function SideBar() {
+    const userLogin = useSelector((state) => state.authReducers.userLogin)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    function handleLogout(){
+        dispatch(authLogout(null))
+        navigate("/login")
+
+    }
+
     return (
         <>
             <div className="px-5 py-3 flex flex-col  justify-between h-screen">
@@ -27,12 +40,22 @@ export function SideBar() {
                     </ul>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Button style={"bg-white border-black border-1 py-2"}>
-                        Sign In
-                    </Button>
-                    <Button style={"py-2"}>
-                        Sign Up
-                    </Button>
+                    {userLogin ? (
+                        <Button style={"bg-white border-black border-1 py-2"} onClick={handleLogout}>
+                            Sign Out
+                        </Button>
+                    ) : (
+                        <>
+                            <Button style={"bg-white border-black border-1 py-2"}>
+                                Sign In
+                            </Button>
+                            <Button style={"py-2"}>
+                                Sign Up
+                            </Button>
+                        </>
+                    )}
+
+
                 </div>
             </div>
         </>

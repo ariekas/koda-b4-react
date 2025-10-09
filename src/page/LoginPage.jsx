@@ -2,18 +2,43 @@ import { useState } from "react";
 import { Input } from "../components/Input"
 import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { authLogin } from "../redux/reducers/auth";
 
 export function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit } = useForm()
+    const navigate = useNavigate()
+
+    const dataUser = useSelector(state => state.authReducers.dataUser)
+
+    const dispatch = useDispatch()
+
+    function onsubmit(data) {
+        const findUser = dataUser.find((user) => user.email === data.email && user.password === data.password)
+
+        if (findUser) {
+            dispatch(authLogin(findUser))
+            window.alert("User login")
+            navigate("/home")
+
+        } else {
+            window.alert("User tidak di temukan")
+        }
+
+    }
 
     return (
         <>
             <div className="flex flex-col gap-5">
-                <form action="" className="flex flex-col gap-5">
+                <form className="flex flex-col gap-5" onSubmit={handleSubmit(onsubmit)}>
                     <Input
                         label="Email"
                         name="email"
                         type="email"
+                        {...register("email")}
                         placeholder="Enter Your Email"
                         leftIcon={
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -25,6 +50,7 @@ export function LoginPage() {
                     <Input
                         label="Password"
                         name="password"
+                        {...register("password")}
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter Your Password"
                         leftIcon={
@@ -60,7 +86,7 @@ export function LoginPage() {
                         }
                     />
                     <p className="text-[#FF8906] text-sm flex justify-end">Forget Password?</p>
-                    <Button>Login</Button>
+                    <Button type={"submit"}>Login</Button>
                 </form>
                 <p className="text-sm text-[#4F5665] flex items-center justify-center">Not Have Account? <a href="" className="text-[#FF8906] pl-1">Register</a></p>
                 <div className="flex items-center gap-5">
