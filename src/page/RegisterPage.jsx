@@ -2,28 +2,53 @@ import { useState } from "react";
 import { Input } from "../components/Input"
 import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
+import { authRegister } from "../redux/reducers/auth";
+import { useForm } from "react-hook-form";
+import { useDispatch} from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export function RegisterPage() {
+    const { register, handleSubmit } = useForm()
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+    function onSubmit(data) {
+        if(data){
+            if(data.password === data.confirm_password)
+            {
+                dispatch(authRegister(data))
+                navigate("/login")
+            }else{
+                return window.alert("password dan confirm_password harus sama")
+            }
+        }
+    }
+
 
     return (
+
         <div className="flex flex-col gap-5">
-            <form action="" className="flex flex-col gap-5">
-            <Input
+
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+                <Input
                     label="Fullname"
                     name="fullname"
-                    type="fullname"
+                    type="text"
                     placeholder="Enter Your Fullname"
+                    {...register("fullname")}
                     leftIcon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-                        <path fill="#000" d="M12 11.385q-1.237 0-2.119-.882T9 8.385t.881-2.12T12 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.619.36-1.158q.361-.54.97-.838q1.416-.679 2.834-1.018q1.417-.34 2.836-.34t2.837.34t2.832 1.018q.61.298.97.838q.361.539.361 1.158v1.646zm1-1h12v-.646q0-.332-.215-.625q-.214-.292-.593-.494q-1.234-.598-2.546-.916T12 14.616t-2.646.318t-2.546.916q-.38.202-.593.494Q6 16.637 6 16.97zm6-7.23q.825 0 1.413-.588T14 8.384t-.587-1.412T12 6.384t-1.412.588T10 8.384t.588 1.413t1.412.587m0 7.232" />
-                    </svg>
+                            <path fill="#000" d="M12 11.385q-1.237 0-2.119-.882T9 8.385t.881-2.12T12 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.619.36-1.158q.361-.54.97-.838q1.416-.679 2.834-1.018q1.417-.34 2.836-.34t2.837.34t2.832 1.018q.61.298.97.838q.361.539.361 1.158v1.646zm1-1h12v-.646q0-.332-.215-.625q-.214-.292-.593-.494q-1.234-.598-2.546-.916T12 14.616t-2.646.318t-2.546.916q-.38.202-.593.494Q6 16.637 6 16.97zm6-7.23q.825 0 1.413-.588T14 8.384t-.587-1.412T12 6.384t-1.412.588T10 8.384t.588 1.413t1.412.587m0 7.232" />
+                        </svg>
                     }
                 />
                 <Input
                     label="Email"
                     name="email"
                     type="email"
+                    {...register("email")}
                     placeholder="Enter Your Email"
                     leftIcon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -36,6 +61,7 @@ export function RegisterPage() {
                     label="Password"
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    {...register("password")}
                     placeholder="Enter Your Password"
                     leftIcon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -69,9 +95,10 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
-                   <Input
+                <Input
                     label="Confirm Password"
-                    name="password"
+                    name="confirm_password"
+                    {...register("confirm_password")}
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter Your Password"
                     leftIcon={
@@ -106,7 +133,7 @@ export function RegisterPage() {
                         </svg>
                     }
                 />
-                <Button>Register</Button>
+                <Button type={"submit"}>Register</Button>
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<a href="" className="text-[#FF8906] pl-1">Login</a></p>
             <div className="flex items-center gap-5">
@@ -115,19 +142,19 @@ export function RegisterPage() {
                 <div className="bg-[#DEDEDE] w-full h-0.5"></div>
             </div>
             <div className="flex justify-center items-center gap-8">
-                    <Icon style={"p-5 bg-white  shadow-lg"}>
-                        <div className="flex items-center gap-2">
-                            <img src="/public/icons/google.png" alt="" />
-                            <p className="hidden md:flex">Google</p>
-                        </div>
-                    </Icon>
-                    <Icon style={"p-5 bg-white  shadow-lg"}>
-                        <div className="flex items-center gap-2">
-                            <img src="/public/icons/facebook.png" alt="" />
-                            <p className="hidden md:flex">Facebook</p>
-                        </div>
-                    </Icon>
-                </div>
+                <Icon style={"p-5 bg-white  shadow-lg"}>
+                    <div className="flex items-center gap-2">
+                        <img src="/public/icons/google.png" alt="" />
+                        <p className="hidden md:flex">Google</p>
+                    </div>
+                </Icon>
+                <Icon style={"p-5 bg-white  shadow-lg"}>
+                    <div className="flex items-center gap-2">
+                        <img src="/public/icons/facebook.png" alt="" />
+                        <p className="hidden md:flex">Facebook</p>
+                    </div>
+                </Icon>
+            </div>
         </div>
     )
 }
