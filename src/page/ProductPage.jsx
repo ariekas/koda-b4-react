@@ -6,8 +6,7 @@ export function ProductPage() {
     const arr = [1, 2]
     const [showFilter, setShowFilter] = useState(false)
     const [priceRange, setPriceRange] = useState([0, 100000])
-    const [products, setProducts] = useState([]);
-
+    
     function toggleFilter() {
         setShowFilter(!showFilter)
     }
@@ -17,6 +16,7 @@ export function ProductPage() {
         setPriceRange([10000, value])
     }
 
+    const [products, setProducts] = useState([]);
     async function getDataProduct() {
         try {
             const url = "/data/dataProduct.json"

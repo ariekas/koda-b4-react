@@ -2,9 +2,24 @@ import { Button } from "../components/Button"
 import { Icon } from "../components/Icon"
 import { CardMenu } from "../components/CardMenu"
 import { Footer } from "../components/Footer"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 export function HomePage() {
     const [showChat, setShowChat] = useState(false)
+      const [products, setProducts] = useState([]);
+        async function getDataProduct() {
+            try {
+                const url = "/data/dataProduct.json"
+                const data = await fetch(url)
+                const response = await data.json()
+                setProducts(response);
+            } catch (error) {
+                console.log("error :" + error)
+            }
+        }
+    
+        useEffect(() => {
+            getDataProduct()
+        }, [])
 
     const handleShowChat = () => {
         setShowChat(!showChat)
@@ -119,8 +134,49 @@ export function HomePage() {
                     <p className="text-sm font-normal">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
 
                     <div className="grid grid-cols-2 gap-3">
-                        <CardMenu />
-                        <CardMenu />
+                    {products.map((item) => (
+                            <CardMenu
+                                key={item.id}
+                                name={item.name}
+                                description={item.description}
+                                price={item.price}
+                                diskonPrice={item.diskonPrice}
+                                image={item.image}
+                                isFlashSale={item.isFlashSale}
+                            >
+                                <div className="flex gap-1 items-center text-[#FF8906]">
+                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`full-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#FF8906"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
+
+                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`empty-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#4d4d4d"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
+
+                                    <span className="ml-2 text-black">{item.rating}</span>
+                                </div>
+                            </CardMenu>
+                        ))}
                     </div>
                 </div>
 
