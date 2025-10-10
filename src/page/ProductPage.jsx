@@ -6,7 +6,7 @@ export function ProductPage() {
     const arr = [1, 2]
     const [showFilter, setShowFilter] = useState(false)
     const [priceRange, setPriceRange] = useState([0, 100000])
-    
+
     function toggleFilter() {
         setShowFilter(!showFilter)
     }
@@ -33,8 +33,15 @@ export function ProductPage() {
     }, [])
     return (
         <>
-            <div className="pt-22 p-5">
-                <div className="flex justify-between gap-2 border-b-2 border-[#E8E8E8] pb-3">
+            <div className="hidden lg:flex relative justify-start items-center pt-20">
+                <img src="/public/images/productPage.png" alt="" className="w-full" />
+                <p className="absolute text-white text-4xl font-semibold text-start z-10 px-40">
+                    We Provide Good Coffee and Healthy Meals
+                </p>
+            </div>
+
+            <div className="pt-22 lg:pt-0 p-5">
+                <div className="flex justify-between gap-2 border-b-2 border-[#E8E8E8] pb-3 lg:hidden">
                     <div className="relative flex items-center w-full">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className="absolute m-2">
                             <path fill="none" stroke="#979797" stroke-linecap="round" stroke-linejoin="round" d="m21 21l-4.343-4.343m0 0A8 8 0 1 0 5.343 5.343a8 8 0 0 0 11.314 11.314" stroke-width="1" />
@@ -50,7 +57,6 @@ export function ProductPage() {
                         </button>
                     </div>
                 </div>
-
 
                 <div
                     className={`fixed inset-0 bg-black transition-opacity duration-300 z-5
@@ -151,8 +157,8 @@ export function ProductPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-6 mt-4">
-                    <h1 className="text-2xl font-semibold">Today <span className="text-[#8E6447]">Promo</span></h1>
+                <div className="flex flex-col gap-6 mt-4 ">
+                    <h1 className="text-2xl font-semibold lg:text-4xl lg:px-10 xl:px-40">Today <span className="text-[#8E6447]">Promo</span></h1>
                     <div className="flex items-center overflow-x-auto gap-4">
                         {arr.map((index) => {
                             return (
@@ -169,7 +175,7 @@ export function ProductPage() {
                             )
                         })}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 lg:px-10 xl:px-40">
                         <div className="py-1 px-3 rounded-full bg-[#FF8906]"></div>
                         <div className="p-1 rounded-full bg-[#DDE0E4]"></div>
                         <div className="p-1 rounded-full bg-[#DDE0E4]"></div>
@@ -177,53 +183,145 @@ export function ProductPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-6 my-10">
+                <div className="flex flex-col gap-6 my-10 lg:px-10 xl:px-40">
                     <h2 className="text-2xl font-semibold">Our <span className="text-[#8E6447]">Product</span></h2>
-                    <div className="grid grid-cols-2 gap-5">
-                        {products.map((item) => (
-                            <CardMenu
-                                key={item.id}
-                                name={item.name}
-                                description={item.description}
-                                price={item.price}
-                                diskonPrice={item.diskonPrice}
-                                image={item.image}
-                                isFlashSale={item.isFlashSale}
-                            >
-                                <div className="flex gap-1 items-center text-[#FF8906]">
-                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                        <svg
-                                            key={`full-${i}`}
-                                            className="w-6 h-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                fill="#FF8906"
-                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                            />
-                                        </svg>
-                                    ))}
-
-                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                        <svg
-                                            key={`empty-${i}`}
-                                            className="w-6 h-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                fill="#4d4d4d"
-                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                            />
-                                        </svg>
-                                    ))}
-
-                                    <span className="ml-2 text-black">{item.rating}</span>
+                    <div className="lg:grid grid-cols-12 gap-5">
+                        <div className="p-5 hidden lg:flex flex-col col-span-3 gap-4 text-white bg-[#0B0909] rounded-xl h-fit ">
+                            <div className=" flex justify-between items-center">
+                                <h2 className="text-lg font-semibold text-white">Filter</h2>
+                                <button onClick={() => setShowFilter(false)}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            fill="none"
+                                            stroke="#fff"
+                                            strokeWidth="2"
+                                            d="M6 6l12 12M6 18L18 6"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label htmlFor="" className="font-semibold">Search</label>
+                                <input type="search" className="py-3 bg-white text-black text-sm p-3 rounded-md" placeholder="Search Your Product" />
+                            </div>
+                            <div className="flex flex-col gap-5">
+                                <label htmlFor="" className="font-bold">Category</label>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Favorite Product</label>
                                 </div>
-                            </CardMenu>
-                        ))}
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Coffee</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Non Coffee</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Foods</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Add-On</label>
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-5">
+                                <label htmlFor="" className="font-bold">Sort By</label>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Buy 1 get 1</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Flash sale</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Birthday Package</label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" className="w-4 h-4" />
+                                    <label htmlFor="" className="text-sm font-light">Cheap</label>
+                                </div>
+                            </div>
 
+                            <div className="flex flex-col gap-3 mt-5">
+                                <label className="font-bold">Price Range</label>
+                                <div className="flex justify-between text-sm">
+                                    <span>Rp {priceRange[0].toLocaleString()}</span>
+                                    <span>Rp {priceRange[1].toLocaleString()}</span>
+                                </div>
+
+                                <input
+                                    type="range"
+                                    min="10000"
+                                    max="100000"
+                                    step="1000"
+                                    value={priceRange[1]}
+                                    onChange={handleRangePrice}
+                                    className="w-full accent-yellow-400 cursor-pointer"
+                                />
+                            </div>
+
+                            <Button style={" bg-[#FF8906] flex justify-center "}>
+                                Apply Filter
+                            </Button>
+                        </div>
+                        <div className="col-span-9">
+                            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
+                                {products.map((item) => (
+                                    <CardMenu
+                                        key={item.id}
+                                        name={item.name}
+                                        description={item.description}
+                                        price={item.price}
+                                        diskonPrice={item.diskonPrice}
+                                        image={item.image}
+                                        isFlashSale={item.isFlashSale}
+                                    >
+                                        <div className="flex gap-1 items-center text-[#FF8906]">
+                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`full-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#FF8906"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
+
+                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`empty-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#4d4d4d"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
+
+                                            <span className="ml-2 text-black">{item.rating}</span>
+                                        </div>
+                                    </CardMenu>
+                                ))}
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
