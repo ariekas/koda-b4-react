@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from "./Button"
 import { authLogout } from "../redux/reducers/auth"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 export function SideBar() {
     const userLogin = useSelector((state) => state.authReducers.userLogin)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    function handleLogout(){
+    function handleLogout() {
         dispatch(authLogout(null))
         navigate("/login")
 
@@ -34,10 +34,26 @@ export function SideBar() {
                             <input type="text" className="border p-2 rounded-lg border-gray-300 pl-8 w-full text-sm" placeholder="Find Product" />
                         </div>
                     </div>
-                    <ul className="flex flex-col gap-3">
-                        <li className="border-b border-gray-300 hover:border-[#FF8906]">Home</li>
-                        <li className="border-b border-gray-300 hover:border-[#FF8906]">Product</li>
-                    </ul>
+                    <div className="flex flex-col gap-3">
+                        <Link
+                            to="/home"
+                            className={` text-lg text-black pb-1 ${location.pathname === "/home"
+                                ? "border-b-2 border-[#FF8906] "
+                                : "border-b-2 border-gray-300"
+                                }`}
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            to="/product"
+                            className={`text-lg text-black pb-1 ${location.pathname === "/product"
+                                ? "border-b-2 border-[#FF8906]"
+                                : "border-b-2 border-gray-300"
+                                }`}
+                        >
+                            Product
+                        </Link>
+                    </div>
                 </div>
                 <div className="flex flex-col gap-3">
                     {userLogin ? (

@@ -3,6 +3,7 @@ import { Icon } from "../components/Icon"
 import { CardMenu } from "../components/CardMenu"
 import { Footer } from "../components/Footer"
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 export function HomePage() {
     const [showChat, setShowChat] = useState(false)
     const [products, setProducts] = useState([]);
@@ -149,49 +150,53 @@ export function HomePage() {
                     <p className="text-sm font-normal lg:text-lg lg:text-center">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
 
                     <div className="grid grid-cols-2 gap-3 lg:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 lg:px-10 xl:px-40">
-                        {products.map((item) => (
-                            <CardMenu
-                                key={item.id}
-                                name={item.name}
-                                description={item.description}
-                                price={item.price}
-                                diskonPrice={item.diskonPrice}
-                                image={item.image}
-                                isFlashSale={item.isFlashSale}
-                            >
-                                <div className="flex gap-1 items-center text-[#FF8906]">
-                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                        <svg
-                                            key={`full-${i}`}
-                                            className="w-6 h-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                fill="#FF8906"
-                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                            />
-                                        </svg>
-                                    ))}
+                        {products.slice(0, 4).map(
+                            (item) => (
+                                <Link to={`/detail-product/${item.id}`} key={item.id}>
+                                <CardMenu
+                                    key={item.id}
+                                    name={item.name}
+                                    description={item.description}
+                                    price={item.price}
+                                    diskonPrice={item.diskonPrice}
+                                    image={item.image}
+                                    isFlashSale={item.isFlashSale}
+                                >
+                                    <div className="flex gap-1 items-center text-[#FF8906]">
+                                        {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                            <svg
+                                                key={`full-${i}`}
+                                                className="w-6 h-6"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    fill="#FF8906"
+                                                    d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                />
+                                            </svg>
+                                        ))}
 
-                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                        <svg
-                                            key={`empty-${i}`}
-                                            className="w-6 h-6"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                fill="#4d4d4d"
-                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                            />
-                                        </svg>
-                                    ))}
+                                        {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                            <svg
+                                                key={`empty-${i}`}
+                                                className="w-6 h-6"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    fill="#4d4d4d"
+                                                    d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                />
+                                            </svg>
+                                        ))}
 
-                                    <span className="ml-2 text-black">{item.rating}</span>
-                                </div>
-                            </CardMenu>
-                        ))}
+                                        <span className="ml-2 text-black">{item.rating}</span>
+                                    </div>
+                                </CardMenu>
+                                </Link>
+                            )
+                        )}
                     </div>
                 </div>
 
