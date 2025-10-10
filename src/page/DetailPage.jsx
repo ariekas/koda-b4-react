@@ -22,13 +22,15 @@ export function DetailPage() {
     return (
         <>
             <div className="pt-25 p-5">
+                <div className="lg:grid grid-cols-2 lg:px-10 xl:px-40 gap-10">
+
                 <div className="flex flex-col items-center gap-2">
                     <img
                         src="/images/coffe.png"
                         alt="coffe main"
-                        className="w-full max-w-md"
+                        className="w-full "
                     />
-                    <div className="grid grid-cols-3 gap-3 w-full max-w-md">
+                    <div className="grid grid-cols-3 gap-3 w-full ">
                         <img src="/images/coffe.png" alt="" className="w-full object-contain" />
                         <img src="/images/coffe.png" alt="" className="w-full object-contain" />
                         <img src="/images/coffe.png" alt="" className="w-full object-contain" />
@@ -68,7 +70,7 @@ export function DetailPage() {
                         </div>
                     </div>
                     <p className="text-[#4F5665] text-sm">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</p>
-                    <div className="flex items-center gap-5 border border-gray-300 w-30 ">
+                    <div className="flex items-center gap-5">
                         <Button style={"border bg-white flex justify-center border-[#FF8906]"}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="#000" d="M19 12.998H5v-2h14z" stroke-width="1" stroke="#000" />
@@ -82,7 +84,7 @@ export function DetailPage() {
                         </Button>
                     </div>
                     <p className="font-bold text-sm">Choose Size</p>
-                    <div className="flex items-center justify-between gap-5">
+                    <div className="flex items-center justify-between md:justify-start gap-5">
                         <Button style={"border bg-white flex justify-center border-gray-300 hover:border-[#FF8906] text-sm p-3"}>
                             Regular
                         </Button>
@@ -94,7 +96,7 @@ export function DetailPage() {
                         </Button>
                     </div>
                     <p className="font-bold text-sm">Choose Size</p>
-                    <div className="flex items-center justify-between gap-5">
+                    <div className="flex items-center md:justify-start gap-5">
                         <Button style={"border bg-white flex justify-center border-gray-300 hover:border-[#FF8906] text-sm p-3"}>
                             Ice
                         </Button>
@@ -102,19 +104,22 @@ export function DetailPage() {
                             Hot
                         </Button>
                     </div>
-                    <Button>Buy</Button>
-                    <Button style={"border bg-white flex justify-center border-[#FF8906]"}>
-                        <div className="flex items-center text-sm text-[#FF8906] gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path fill="#FF8906" d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M18 6H4.27l2.55 6H15c.33 0 .62-.16.8-.4l3-4c.13-.17.2-.38.2-.6a1 1 0 0 0-1-1m-3 7H6.87l-.77 1.56L6 15a1 1 0 0 0 1 1h11v1H7a2 2 0 0 1-2-2a2 2 0 0 1 .25-.97l.72-1.47L2.34 4H1V3h2l.85 2H18a2 2 0 0 1 2 2c0 .5-.17.92-.45 1.26l-2.91 3.89c-.36.51-.96.85-1.64.85" />
-                            </svg>
-                            Add To Cart
-                        </div>
-                    </Button>
+                    <div className="flex flex-col md:flex-row  gap-3 md:gap-5">
+                        <Button style="w-full">Buy</Button>
+                        <Button style={"border bg-white flex justify-center border-[#FF8906] w-full"}>
+                            <div className="flex items-center text-sm text-[#FF8906] gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="#FF8906" d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M18 6H4.27l2.55 6H15c.33 0 .62-.16.8-.4l3-4c.13-.17.2-.38.2-.6a1 1 0 0 0-1-1m-3 7H6.87l-.77 1.56L6 15a1 1 0 0 0 1 1h11v1H7a2 2 0 0 1-2-2a2 2 0 0 1 .25-.97l.72-1.47L2.34 4H1V3h2l.85 2H18a2 2 0 0 1 2 2c0 .5-.17.92-.45 1.26l-2.91 3.89c-.36.51-.96.85-1.64.85" />
+                                </svg>
+                                Add To Cart
+                            </div>
+                        </Button>
+                    </div>
+                </div>
                 </div>
 
-                <h2 className="text-xl text-center font-semibold mt-10 mb-5">Recommendation <span className="text-[#8E6447]">For You</span></h2>
-                <div className="grid grid-cols-2 gap-5">
+                <h2 className="text-xl text-center font-semibold mt-10 mb-5 lg:text-4xl lg:text-start lg:px-10 xl:px-40 lg:mt-15">Recommendation <span className="text-[#8E6447]">For You</span></h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5 lg:px-10 xl:px-40">
                     {products.map((item) => (
                         <CardMenu
                             key={item.id}
