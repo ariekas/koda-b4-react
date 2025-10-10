@@ -16,9 +16,9 @@ export function CardMenu({ children, name, description, price, diskonPrice, imag
     return (
         <div className="flex flex-col gap-3">
             <div className="relative">
-                <img src={image} alt={name} />
+                <img src={image} alt={name} className=" w-full"/>
                 {isFlashSale && (
-                    <div className="py-1 px-2 bg-red-500 text-white rounded-full absolute top-0 m-1">
+                    <div className="py-1 px-2 bg-red-500 text-white rounded-full absolute top-0 m-3">
                         <p className="text-xs">FLASH SALE!</p>
                     </div>
                 )}

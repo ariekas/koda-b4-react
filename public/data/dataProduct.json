@@ -7,7 +7,43 @@
     "image": "/public/images/coffe.png",
     "price": 20000,
     "diskonPrice": 10000,
-    "rating": 3.0,
+    "rating": 3,
+    "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+    "isFlashSale": true
+  },
+  {
+    "id": 2,
+    "name": "Hazelnut Latte",
+    "slug": "Hazelnut Latte",
+    "category": "Minuman",
+    "image": "/public/images/food1.png",
+    "price": 250000,
+    "diskonPrice": 40000,
+    "rating": 2,
+    "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+    "isFlashSale": false
+  },
+  {
+    "id": 3,
+    "name": "Hazelnut Latte",
+    "slug": "Hazelnut Latte",
+    "category": "Minuman",
+    "image": "/public/images/food2.png",
+    "price": 60000,
+    "diskonPrice": 2000,
+    "rating": 5,
+    "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+    "isFlashSale": true
+  },
+  {
+    "id": 4,
+    "name": "Hazelnut Latte",
+    "slug": "Hazelnut Latte",
+    "category": "Minuman",
+    "image": "/public/images/food3.png",
+    "price": 7000,
+    "diskonPrice": 90000,
+    "rating": 1,
     "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
     "isFlashSale": false
   }

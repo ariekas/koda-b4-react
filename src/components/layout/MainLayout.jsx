@@ -19,7 +19,7 @@ export function MainLayout() {
             <div className="relative min-h-screen">
                 {/* Navbar */}
                 <div
-                    className={`absolute top-0 w-full p-5 z-10 transition-colors duration-300 ${isHome ? "bg-transparent" : "bg-[#0B0909]"
+                    className={`absolute top-0 w-full p-5 z-10 transition-colors duration-300 ${isHome ? "bg-black/20" : "bg-[#0B0909]"
                         }`}
                 >
                     <Navbar onHamburgerClick={toggleSideBar} />
