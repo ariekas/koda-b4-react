@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { Button } from "../components/Button"
 import { Input } from "../components/Input"
+import { Link } from "react-router-dom";
+import { CardMenu } from "../components/CardMenu";
 export function CheckoutPage() {
     const payments = [
         { id: 3, img: "/public/images/payment.png", alt: "PayPal" },
@@ -9,6 +12,22 @@ export function CheckoutPage() {
         { id: 6, img: "/public/images/bca.png", alt: "BCA" },
         { id: 6, img: "/public/images/dana.png", alt: "Dana" },
     ];
+
+    const [products, setProducts] = useState([]);
+    async function getDataProduct() {
+        try {
+            const url = "/data/dataProduct.json"
+            const data = await fetch(url)
+            const response = await data.json()
+            setProducts(response);
+        } catch (error) {
+            console.log("error :" + error)
+        }
+    }
+
+    useEffect(() => {
+        getDataProduct()
+    }, [])
     return (
         <>
             <div className="pt-30 p-5">
@@ -22,41 +41,103 @@ export function CheckoutPage() {
                         Apply Menu
                     </Button>
                 </div>
+                <div className="lg:grid grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div className="grid md:grid-cols-3 gap-5 lg:grid-cols-2 xl:grid-cols-4 xl:col-span-2">
+                        {products.slice(0, 4).map(
+                            (item) => (
+                                <Link to={`/detail-product/${item.id}`} key={item.id}>
+                                    <CardMenu
+                                        key={item.id}
+                                        name={item.name}
+                                        description={item.description}
+                                        price={item.price}
+                                        diskonPrice={item.diskonPrice}
+                                        image={item.image}
+                                        isFlashSale={item.isFlashSale}
+                                    >
+                                        <div className="flex gap-1 items-center text-[#FF8906]">
+                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`full-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#FF8906"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
 
-                <div className="flex gap-5 flex-col">
-                    {[...Array(3)].map((_, i) => (
-                        <div key={i} className="flex items-center gap-5 bg-gray-100 p-3 rounded-lg">
-                            <img src="/public/images/coffe.png" alt="" className="w-1/4" />
-                            <div className="flex flex-col w-full gap-2">
-                                <div className="flex justify-between items-center w-full">
-                                    <div className=" bg-red-500  text-white rounded-full flex items-center px-2 py-1 ">
-                                        <p className="text-xs font-bold">FLASH SALE!</p>
-                                    </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
-                                        <path fill="#ff1b1b" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" stroke-width="1" stroke="#ff1b1b" />
-                                        <path fill="#ff1b1b" d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" stroke-width="1" stroke="#ff1b1b" />
-                                    </svg>
-                                </div>
-                                <p className="font-bold">Hazelnut Latte</p>
-                                <div className="flex items-center gap-2 text-xs">
-                                    <p>2pcs</p>
-                                    <p>|</p>
-                                    <p>Regular</p>
-                                    <p>|</p>
-                                    <p>Ice</p>
-                                    <p>|</p>
-                                    <p>Dine In</p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <p className=" text-red-500 text-xs line-through">IDR 10.000</p>
-                                    <p className="text-[#FF8906] text-sm">IDR 20.000</p>
-                                </div>
-                            </div>
+                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`empty-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#4d4d4d"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
+
+                                            <span className="ml-2 text-black">{item.rating}</span>
+                                        </div>
+                                    </CardMenu>
+                                </Link>
+                            )
+                        )}
+                    </div>
+                    <div className="bg-gray-100 p-4 rounded-lg gap-3 hidden lg:flex flex-col lg:mt-0 mt-5 text-sm">
+                        <p className="text-lg font-bold my-5">Total</p>
+                        <div className="flex justify-between">
+                            <p>Order</p>
+                            <p className="font-bold">Rp 40.000</p>
                         </div>
-                    ))}
+                        <div className="flex justify-between">
+                            <p>Tax</p>
+                            <p className="font-bold">Rp 5.000</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p>Shipping</p>
+                            <p className="font-bold">Rp 10.000</p>
+                        </div>
+
+                        <hr className="my-2 border-gray-400" />
+
+                        <div className="flex justify-between font-semibold">
+                            <p>Subtotal</p>
+                            <p className="font-bold">Rp 55.000</p>
+                        </div>
+
+                        <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
+                            Checkout
+                        </button>
+
+                        <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
+
+                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            {payments.map((pay) => (
+                                <button
+                                    key={pay.id}
+                                    className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
+                                >
+                                    <img
+                                        src={pay.img}
+                                        alt={pay.alt}
+                                        className="w-10 h-10 object-contain"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                        <p className="opacity-40">*Get Discount if you pay with BCA</p>
+                    </div>
                 </div>
 
-                <div className="flex flex-col gap-5 mt-5">
+                <div className="flex flex-col gap-5 my-5 lg:my-10 lg:max-w-1/2 xl:max-w-1/3">
                     <p className="text-lg ">Payment & Info Delivery</p>
                     <div className="flex flex-col gap-5">
                         <Input
@@ -96,7 +177,7 @@ export function CheckoutPage() {
                         />
                         <div className="flex flex-col gap-3">
                             <p className="font-bold text-sm ">Delivery</p>
-                            <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center justify-between md:justify-start gap-2">
                                 <Button style={"border bg-white flex justify-center border-gray-300 hover:border-[#FF8906] text-sm p-3"}>
                                     Dine in
                                 </Button>
@@ -111,8 +192,8 @@ export function CheckoutPage() {
                     </div>
                 </div>
 
-                <p className="text-lg font-bold my-5">Total</p>
-                <div className="bg-gray-100 p-4 rounded-lg gap-3 flex flex-col mt-5 text-sm">
+                <div className="bg-gray-100 p-4 rounded-lg gap-3 lg:hidden flex flex-col mt-5 text-sm">
+                    <p className="text-lg font-bold my-5">Total</p>
                     <div className="flex justify-between">
                         <p>Order</p>
                         <p className="font-bold">Rp 40.000</p>
@@ -153,7 +234,7 @@ export function CheckoutPage() {
                             </button>
                         ))}
                     </div>
-                        <p className="opacity-40">*Get Discount if you pay with BCA</p>
+                    <p className="opacity-40">*Get Discount if you pay with BCA</p>
                 </div>
 
             </div>
