@@ -39,7 +39,7 @@ export function CheckoutPage() {
                                     key={index}
                                     className="flex items-center justify-between bg-white shadow-md rounded-md border border-gray-200 p-4 mb-3 w-full"
                                 >
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-4 flex-col md:flex-row">
                                         <img
                                             src={item.image}
                                             alt={item.name}

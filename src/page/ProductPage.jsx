@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { CardMenu } from "../components/CardMenu"
 import { Icon } from "../components/Icon"
 import { Button } from "../components/Button"
+import { Link } from "react-router-dom"
 export function ProductPage() {
     const arr = [1, 2]
     const [showFilter, setShowFilter] = useState(false)
@@ -49,7 +50,6 @@ export function ProductPage() {
                         <input type="text" className="border p-3 rounded-lg border-gray-300 pl-8 w-full text-sm" placeholder="Find Product" />
                     </div>
                     <div className="p-3 flex items-center bg-[#FF8906] rounded-lg">
-                        {/* button side bar */}
                         <button onClick={toggleFilter}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                 <path fill="#000" d="M22 18.605a.75.75 0 0 1-.75.75h-5.1a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h7.74a2.93 2.93 0 0 1 5.66 0h5.1a.75.75 0 0 1 .75.75m0-13.21a.75.75 0 0 1-.75.75H18.8a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h10.39a2.93 2.93 0 0 1 5.66 0h2.45a.74.74 0 0 1 .75.75m0 6.6a.74.74 0 0 1-.75.75H9.55a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h1.14a2.93 2.93 0 0 1 5.66 0h11.7a.75.75 0 0 1 .75.75" stroke-width="1" stroke="#000" />
@@ -277,47 +277,50 @@ export function ProductPage() {
                         <div className="col-span-9">
                             <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
                                 {products.map((item) => (
-                                    <CardMenu
-                                        key={item.id}
-                                        name={item.name}
-                                        description={item.description}
-                                        price={item.price}
-                                        diskonPrice={item.diskonPrice}
-                                        image={item.image}
-                                        isFlashSale={item.isFlashSale}
-                                    >
-                                        <div className="flex gap-1 items-center text-[#FF8906]">
-                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`full-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#FF8906"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
+                                    <Link to={`/detail-product/${item.id}`} key={item.id}>
+                                        <CardMenu
+                                            key={item.id}
+                                            name={item.name}
+                                            description={item.description}
+                                            price={item.price}
+                                            diskonPrice={item.diskonPrice}
+                                            image={item.image}
+                                            isFlashSale={item.isFlashSale}
+                                        >
+                                            <div className="flex gap-1 items-center text-[#FF8906]">
+                                                {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                                    <svg
+                                                        key={`full-${i}`}
+                                                        className="w-6 h-6"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            fill="#FF8906"
+                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                        />
+                                                    </svg>
+                                                ))}
 
-                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`empty-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#4d4d4d"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
+                                                {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                                    <svg
+                                                        key={`empty-${i}`}
+                                                        className="w-6 h-6"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            fill="#4d4d4d"
+                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                        />
+                                                    </svg>
+                                                ))}
 
-                                            <span className="ml-2 text-black">{item.rating}</span>
-                                        </div>
-                                    </CardMenu>
+                                                <span className="ml-2 text-black">{item.rating}</span>
+                                            </div>
+                                        </CardMenu>
+                                    </Link>
+
                                 ))}
 
                             </div>
@@ -326,23 +329,18 @@ export function ProductPage() {
                 </div>
 
                 <div className="flex gap-5 items-center   justify-center my-10 ">
-                    {/* 1 */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
                         <h1>1</h1>
                     </Icon>
-                    {/* 2 */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                         <h1>2</h1>
                     </Icon>
-                    {/* 3 */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                         <h1>3</h1>
                     </Icon>
-                    {/* 4 */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                         <h1>4</h1>
                     </Icon>
-                    {/* panah */}
                     <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="#fff" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />

@@ -37,7 +37,6 @@ export function HomePage() {
                         <p className="text-sm xl:w-lg">We provide high quality beans, good taste, and healthy meals made by love just for you. Start your day with us for a bigger smile!</p>
                         <div className="flex justify-between gap-20 relative">
                             <Button style={"md:px-10 px-3"}>Get Started</Button>
-                            {/* icon chat */}
                             <button onClick={handleShowChat} className="lg:fixed bottom-10 right-10 z-60">
                                 <Icon style={"p-2 bg-[#FF8906] rounded-full"}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
