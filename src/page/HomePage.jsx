@@ -148,7 +148,7 @@ export function HomePage() {
                     </div>
                     <p className="text-sm font-normal lg:text-lg lg:text-center">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
 
-                    <div className="grid grid-cols-2 gap-3 lg:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 lg:px-10 xl:px-40">
+                    <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10 lg:px-10 xl:px-40">
                         {products.slice(0, 4).map(
                             (item) => (
                                 <Link to={`/detail-product/${item.id}`} key={item.id}>

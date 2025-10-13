@@ -8,13 +8,14 @@ import { MainLayout } from "./components/layout/MainLayout"
 import { HomePage } from "./page/HomePage"
 import { ProductPage } from "./page/ProductPage"
 import { DetailPage } from "./page/DetailPage"
-import { CheckoutPage } from "./page/CheckouPage"
+import { CheckoutPage } from "./page/CheckoutPage"
 import { HistoryPage } from "./page/HistoryPage"
 import { DetailOrder } from "./page/DetailOrder"
 import { Profile } from "./page/Profile"
 import { Provider } from "react-redux"
 import { persistor, store } from "./redux/storage"
 import { PersistGate } from "redux-persist/integration/react"
+import { CheckoutProvider } from "./context/CheckoutContext"
 
 const router = createBrowserRouter([
   {
@@ -56,14 +57,24 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: (
+          <CheckoutProvider>
+            <CheckoutPage />
+          </CheckoutProvider>
+
+        ),
       },
       {
         path: "/history",
-        element: <HistoryPage />,
+        element: (
+          <CheckoutProvider>
+            <HistoryPage />
+          </CheckoutProvider>
+
+        ),
       },
       {
-        path: "/detail-order",
+        path: "/detail-order/:id",
         element: <DetailOrder />,
       },
       {
@@ -82,6 +93,7 @@ function App() {
   return (
     <PersistGate persistor={persistor}>
       <Provider store={store}>
+
         <RouterProvider router={router} />
       </Provider>
     </PersistGate>

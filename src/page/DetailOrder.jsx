@@ -1,7 +1,7 @@
 export function DetailOrder() {
     return (
         <>
-            <div className="pt-30 p-5 gap-5 flex flex-col">
+            <div className="pt-30 p-5 gap-5 flex flex-col lg:px-10 xl:px-40">
                 <h1 className="text-2xl">Order <span className="font-semibold">#12354-09893</span> </h1>
                 <p className="text-sm text-[#4F5665]">21 March 2023 at 10:30 AM</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
