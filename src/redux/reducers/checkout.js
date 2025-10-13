@@ -15,10 +15,14 @@ const checkout = createSlice({
         state.data.push(action.payload);
       }
     },
+    removeCart: (state, action) => {
+      state.data = state.data.filter(item => item.id !== action.payload);
+    },
+    
   },
 });
 
 export const {
   reducer: checkoutReducers,
-  actions: { addCart },
+  actions: { addCart, removeCart },
 } = checkout;

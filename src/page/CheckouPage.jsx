@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { Button } from "../components/Button"
 import { Input } from "../components/Input"
-import { Link } from "react-router-dom";
-import { CardMenu } from "../components/CardMenu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart } from "../redux/reducers/checkout";
+import { useNavigate } from "react-router-dom";
+
 export function CheckoutPage() {
     const payments = [
         { id: 1, img: "/public/images/payment.png", alt: "PayPal" },
@@ -13,180 +13,137 @@ export function CheckoutPage() {
         { id: 5, img: "/public/images/bca.png", alt: "BCA" },
         { id: 6, img: "/public/images/dana.png", alt: "Dana" },
     ];
-
-    const [products, setProducts] = useState([]);
-    async function getDataProduct() {
-        try {
-            const url = "/data/dataProduct.json"
-            const data = await fetch(url)
-            const response = await data.json()
-            setProducts(response);
-        } catch (error) {
-            console.log("error :" + error)
-        }
-    }
-
     const dataCart = useSelector(state => state.checkoutReducers.data)
-    useEffect(() => {
-        getDataProduct()
-    }, [])
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     return (
         <>
+            <div className="pt-30 px-5 lg:px-10 xl:px-40">
+                <h1 className="text-2xl font-semibold">Payment Details</h1>
+                <div className="lg:grid grid-cols-3 gap-5 mt-5">
+                    <div className="flex flex-col gap-3 col-span-2 ">
+                        <div className="flex justify-between items-center">
+                            <p className="w-full text-lg ">Your Order</p>
+                            <Button style={" bg-[#FF8906] flex justify-center items-center w-full md:w-1/5 text-xs "} onClick={()=> {
+                                navigate("/product")
+                            }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="#000" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+                                </svg>
+                                Add Menu
+                            </Button>
+                        </div>
+                        {Array.isArray(dataCart) && dataCart.length > 0 ? (
+                            dataCart.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-center justify-between bg-white shadow-md rounded-md border border-gray-200 p-4 mb-3 w-full"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <img
+                                            src={item.image}
+                                            alt={item.name}
+                                            className="w-32 h-32 object-cover rounded-md"
+                                        />
 
+                                        <div className="flex flex-col gap-2">
+                                            {item.isFlashSale && (
+                                                <div className="py-1 px-2 bg-red-500  text-white rounded-full w-23 flex justify-center">
+                                                    <p className="text-xs font-bold">FLASH SALE!</p>
+                                                </div>
 
-            <div className="pt-30 p-5">
-                {Array.isArray(dataCart) && dataCart.length > 0 ? (
-                    dataCart.map((item, index) => (
-                        <div
-                            key={index}
-                            className="flex items-center justify-between bg-white shadow-md rounded-xl p-4 mb-3"
-                        >
-                            {/* Gambar produk */}
-                            <div className="flex items-center gap-4">
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
-                                    className="w-16 h-16 object-cover rounded-md"
-                                />
+                                            )}
+                                            <p className="text-lg font-semibold">{item.name}</p>
+                                            <div className="text-sm mt-1 text-gray-700 flex gap-3">
+                                                <p>Size: {item.size || "-"}</p>
+                                                <div className="h-6 w-0.5 bg-black/30">
+                                                </div>
+                                                <p>Temp: {item.temperature || "-"}</p>
+                                                <div className="h-6 w-0.5 bg-black/30">
+                                                </div>
+                                                <p>Qty: {item.quantity || "-"}</p>
+                                                <div className="h-6 w-0.5 bg-black/30">
+                                                </div>
+                                                <p>Dine In</p>
+                                            </div>
+                                            {item.diskonPrice ? (
+                                                <>
+                                                    <div className="flex items-center gap-2 ">
+                                                        <p className="text-red-500 line-through text-sm">
+                                                            Rp {item.price.toLocaleString("id-ID")}
+                                                        </p>
+                                                        <p className="text-[#FF8906] font-semibold">
+                                                            Rp {(item.diskonPrice).toLocaleString("id-ID")}
+                                                        </p>
 
-                                <div>
-                                    <p className="text-lg font-semibold">{item.name}</p>
-                                    <p className="text-sm text-gray-600">{item.category}</p>
-
-                                    <div className="text-sm mt-1 text-gray-700">
-                                        <p>Size: {item.size || "-"}</p>
-                                        <p>Temp: {item.temperature || "-"}</p>
-                                        <p>Qty: {item.quantity}</p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <p className="text-[#FF8906] font-semibold">
+                                                    Rp {item.price.toLocaleString("id-ID")}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <button onClick={() => dispatch(removeCart(item.id))} className="cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
+                                                <path fill="#d11" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" />
+                                                <path fill="#d11" d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* Harga */}
-                            <div className="text-right">
-                                {item.diskonPrice ? (
-                                    <>
-                                        <p className="text-gray-500 line-through text-sm">
-                                            Rp {item.price.toLocaleString("id-ID")}
-                                        </p>
-                                        <p className="text-[#FF8906] font-semibold">
-                                            Rp {(item.price - item.diskonPrice).toLocaleString("id-ID")}
-                                        </p>
-                                    </>
-                                ) : (
-                                    <p className="text-[#FF8906] font-semibold">
-                                        Rp {item.price.toLocaleString("id-ID")}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-gray-600 mt-4">Your cart is empty.</p>
-                )}
-                <h1 className="text-2xl font-semibold">Payment Details</h1>
-                <div className="flex items-center justify-between  w-full my-5">
-                    <p className="w-full text-lg ">Your Order</p>
-                    <Button style={" bg-[#FF8906] flex justify-center items-center w-1/2 text-xs "}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="#000" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
-                        </svg>
-                        Apply Menu
-                    </Button>
-                </div>
-                <div className="lg:grid grid-cols-2 xl:grid-cols-3 gap-5">
-                    <div className="grid md:grid-cols-3 gap-5 lg:grid-cols-2 xl:grid-cols-4 xl:col-span-2">
-                        {products.slice(0, 4).map(
-                            (item) => (
-                                <Link to={`/detail-product/${item.id}`} key={item.id}>
-                                    <CardMenu
-                                        key={item.id}
-                                        name={item.name}
-                                        description={item.description}
-                                        price={item.price}
-                                        diskonPrice={item.diskonPrice}
-                                        image={item.image}
-                                        isFlashSale={item.isFlashSale}
-                                    >
-                                        <div className="flex gap-1 items-center text-[#FF8906]">
-                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`full-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#FF8906"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
-
-                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`empty-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#4d4d4d"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
-
-                                            <span className="ml-2 text-black">{item.rating}</span>
-                                        </div>
-                                    </CardMenu>
-                                </Link>
-                            )
+                            ))
+                        ) : (
+                            <p className="text-gray-600 mt-4">Your cart is empty.</p>
                         )}
                     </div>
-                    <div className="bg-gray-100 p-4 rounded-lg gap-3 hidden lg:flex flex-col lg:mt-0 mt-5 text-sm">
-                        <p className="text-lg font-bold my-5">Total</p>
-                        <div className="flex justify-between">
-                            <p>Order</p>
-                            <p className="font-bold">Rp 40.000</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p>Tax</p>
-                            <p className="font-bold">Rp 5.000</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p>Shipping</p>
-                            <p className="font-bold">Rp 10.000</p>
-                        </div>
+                    <div className=" hidden lg:flex flex-col lg:mt-0 mt-5 text-sm">
+                        <p className="text-lg font-bold mb-5">Total</p>
+                        <div className="bg-gray-100 p-4 rounded-lg gap-3 flex flex-col">
+                            <div className="flex justify-between">
+                                <p>Order</p>
+                                <p className="font-bold">Rp 40.000</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p>Tax</p>
+                                <p className="font-bold">Rp 5.000</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p>Shipping</p>
+                                <p className="font-bold">Rp 10.000</p>
+                            </div>
 
-                        <hr className="my-2 border-gray-400" />
+                            <hr className="my-2 border-gray-400" />
 
-                        <div className="flex justify-between font-semibold">
-                            <p>Subtotal</p>
-                            <p className="font-bold">Rp 55.000</p>
+                            <div className="flex justify-between font-semibold">
+                                <p>Subtotal</p>
+                                <p className="font-bold">Rp 55.000</p>
+                            </div>
+
+                            <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
+                                Checkout
+                            </button>
+
+                            <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
+
+                            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                                {payments.map((pay) => (
+                                    <button
+                                        key={pay.id}
+                                        className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
+                                    >
+                                        <img
+                                            src={pay.img}
+                                            alt={pay.alt}
+                                            className="w-10 h-10 object-contain"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="opacity-40">*Get Discount if you pay with BCA</p>
                         </div>
-
-                        <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
-                            Checkout
-                        </button>
-
-                        <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
-
-                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                            {payments.map((pay) => (
-                                <button
-                                    key={pay.id}
-                                    className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
-                                >
-                                    <img
-                                        src={pay.img}
-                                        alt={pay.alt}
-                                        className="w-10 h-10 object-contain"
-                                    />
-                                </button>
-                            ))}
-                        </div>
-                        <p className="opacity-40">*Get Discount if you pay with BCA</p>
                     </div>
                 </div>
 
@@ -245,49 +202,51 @@ export function CheckoutPage() {
                     </div>
                 </div>
 
-                <div className="bg-gray-100 p-4 rounded-lg gap-3 lg:hidden flex flex-col mt-5 text-sm">
+                <div className=" lg:hidden flex flex-col mt-5 text-sm">
                     <p className="text-lg font-bold my-5">Total</p>
-                    <div className="flex justify-between">
-                        <p>Order</p>
-                        <p className="font-bold">Rp 40.000</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <p>Tax</p>
-                        <p className="font-bold">Rp 5.000</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <p>Shipping</p>
-                        <p className="font-bold">Rp 10.000</p>
-                    </div>
+                    <div className="bg-gray-100 p-4 rounded-lg flex flex-col gap-3">
+                        <div className="flex justify-between">
+                            <p>Order</p>
+                            <p className="font-bold">Rp 40.000</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p>Tax</p>
+                            <p className="font-bold">Rp 5.000</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p>Shipping</p>
+                            <p className="font-bold">Rp 10.000</p>
+                        </div>
 
-                    <hr className="my-2 border-gray-400" />
+                        <hr className="my-2 border-gray-400" />
 
-                    <div className="flex justify-between font-semibold">
-                        <p>Subtotal</p>
-                        <p className="font-bold">Rp 55.000</p>
+                        <div className="flex justify-between font-semibold">
+                            <p>Subtotal</p>
+                            <p className="font-bold">Rp 55.000</p>
+                        </div>
+
+                        <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
+                            Checkout
+                        </button>
+
+                        <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
+
+                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            {payments.map((pay) => (
+                                <button
+                                    key={pay.id}
+                                    className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
+                                >
+                                    <img
+                                        src={pay.img}
+                                        alt={pay.alt}
+                                        className="w-10 h-10 object-contain"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                        <p className="opacity-40">*Get Discount if you pay with BCA</p>
                     </div>
-
-                    <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
-                        Checkout
-                    </button>
-
-                    <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
-
-                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                        {payments.map((pay) => (
-                            <button
-                                key={pay.id}
-                                className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
-                            >
-                                <img
-                                    src={pay.img}
-                                    alt={pay.alt}
-                                    className="w-10 h-10 object-contain"
-                                />
-                            </button>
-                        ))}
-                    </div>
-                    <p className="opacity-40">*Get Discount if you pay with BCA</p>
                 </div>
 
             </div>
