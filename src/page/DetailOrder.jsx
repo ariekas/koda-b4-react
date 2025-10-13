@@ -1,9 +1,18 @@
+import { useSelector } from "react-redux";
+import { useCheckout } from "../context/CheckoutContext";
+import { useParams } from "react-router-dom";
 export function DetailOrder() {
+    const { history } = useCheckout();
+    const { id } = useParams();
+    const order = history.find((item) => item.id.toString() === id);
+    const userLogin = useSelector((state) => state.authReducers.userLogin)
+    console.log(order)
+
     return (
         <>
             <div className="pt-30 p-5 gap-5 flex flex-col lg:px-10 xl:px-40">
-                <h1 className="text-2xl">Order <span className="font-semibold">#12354-09893</span> </h1>
-                <p className="text-sm text-[#4F5665]">21 March 2023 at 10:30 AM</p>
+                <h1 className="text-2xl">Order <span className="font-semibold">#{order.id}</span> </h1>
+                <p className="text-sm text-[#4F5665]">{order.date}</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div className="flex flex-col gap-5">
                         <h2 className="text-lg text-[#0B132A] font-semibold">Order Information</h2>
@@ -14,7 +23,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Full Name</p>
                             </div>
-                            <p className="text-sm font-semibold">Ghaluh Wizard Anggoro</p>
+                            <p className="text-sm font-semibold">{userLogin.fullname}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -26,7 +35,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Address</p>
                             </div>
-                            <p className="text-sm font-semibold">Griya bandung indah</p>
+                            <p className="text-sm font-semibold">{order.delivery.address}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -44,7 +53,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Payment Method</p>
                             </div>
-                            <p className="text-sm font-semibold">Cash</p>
+                            <p className="text-sm font-semibold">{order.payment}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -59,38 +68,49 @@ export function DetailOrder() {
                         </div>
                         <div className="flex items-center justify-between pb-2">
                             <p className="text-sm">Total Transaksi</p>
-                            <p className="text-sm font-semibold text-[#FF8906]">Idr 40.000</p>
+                            <p className="text-sm font-semibold text-[#FF8906]">Rp {order.total}</p>
                         </div>
                     </div>
-                    <div className="flex gap-5 flex-col w-full">
+                    <div className="flex gap-5 flex-col  w-full">
                         <p className="text-lg">Your Order</p>
-                        {[...Array(3)].map((_, i) => (
-                            <div key={i} className="flex items-center gap-5 bg-gray-100 p-3 rounded-lg">
-                                <img src="/public/images/coffe.png" alt="" className="w-1/4" />
+                        {order.items.map((items, index) => (
+                            <div key={index} className="flex items-center gap-5 bg-gray-100 p-3 rounded-lg flex-col md:flex-row">
+                                <img src={items.image} alt={items.name} className="md:w-1/4 w-1/2" />
                                 <div className="flex flex-col w-full lg:gap-5 gap-2">
                                     <div className="flex justify-between items-center w-full">
-                                        <div className=" bg-red-500  text-white rounded-full flex items-center px-2 py-1 ">
-                                            <p className="text-xs font-bold">FLASH SALE!</p>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
-                                            <path fill="#ff1b1b" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" stroke-width="1" stroke="#ff1b1b" />
-                                            <path fill="#ff1b1b" d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" stroke-width="1" stroke="#ff1b1b" />
-                                        </svg>
+                                        {order.isFlashSale && (
+                                            <div className=" bg-red-500  text-white rounded-full flex items-center px-2 py-1 ">
+                                                <p className="text-xs font-bold">FLASH SALE!</p>
+                                            </div>
+                                        )}
                                     </div>
-                                    <p className="font-bold">Hazelnut Latte</p>
+                                    <p className="font-bold">{items.name}</p>
                                     <div className="flex items-center gap-2 text-xs">
-                                        <p>2pcs</p>
+                                        <p>{items.quantity}</p>
                                         <p>|</p>
-                                        <p>Regular</p>
+                                        <p>{items.size}</p>
                                         <p>|</p>
-                                        <p>Ice</p>
+                                        <p>{items.temperature}</p>
                                         <p>|</p>
-                                        <p>Dine In</p>
+                                        <p>{order.delivery.type}</p>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <p className=" text-red-500 text-xs line-through">IDR 10.000</p>
-                                        <p className="text-[#FF8906] text-sm">IDR 20.000</p>
-                                    </div>
+                                    {items.diskonPrice ? (
+                                        <>
+                                            <div className="flex items-center gap-2 ">
+                                                <p className="text-red-500 line-through text-sm">
+                                                    Rp {items.price.toLocaleString("id-ID")}
+                                                </p>
+                                                <p className="text-[#FF8906] font-semibold">
+                                                    Rp {(items.diskonPrice).toLocaleString("id-ID")}
+                                                </p>
+
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <p className="text-[#FF8906] font-semibold">
+                                            Rp {items.price.toLocaleString("id-ID")}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         ))}

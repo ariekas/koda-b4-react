@@ -75,7 +75,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/detail-order/:id",
-        element: <DetailOrder />,
+
+        element: (
+          <CheckoutProvider>
+            <DetailOrder />
+          </CheckoutProvider>
+
+        ),
       },
       {
         path: "/profile",
