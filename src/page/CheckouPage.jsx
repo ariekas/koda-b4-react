@@ -3,13 +3,14 @@ import { Button } from "../components/Button"
 import { Input } from "../components/Input"
 import { Link } from "react-router-dom";
 import { CardMenu } from "../components/CardMenu";
+import { useSelector } from "react-redux";
 export function CheckoutPage() {
     const payments = [
-        { id: 3, img: "/public/images/payment.png", alt: "PayPal" },
-        { id: 4, img: "/public/images/gopay.png", alt: "GoPay" },
-        { id: 5, img: "/public/images/ovo.png", alt: "OVO" },
-        { id: 6, img: "/public/images/bri.png", alt: "BRI" },
-        { id: 6, img: "/public/images/bca.png", alt: "BCA" },
+        { id: 1, img: "/public/images/payment.png", alt: "PayPal" },
+        { id: 2, img: "/public/images/gopay.png", alt: "GoPay" },
+        { id: 3, img: "/public/images/ovo.png", alt: "OVO" },
+        { id: 4, img: "/public/images/bri.png", alt: "BRI" },
+        { id: 5, img: "/public/images/bca.png", alt: "BCA" },
         { id: 6, img: "/public/images/dana.png", alt: "Dana" },
     ];
 
@@ -25,12 +26,64 @@ export function CheckoutPage() {
         }
     }
 
+    const dataCart = useSelector(state => state.checkoutReducers.data)
     useEffect(() => {
         getDataProduct()
     }, [])
+
     return (
         <>
+
+
             <div className="pt-30 p-5">
+                {Array.isArray(dataCart) && dataCart.length > 0 ? (
+                    dataCart.map((item, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center justify-between bg-white shadow-md rounded-xl p-4 mb-3"
+                        >
+                            {/* Gambar produk */}
+                            <div className="flex items-center gap-4">
+                                <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-16 h-16 object-cover rounded-md"
+                                />
+
+                                <div>
+                                    <p className="text-lg font-semibold">{item.name}</p>
+                                    <p className="text-sm text-gray-600">{item.category}</p>
+
+                                    <div className="text-sm mt-1 text-gray-700">
+                                        <p>Size: {item.size || "-"}</p>
+                                        <p>Temp: {item.temperature || "-"}</p>
+                                        <p>Qty: {item.quantity}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Harga */}
+                            <div className="text-right">
+                                {item.diskonPrice ? (
+                                    <>
+                                        <p className="text-gray-500 line-through text-sm">
+                                            Rp {item.price.toLocaleString("id-ID")}
+                                        </p>
+                                        <p className="text-[#FF8906] font-semibold">
+                                            Rp {(item.price - item.diskonPrice).toLocaleString("id-ID")}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <p className="text-[#FF8906] font-semibold">
+                                        Rp {item.price.toLocaleString("id-ID")}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-gray-600 mt-4">Your cart is empty.</p>
+                )}
                 <h1 className="text-2xl font-semibold">Payment Details</h1>
                 <div className="flex items-center justify-between  w-full my-5">
                     <p className="w-full text-lg ">Your Order</p>
