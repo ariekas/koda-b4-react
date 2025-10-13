@@ -61,31 +61,32 @@ export function DetailPage() {
 
     function handleSubmit(e) {
         e.preventDefault();
-
+      
         const dataProduct = {
-            ...productId,
-            quantity: quantiyProduct,
-            size: selectedSize,
-            temperature: selectedTemp,
+          ...productId,
+          quantity: quantiyProduct,
+          size: selectedSize,
+          temperature: selectedTemp,
         };
-
+      
         if (dataCartItems.length === 0) {
-            dispatch(addCart(dataProduct));
-            console.log("Direct Buy:", dataProduct);
+          dispatch(addCart(dataProduct));
         } else {
-            dispatch(addCart([...dataCartItems]));
-            console.log("Buy All from Cart:", dataCartItems);
+          for (const item of dataCartItems) {
+            dispatch(addCart(item));
+          }
         }
-
+      
         window.alert("Pesanan terbeli");
         navigate("/checkout");
-
+      
         setDataCartItems([]);
         setCart(0);
         setQuantiyProduct(0);
         setSelectedSize("");
         setSelectedTemp("");
-    }
+      }
+      
 
 
     if (!productId) {

@@ -9,16 +9,15 @@ const checkout = createSlice({
   initialState,
   reducers: {
     addCart: (state, action) => {
-      if (Array.isArray(action.payload)) {
-        state.data.push(...action.payload);
-      } else {
-        state.data.push(action.payload);
-      }
+      const item = action.payload;
+      const uniqueKey = `${item.id}-${item.size}-${item.temperature}`;
+      state.data.push({ ...item, uniqueKey });
     },
     removeCart: (state, action) => {
-      state.data = state.data.filter(item => item.id !== action.payload);
+      state.data = state.data.filter(
+        (item) => item.uniqueKey !== action.payload
+      );
     },
-    
   },
 });
 
