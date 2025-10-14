@@ -16,44 +16,51 @@ import { Provider } from "react-redux"
 import { persistor, store } from "./redux/storage"
 import { PersistGate } from "redux-persist/integration/react"
 import { CheckoutProvider } from "./context/CheckoutContext"
+import { DashboardAdminPage } from "./page/admin/DashboardAdminPage"
+import { AdminLayout } from "./components/layout/AdminLayout"
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <AuthLayout />,
     children: [
       {
         path: "/login",
         element: <LoginPage />,
-        handle: { title: "Login", desc: "Fill out the form correctly" }
+        handle: { title: "Login", desc: "Fill out the form correctly" },
       },
       {
         path: "/register",
         element: <RegisterPage />,
-        handle: { title: "Register", desc: "Fill out the form correctly" }
+        handle: { title: "Register", desc: "Fill out the form correctly" },
       },
       {
         path: "/forget-password",
         element: <ForgetPassword />,
-        handle: { title: "Fill Out The Form Correctly", desc: "We will send new password to your email" }
-      }
-    ]
+        handle: {
+          title: "Fill Out The Form Correctly",
+          desc: "We will send new password to your email",
+        },
+      },
+    ],
   },
+
   {
-    path: "/",
     element: <MainLayout />,
     children: [
       {
-        path: "/home",
+        index: true,
         element: <HomePage />,
+        handle: { title: "Home" },
       },
       {
         path: "/product",
         element: <ProductPage />,
+        handle: { title: "Products" },
       },
       {
         path: "/detail-product/:id",
         element: <DetailPage />,
+        handle: { title: "Product Detail" },
       },
       {
         path: "/checkout",
@@ -61,8 +68,8 @@ const router = createBrowserRouter([
           <CheckoutProvider>
             <CheckoutPage />
           </CheckoutProvider>
-
         ),
+        handle: { title: "Checkout" },
       },
       {
         path: "/history",
@@ -70,40 +77,52 @@ const router = createBrowserRouter([
           <CheckoutProvider>
             <HistoryPage />
           </CheckoutProvider>
-
         ),
+        handle: { title: "History" },
       },
       {
         path: "/detail-order/:id",
-
         element: (
           <CheckoutProvider>
             <DetailOrder />
           </CheckoutProvider>
-
         ),
+        handle: { title: "Order Detail" },
       },
       {
         path: "/profile",
         element: <Profile />,
+        handle: { title: "Profile" },
       },
-    ]
+    ],
   },
+
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashboardAdminPage />,
+        handle: { title: "Admin Dashboard" },
+      },
+    ],
+  },
+
   {
     path: "*",
-    element: <NotFoud />
-  }
+    element: <NotFoud />,
+    handle: { title: "Not Found" },
+  },
 ])
-function App() {
 
+function App() {
   return (
     <PersistGate persistor={persistor}>
       <Provider store={store}>
-
         <RouterProvider router={router} />
       </Provider>
     </PersistGate>
-
   )
 }
 
