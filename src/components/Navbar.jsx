@@ -18,7 +18,7 @@ export function Navbar({ onHamburgerClick }) {
         <>
             <div className="flex justify-between items-cente lg:px-10 xl:px-40">
                 <div className="flex lg:items-center lg:gap-20">
-                    <img src="/public/images/logo-white.png" alt="logo" className="h-10" />
+                    <img src="/logo-white.png" alt="logo" className="h-10" />
                     <Link
                         to="/home"
                         className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/home"

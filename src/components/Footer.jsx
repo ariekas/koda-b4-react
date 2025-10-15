@@ -5,7 +5,7 @@ export function Footer() {
         <>
             <div className="flex flex-col p-5 lg:px-10 xl:px-40 gap-4 bg-[#F8F8F8] lg:flex-row lg:justify-between lg:gap-0 lg:items-start">
                 <div className="flex flex-col gap-2">
-                    <img src="/public/images/logo.png" alt="" className="w-[55%] md:w-[30%] lg:w-[50%]" />
+                    <img src="/logo.png" alt="" className="w-[55%] md:w-[30%] lg:w-[50%]" />
                     <p className="text-[#4F5665] text-sm lg:w-sm">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
                 </div>
                 <div className="flex flex-col gap-5">

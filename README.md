@@ -14,10 +14,10 @@ React Router — Untuk navigasi antar halaman tanpa reload.
 Redux Toolkit / Context API — Untuk manajemen state global.
 
 # Beberapa Tampilan
-![alt text](/public/images/image.png)
-![alt text](/public/images/image-1.png)
-![alt text](/public/images/image-2.png)
-![alt text](/public/images/image-3.png)
-![alt text](/public/images/image-4.png)
-![alt text](/public/images/image-5.png)
-![alt text](/public/images/image-6.png)
+![alt text](/public/image.png)
+![alt text](/public/image-1.png)
+![alt text](/public/image-2.png)
+![alt text](/public/image-3.png)
+![alt text](/public/image-4.png)
+![alt text](/public/image-5.png)
+![alt text](/public/image-6.png)

@@ -121,13 +121,13 @@ export function LoginPage() {
                 <div className="flex justify-center items-center gap-8">
                     <Icon style={"p-5 bg-white  shadow-lg"}>
                         <div className="flex items-center gap-2">
-                            <img src="/public/icons/google.png" alt="" />
+                            <img src="/google.png" alt="" />
                             <p className="hidden md:flex">Google</p>
                         </div>
                     </Icon>
                     <Icon style={"p-5 bg-white  shadow-lg"}>
                         <div className="flex items-center gap-2">
-                            <img src="/public/icons/facebook.png" alt="" />
+                            <img src="/facebook.png" alt="" />
                             <p className="hidden md:flex">Facebook</p>
                         </div>
                     </Icon>

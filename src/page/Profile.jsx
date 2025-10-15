@@ -12,7 +12,7 @@ export function Profile() {
                     <div className="flex flex-col items-center gap-4 border border-gray-200 rounded-md p-3 col-span-1 h-fit">
                         <h2 className="text-[#0B132A] text-lg">Ghaluh Wizard</h2>
                         <p className="text-sm">ghaluhwizz@gmail.com</p>
-                        <img src="/public/images/profle.png" alt="profile image" />
+                        <img src="/profle.png" alt="profile image" />
                         <Button style={" bg-[#FF8906]  items-center w-full text-sm py-3"}>
                             Upload New Photo
                         </Button>

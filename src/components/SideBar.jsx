@@ -18,7 +18,7 @@ export function SideBar() {
             <div className="px-5 py-3 flex flex-col  justify-between h-screen">
                 <div className="flex flex-col gap-5">
                     <div className="flex w-full justify-between">
-                        <img src="/public/images/logo.png" alt="" />
+                        <img src="/logo.png" alt="" />
                         <div className="p-1.5 flex items-center border-2 rounded-full border-red-500">
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
                                 <path fill="#fb0000" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" stroke-width="1" stroke="#fb0000" />

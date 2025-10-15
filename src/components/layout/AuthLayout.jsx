@@ -10,13 +10,13 @@ export function AuthLayout() {
 
     const getImageByPath = () => {
         if (location.pathname.includes("login")) {
-            return "/public/images/login.png";
+            return "/login.png";
         } else if (location.pathname.includes("register")) {
-            return "/public/images/register.png";
+            return "/register.png";
         } else if (location.pathname.includes("forget-password")) {
-            return "/public/images/forget-password.png";
+            return "/forget-password.png";
         } else {
-            return "/public/images/default.png";
+            return "/default.png";
         }
     };
 

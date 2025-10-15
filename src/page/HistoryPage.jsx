@@ -104,23 +104,18 @@ export function HistoryPage() {
               ))}
             </div>
             <div className="flex gap-5 items-center   justify-center my-10 ">
-              {/* 1 */}
               <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
                 <h1>1</h1>
               </Icon>
-              {/* 2 */}
               <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                 <h1>2</h1>
               </Icon>
-              {/* 3 */}
               <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                 <h1>3</h1>
               </Icon>
-              {/* 4 */}
               <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
                 <h1>4</h1>
               </Icon>
-              {/* panah */}
               <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="#fff" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />
@@ -129,7 +124,7 @@ export function HistoryPage() {
             </div>
           </div>
           <div className="flex flex-col gap-2 bg-white border border-gray-200 p-4 rounded-sm lg:col-span-1 h-fit">
-            <img src="/public/icons/icon.png" alt="" className="w-1/6" />
+            <img src="/icon.png" alt="" className="w-1/6" />
             <p className="text-lg font-bold text-[#4F5665]">Send Us Message</p>
             <p className="text-sm">if your unable to find answer or find your product quickly, please describe your problem and tell us. we will give you solution.</p>
             <Button style={" bg-[#FF8906]  items-center w-full text-sm "}>

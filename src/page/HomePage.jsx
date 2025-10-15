@@ -29,7 +29,7 @@ export function HomePage() {
         <>
             <div className="flex flex-col relative mb-15">
                 <div className="lg:grid lg:grid-cols-2">
-                    <img src="/public/images/home.png" alt="" className="w-full lg:order-2" />
+                    <img src="/home.png" alt="" className="w-full lg:order-2" />
                     <div className="p-5 bg-gradient-to-t from-[#0B0909] from-55% to-[#777C82] text-white px-5 py-10 gap-6 md:gap-8 flex flex-col lg:px-10 xl:px-40 lg:order-1 lg:justify-center">
                         <h1 className="text-2xl xl:text-5xl font-semibold lg:text-3xl">
                             Start Your Day with Coffee and Good Meals
@@ -53,7 +53,7 @@ export function HomePage() {
                                 <div className="absolute bottom-full mb-5 md:right-0 bg-white border-t-8 border-[#FF8906] rounded-xl p-4 md:w-xs h-auto flex flex-col justify-between shadow-lg z-50">
                                     <div className="flex flex-col gap-5">
                                         <div className="flex items-center gap-3 border-b border-gray-300 pb-3">
-                                            <img src="/public/images/chat1.png" alt="" />
+                                            <img src="/chat1.png" alt="" />
                                             <div className="flex flex-col gap-1">
                                                 <h1 className="text-sm text-[#0B132A] font-semibold">Maria Angela</h1>
                                                 <p className="text-xs text-[#FF8906]">Admin Support</p>
@@ -61,7 +61,7 @@ export function HomePage() {
                                         </div>
                                         <div className="flex flex-col text-black text-sm gap-5 overflow-y-auto h-[18rem]">
                                             <div className="flex items-center gap-2">
-                                                <img src="/public/images/chat1.png" alt="" className="w-[12%]" />
+                                                <img src="/chat1.png" alt="" className="w-[12%]" />
                                                 <p className="text-xs bg-gray-100 p-2 rounded-lg text-[#4F5665]">
                                                     Halo, Ada yang bisa kami bantu?
                                                 </p>
@@ -70,7 +70,7 @@ export function HomePage() {
                                                 <p className="text-xs bg-gray-100 p-2 rounded-lg text-[#4F5665]">
                                                     Halo, Ada yang bisa kami bantu?
                                                 </p>
-                                                <img src="/public/images/chat1.png" alt="" className="w-[12%]" />
+                                                <img src="/chat1.png" alt="" className="w-[12%]" />
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@ export function HomePage() {
                     </div>
                 </div>
                 <div className="flex flex-col gap-7 lg:gap-0 lg:grid lg:grid-cols-2">
-                    <img src="/public/images/img1.png" alt="" className="w-full lg:order-2" />
+                    <img src="/img1.png" alt="" className="w-full lg:order-2" />
                     <div className="flex  flex-col gap-4 p-5 lg:order-1 lg:px-10 xl:px-40 lg:justify-center">
                         <div className="flex gap-4 items-center">
                             <div className="w-2 bg-[#FF8906] h-14">
@@ -124,19 +124,19 @@ export function HomePage() {
                         </div>
                         <p className="text-sm text-[#4F5665] xl:text-lg">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
                         <div className="flex gap-2 items-center">
-                            <img src="/public/icons/checklist.png" alt="" />
+                            <img src="/checklist.png" alt="" />
                             <p className="text-sm text-[#4F5665] xl:text-lg">High quality beans</p>
                         </div>
                         <div className="flex gap-2 items-center">
-                            <img src="/public/icons/checklist.png" alt="" />
+                            <img src="/checklist.png" alt="" />
                             <p className="text-sm text-[#4F5665] xl:text-lg">Healthy meals, you can request the ingredients</p>
                         </div>
                         <div className="flex gap-2 items-center">
-                            <img src="/public/icons/checklist.png" alt="" />
+                            <img src="/checklist.png" alt="" />
                             <p className="text-sm text-[#4F5665] xl:text-lg">Free member card with a minimum purchase of IDR 200.000.</p>
                         </div>
                         <div className="flex gap-2 items-center">
-                            <img src="/public/icons/checklist.png" alt="" />
+                            <img src="/checklist.png" alt="" />
                             <p className="text-sm text-[#4F5665] xl:text-lg">Chat with our staff to get better experience for ordering</p>
                         </div>
                     </div>
@@ -205,11 +205,11 @@ export function HomePage() {
                         <div className="bg-[#FF8906] w-15 h-1"></div>
                     </div>
                     <p className="text-sm text-[#4F5665] lg:text-lg lg:text-center">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
-                    <img src="/public/images/map.png" alt="" />
+                    <img src="/map.png" alt="" />
                 </div>
 
                 <div className="p-5 bg-gradient-to-t from-[#0B0909] from-55% to-[#777C82] text-white px-5 py-10 gap-6 flex flex-col lg:px-10 xl:px-40 lg:grid lg:grid-cols-2 mt-5">
-                    <img src="/public/images/review.png" alt="" className="w-full" />
+                    <img src="/review.png" alt="" className="w-full" />
                     <div className="flex flex-col gap-5">
                         <h1>
                             TESTIMONIAL

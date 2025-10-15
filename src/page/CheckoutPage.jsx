@@ -8,12 +8,12 @@ import { useCheckout } from "../context/CheckoutContext";
 export function CheckoutPage() {
 
   const payments = [
-    { id: 1, img: "/public/images/payment.png", alt: "PayPal" },
-    { id: 2, img: "/public/images/gopay.png", alt: "GoPay" },
-    { id: 3, img: "/public/images/ovo.png", alt: "OVO" },
-    { id: 4, img: "/public/images/bri.png", alt: "BRI" },
-    { id: 5, img: "/public/images/bca.png", alt: "BCA" },
-    { id: 6, img: "/public/images/dana.png", alt: "Dana" },
+    { id: 1, img: "/payment.png", alt: "PayPal" },
+    { id: 2, img: "/gopay.png", alt: "GoPay" },
+    { id: 3, img: "/ovo.png", alt: "OVO" },
+    { id: 4, img: "/bri.png", alt: "BRI" },
+    { id: 5, img: "/bca.png", alt: "BCA" },
+    { id: 6, img: "/dana.png", alt: "Dana" },
   ];
 
   const {

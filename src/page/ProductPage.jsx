@@ -35,7 +35,7 @@ export function ProductPage() {
     return (
         <>
             <div className="hidden lg:flex relative justify-start items-center pt-20">
-                <img src="/public/images/productPage.png" alt="" className="w-full" />
+                <img src="/productPage.png" alt="" className="w-full" />
                 <p className="absolute text-white text-4xl font-semibold text-start z-10 px-40">
                     We Provide Good Coffee and Healthy Meals
                 </p>
@@ -164,7 +164,7 @@ export function ProductPage() {
                             return (
                                 <>
                                     <div key={index} className="flex bg-[#88B788] rounded-xl p-2 gap-2 items-center min-w-[17.5rem] border border-gray-200">
-                                        <img src="/public/images/promo.png" alt="" className="" />
+                                        <img src="/promo.png" alt="" className="" />
                                         <div className="flex flex-col gap-2">
                                             <p className="text-sm font-bold max-w-[10rem]">HAPPY MOTHER’S DAY!</p>
                                             <p className="text-sm max-w-[10rem]">Get one of our favorite menu for free!</p>
