@@ -1,25 +1,39 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
+import { X, Image } from 'lucide-react';
+import React, { useState } from 'react';
+
 
 export function AdminLayout() {
+    const [showSideBarProduct, setShowSideBarProduct] = useState(false)
+    const location = useLocation()
+
+    const isProductPage = location.pathname === "/admin/product"
     return (
         <>
-            <div className=" flex flex-col">
+            <div className="flex flex-col">
                 <Navbar />
-
                 <div className="flex flex-1 relative">
-                    <div className=" pl-10 border-r border-gray-300">
+                    <div className="pl-10 border-r border-gray-300">
                         <SideBarLeft />
                     </div>
-
-                    <main className="flex-1  bg-white p-10">
-                        <Outlet />
+                    <main className="flex-1 relative bg-white p-10 transition-colors duration-300">
+                        <div
+                            className="relative z-0 transition-colors duration-300"
+                        >
+                            <Outlet context={{ setShowSideBarProduct }} />
+                        </div>
+                        {showSideBarProduct && (
+                            <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
+                        )}
                     </main>
-
-                    <div className="border-l z-10 absolute right-0 w-auto">
-                        {/* <SideBarRight /> */}
-                    </div>
+                    {isProductPage && showSideBarProduct && (
+                        <div className="border-l border-gray-300 z-20 absolute right-0 w-auto bg-white">
+                            <SideBarProduct setShowSideBarProduct={setShowSideBarProduct} />
+                        </div>
+                    )}
                 </div>
             </div>
+
         </>
     )
 }
@@ -102,29 +116,106 @@ export function SideBarLeft() {
 }
 
 
-export function SideBarRight() {
+export function SideBarProduct({ setShowSideBarProduct }) {
+    const [selectedSize, setSelectedSize] = useState('');
+    const sizes = ['R', 'L', 'XL', '250 gr', '500gr'];
     return (
         <>
-            <div className="px-5 py-3 w-xl border flex flex-col  justify-between h-screen">
-                <div className="flex flex-col gap-5">
-                    <p>kjlbbjlbjllnlnklnklnklnkl</p>
-                    <div className="flex w-full justify-between">
-                        <img src="/public/images/logo.png" alt="" />
-                        <div className="p-1.5 flex items-center border-2 rounded-full border-red-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
-                                <path fill="#fb0000" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" stroke-width="1" stroke="#fb0000" />
-                            </svg>
+            <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg">
+                <div className="flex items-center justify-between p-4 ">
+                    <h1 className="text-lg font-semibold text-gray-900">Add Product</h1>
+                    <button className="text-red-500 hover:text-red-600" onClick={() => setShowSideBarProduct(false)}>
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
+
+                <div className="p-4 space-y-5">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Photo Product
+                        </label>
+                        <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                            <Image className="w-6 h-6 text-gray-400" />
+                        </div>
+                        <button className="mt-3 px-6 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors">
+                            Upload
+                        </button>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Product name
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Enter Product Name"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Price
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Enter Product Price"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Description
+                        </label>
+                        <textarea
+                            placeholder="Enter Product Description"
+                            rows="5"
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Product Size
+                        </label>
+                        <div className="grid grid-cols-5 gap-2">
+                            {sizes.map((size) => (
+                                <button
+                                    key={size}
+                                    onClick={() => setSelectedSize(size)}
+                                    className={`py-2.5 text-sm font-medium rounded-lg border transition-colors ${selectedSize === size
+                                        ? 'bg-orange-500 text-white border-orange-500'
+                                        : 'bg-white text-gray-700 border-gray-200 hover:border-orange-300'
+                                        }`}
+                                >
+                                    {size}
+                                </button>
+                            ))}
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="" className="text-sm text-[#0B132A] font-semibold">Search Product</label>
-                        <div className="relative flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" className="absolute m-2">
-                                <path fill="none" stroke="#979797" stroke-linecap="round" stroke-linejoin="round" d="m21 21l-4.343-4.343m0 0A8 8 0 1 0 5.343 5.343a8 8 0 0 0 11.314 11.314" stroke-width="1" />
-                            </svg>
-                            <input type="text" className="border p-2 rounded-lg border-gray-300 pl-8 w-full text-sm" placeholder="Find Product" />
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                            Stock
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Enter Product Stock"
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
+
+                    <button className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors">
+                        Save Product
+                    </button>
                 </div>
             </div>
         </>

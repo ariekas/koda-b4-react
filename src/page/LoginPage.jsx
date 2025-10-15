@@ -40,7 +40,7 @@ export function LoginPage() {
         if (findUser) {
             dispatch(authLogin(findUser))
             window.alert("User login")
-            navigate("/home")
+            navigate("/")
 
         } else {
             window.alert("User tidak di temukan")

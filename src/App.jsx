@@ -18,6 +18,7 @@ import { PersistGate } from "redux-persist/integration/react"
 import { CheckoutProvider } from "./context/CheckoutContext"
 import { DashboardAdminPage } from "./page/admin/DashboardAdminPage"
 import { AdminLayout } from "./components/layout/AdminLayout"
+import ProductAdminPage from "./page/admin/ProductAdminPage"
 
 const router = createBrowserRouter([
   {
@@ -104,7 +105,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <DashboardAdminPage />,
-        handle: { title: "Admin Dashboard" },
+      },
+      {
+        path: "product",
+        element: <ProductAdminPage />,
       },
     ],
   },
