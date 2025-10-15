@@ -19,6 +19,7 @@ import { CheckoutProvider } from "./context/CheckoutContext"
 import { DashboardAdminPage } from "./page/admin/DashboardAdminPage"
 import { AdminLayout } from "./components/layout/AdminLayout"
 import ProductAdminPage from "./page/admin/ProductAdminPage"
+import OrderAdminPage from "./page/admin/OrderAdminPage"
 
 const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
       {
         path: "product",
         element: <ProductAdminPage />,
+      },
+      {
+        path: "order",
+        element: <OrderAdminPage />,
       },
     ],
   },

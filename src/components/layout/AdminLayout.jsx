@@ -1,13 +1,17 @@
 import { Outlet, useLocation } from "react-router-dom"
-import { X, Image } from 'lucide-react';
+import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package } from 'lucide-react';
+
 import React, { useState } from 'react';
 
 
 export function AdminLayout() {
     const [showSideBarProduct, setShowSideBarProduct] = useState(false)
+    const [showSideBarOrder, setShowSideBarOrder] = useState(false)
     const location = useLocation()
 
     const isProductPage = location.pathname === "/admin/product"
+    const isOrderPage = location.pathname === "/admin/order"
+
     return (
         <>
             <div className="flex flex-col">
@@ -20,9 +24,12 @@ export function AdminLayout() {
                         <div
                             className="relative z-0 transition-colors duration-300"
                         >
-                            <Outlet context={{ setShowSideBarProduct }} />
+                            <Outlet context={{ setShowSideBarProduct, setShowSideBarOrder }} />
                         </div>
                         {showSideBarProduct && (
+                            <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
+                        )}
+                        {showSideBarOrder && (
                             <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
                         )}
                     </main>
@@ -31,6 +38,12 @@ export function AdminLayout() {
                             <SideBarProduct setShowSideBarProduct={setShowSideBarProduct} />
                         </div>
                     )}
+                    {isOrderPage && showSideBarOrder && (
+                        <div className="border-l border-gray-300 z-20 absolute right-0 w-auto bg-white">
+                            <SideBarOrder setShowSideBarOrder={setShowSideBarOrder} />
+                        </div>
+                    )}
+
                 </div>
             </div>
 
@@ -221,3 +234,130 @@ export function SideBarProduct({ setShowSideBarProduct }) {
         </>
     )
 }
+
+export function SideBarOrder({ setShowSideBarOrder }) {
+    const [status, setStatus] = React.useState('On progress');
+
+    return (
+        <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg">
+            <div className=" px-6 pt-5 flex items-center justify-between">
+                <h1 className="text-xl font-bold text-gray-900">Order #12354-09893</h1>
+                <button className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors" onClick={() => setShowSideBarOrder(false)}>
+                    <X size={24} />
+                </button>
+            </div>
+
+            <div className="px-6 pt-3">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Information</h2>
+
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <User size={18} />
+                            <span className="text-sm">Full Name</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">Ghaluh Wizard Anggoro</span>
+                    </div>
+
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <MapPin size={18} />
+                            <span className="text-sm">Address</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">Griya bandung indah</span>
+                    </div>
+
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <Phone size={18} />
+                            <span className="text-sm">Phone</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">082116304338</span>
+                    </div>
+
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <CreditCard size={18} />
+                            <span className="text-sm">Payment Method</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">Cash</span>
+                    </div>
+
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <Truck size={18} />
+                            <span className="text-sm">Shipping</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900">Dine In</span>
+                    </div>
+
+                    <div className="flex items-center justify-between border-b pb-2 border-gray-300">
+                        <div className="flex items-center gap-3 text-gray-600">
+                            <Package size={18} />
+                            <span className="text-sm">Status</span>
+                        </div>
+                        <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        >
+                            <option>On progress</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
+                    <span className="text-sm text-gray-600">Total Transaksi</span>
+                    <span className="text-lg font-bold text-orange-500">Idr 40.000</span>
+                </div>
+            </div>
+
+            <div className="px-6 py-6 ">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Order</h2>
+
+                <div className="space-y-4">
+                    <div className="bg-white rounded-xl p-4 flex gap-4 shadow-sm">
+                        <img
+                            src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop"
+                            alt="Hazelnut Latte"
+                            className="w-20 h-20 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 mb-1">Hazelnut Latte</h3>
+                            <p className="text-xs text-gray-500 mb-2">2pcs | Regular | Ice | Dine In</p>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm line-through text-gray-400">IDR40.000</span>
+                                <span className="text-sm font-bold text-orange-500">IDR 20.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl p-4 flex gap-4 shadow-sm">
+                        <img
+                            src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop"
+                            alt="Caramel Machiato"
+                            className="w-20 h-20 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 mb-1">Caramel Machiato</h3>
+                            <p className="text-xs text-gray-500 mb-2">2pcs | Regular | Ice | Dine In</p>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm line-through text-gray-400">IDR40.000</span>
+                                <span className="text-sm font-bold text-orange-500">IDR 20.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="px-6 py-6">
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 rounded-xl transition-colors shadow-lg shadow-orange-500/30">
+                    Update
+                </button>
+            </div>
+        </div>
+    )
+}
+
