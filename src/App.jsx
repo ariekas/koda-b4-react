@@ -21,6 +21,8 @@ import { AdminLayout } from "./components/layout/AdminLayout"
 import ProductAdminPage from "./page/admin/ProductAdminPage"
 import OrderAdminPage from "./page/admin/OrderAdminPage"
 import { AccountAdminPage } from "./page/admin/AccoutAdminPage"
+import { NotificationProvider } from "./context/NotificationContext";
+
 
 const router = createBrowserRouter([
   {
@@ -132,11 +134,13 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <PersistGate persistor={persistor}>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </PersistGate>
+    <NotificationProvider>
+      <PersistGate persistor={persistor}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </PersistGate>
+    </NotificationProvider>
   )
 }
 

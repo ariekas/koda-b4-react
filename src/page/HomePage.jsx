@@ -3,10 +3,15 @@ import { Icon } from "../components/Icon"
 import { CardMenu } from "../components/CardMenu"
 import { Footer } from "../components/Footer"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useNotification } from "../context/NotificationContext"
 export function HomePage() {
     const [showChat, setShowChat] = useState(false)
     const [products, setProducts] = useState([]);
+    const { showNotification } = useNotification()
+    const userLogin = useSelector((state) => state.authReducers.userLogin)
+    const navigate = useNavigate()
     async function getDataProduct() {
         try {
             const url = "/data/dataProduct.json"
@@ -36,8 +41,12 @@ export function HomePage() {
                         </h1>
                         <p className="text-sm xl:w-lg">We provide high quality beans, good taste, and healthy meals made by love just for you. Start your day with us for a bigger smile!</p>
                         <div className="flex justify-between gap-20 relative">
-                            <Button style={"md:px-10 px-3"}>Get Started</Button>
-                            <button onClick={handleShowChat} className="lg:fixed bottom-10 right-10 z-60">
+                            <Button style={"md:px-10 px-3 cursor-pointer"}>Get Started</Button>
+
+                            <button
+                                onClick={handleShowChat}
+                                className="fixed bottom-5 right-5 z-50"
+                            >
                                 <Icon style={"p-2 bg-[#FF8906] rounded-full"}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
                                         <g fill="#000">
@@ -49,8 +58,9 @@ export function HomePage() {
                                     </svg>
                                 </Icon>
                             </button>
+
                             {showChat && (
-                                <div className="absolute bottom-full mb-5 md:right-0 bg-white border-t-8 border-[#FF8906] rounded-xl p-4 md:w-xs h-auto flex flex-col justify-between shadow-lg z-50">
+                                <div className="fixed bottom-20 right-5 bg-white border-t-8 border-[#FF8906] rounded-xl p-4 md:w-xs h-auto flex flex-col justify-between shadow-lg z-40">
                                     <div className="flex flex-col gap-5">
                                         <div className="flex items-center gap-3 border-b border-gray-300 pb-3">
                                             <img src="/chat1.png" alt="" />
@@ -59,6 +69,7 @@ export function HomePage() {
                                                 <p className="text-xs text-[#FF8906]">Admin Support</p>
                                             </div>
                                         </div>
+
                                         <div className="flex flex-col text-black text-sm gap-5 overflow-y-auto h-[18rem]">
                                             <div className="flex items-center gap-2">
                                                 <img src="/chat1.png" alt="" className="w-[12%]" />
@@ -74,7 +85,8 @@ export function HomePage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
+
+                                    <div className="flex items-center gap-2 mt-3">
                                         <input
                                             type="text"
                                             className="border border-gray-300 rounded-lg text-black p-2 text-xs w-full"
@@ -94,6 +106,7 @@ export function HomePage() {
                                 </div>
                             )}
                         </div>
+
                         <div className="flex justify-between lg:justify-between md:justify-center  md:gap-15">
                             <div className="flex flex-col">
                                 <h1 className="text-2xl text-[#FF8906] font-light lg:text-3xl">90+</h1>
@@ -148,51 +161,58 @@ export function HomePage() {
                     </div>
                     <p className="text-sm font-normal lg:text-lg lg:text-center">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
 
-                    <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10 lg:px-10 xl:px-40">
+                    <div className="grid md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:px-10 xl:px-40">
                         {products.slice(0, 4).map(
                             (item) => (
-                                <Link to={`/detail-product/${item.id}`} key={item.id}>
-                                <CardMenu
-                                    key={item.id}
-                                    name={item.name}
-                                    description={item.description}
-                                    price={item.price}
-                                    diskonPrice={item.diskonPrice}
-                                    image={item.image}
-                                    isFlashSale={item.isFlashSale}
-                                >
-                                    <div className="flex gap-1 items-center text-[#FF8906]">
-                                        {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                            <svg
-                                                key={`full-${i}`}
-                                                className="w-6 h-6"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    fill="#FF8906"
-                                                    d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                />
-                                            </svg>
-                                        ))}
+                                <Link key={item.id} onClick={(e) => {
+                                    e.preventDefault();
+                                    if (!userLogin) {
+                                        showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
+                                        return;
+                                    }
+                                    navigate(`/detail-product/${item.id}`)
+                                }}>
+                                    <CardMenu
+                                        key={item.id}
+                                        name={item.name}
+                                        description={item.description}
+                                        price={item.price}
+                                        diskonPrice={item.diskonPrice}
+                                        image={item.image}
+                                        isFlashSale={item.isFlashSale}
+                                    >
+                                        <div className="flex gap-1 items-center text-[#FF8906]">
+                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`full-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#FF8906"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
 
-                                        {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                            <svg
-                                                key={`empty-${i}`}
-                                                className="w-6 h-6"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    fill="#4d4d4d"
-                                                    d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                />
-                                            </svg>
-                                        ))}
+                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                                <svg
+                                                    key={`empty-${i}`}
+                                                    className="w-6 h-6"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        fill="#4d4d4d"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
 
-                                        <span className="ml-2 text-black">{item.rating}</span>
-                                    </div>
-                                </CardMenu>
+                                            <span className="ml-2 text-black">{item.rating}</span>
+                                        </div>
+                                    </CardMenu>
                                 </Link>
                             )
                         )}
