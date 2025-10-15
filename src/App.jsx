@@ -20,6 +20,7 @@ import { DashboardAdminPage } from "./page/admin/DashboardAdminPage"
 import { AdminLayout } from "./components/layout/AdminLayout"
 import ProductAdminPage from "./page/admin/ProductAdminPage"
 import OrderAdminPage from "./page/admin/OrderAdminPage"
+import { AccountAdminPage } from "./page/admin/AccoutAdminPage"
 
 const router = createBrowserRouter([
   {
@@ -114,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: "order",
         element: <OrderAdminPage />,
+      },
+      {
+        path: "accout",
+        element: <AccountAdminPage />,
       },
     ],
   },

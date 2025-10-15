@@ -1,16 +1,18 @@
 import { Outlet, useLocation } from "react-router-dom"
-import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package } from 'lucide-react';
-
+import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
 
 
 export function AdminLayout() {
     const [showSideBarProduct, setShowSideBarProduct] = useState(false)
     const [showSideBarOrder, setShowSideBarOrder] = useState(false)
+    const [showSideBarAccount, setShowSideBarAccount] = useState(false)
     const location = useLocation()
 
     const isProductPage = location.pathname === "/admin/product"
     const isOrderPage = location.pathname === "/admin/order"
+    const isAccoutPage = location.pathname === "/admin/accout"
+
 
     return (
         <>
@@ -24,12 +26,15 @@ export function AdminLayout() {
                         <div
                             className="relative z-0 transition-colors duration-300"
                         >
-                            <Outlet context={{ setShowSideBarProduct, setShowSideBarOrder }} />
+                            <Outlet context={{ setShowSideBarProduct, setShowSideBarOrder, setShowSideBarAccount }} />
                         </div>
                         {showSideBarProduct && (
                             <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
                         )}
                         {showSideBarOrder && (
+                            <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
+                        )}
+                        {showSideBarAccount && (
                             <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none rounded-lg" />
                         )}
                     </main>
@@ -41,6 +46,11 @@ export function AdminLayout() {
                     {isOrderPage && showSideBarOrder && (
                         <div className="border-l border-gray-300 z-20 absolute right-0 w-auto bg-white">
                             <SideBarOrder setShowSideBarOrder={setShowSideBarOrder} />
+                        </div>
+                    )}
+                    {isAccoutPage && showSideBarAccount && (
+                        <div className="border-l border-gray-300 z-20 absolute right-0 w-auto bg-white">
+                            <SideBarAccount setShowSideBarAccount={setShowSideBarAccount} />
                         </div>
                     )}
 
@@ -359,5 +369,177 @@ export function SideBarOrder({ setShowSideBarOrder }) {
             </div>
         </div>
     )
+}
+
+export function SideBarAccount({ setShowSideBarAccount }) {
+    const [showPassword, setShowPassword] = useState(false);
+    const [userType, setUserType] = useState('normal');
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    return (
+        <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg p-5">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-semibold text-gray-800">User List</h1>
+                <button className="text-red-500 hover:bg-red-50 rounded-full p-2 transition" onClick={() => setShowSideBarAccount(false)}>
+                    <X size={24} />
+                </button>
+            </div>
+
+            {/* Image Upload */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Image User
+                </label>
+                <div className="flex items-start gap-3 flex-col ">
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-gray-200">
+                        {imagePreview ? (
+                            <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                        ) : (
+                            <Image className="text-gray-400" size={32} />
+                        )}
+                    </div>
+                    <label className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg cursor-pointer transition font-medium">
+                        Upload
+                        <input
+                            type="file"
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                        />
+                    </label>
+                </div>
+            </div>
+
+            {/* Full Name */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name
+                </label>
+                <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Enter Full Name"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                </div>
+            </div>
+
+            {/* Email */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email
+                </label>
+                <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="email"
+                        placeholder="Enter Your Email"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                </div>
+            </div>
+
+            {/* Phone */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone
+                </label>
+                <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="tel"
+                        placeholder="Enter Your Number"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                </div>
+            </div>
+
+            {/* Password */}
+            <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <button className="text-orange-500 text-sm font-medium hover:text-orange-600">
+                        Set New Password
+                    </button>
+                </div>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter Your Password"
+                        className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                    <button
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                </div>
+            </div>
+
+            {/* Address */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Address
+                </label>
+                <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Enter Your Address"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    />
+                </div>
+            </div>
+
+            {/* Type of User */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Type of User
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                    <button
+                        onClick={() => setUserType('normal')}
+                        className={`py-3 px-4 rounded-lg border-2 font-medium transition ${userType === 'normal'
+                            ? 'border-orange-500 bg-orange-50 text-orange-600'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                            }`}
+                    >
+                        Normal User
+                    </button>
+                    <button
+                        onClick={() => setUserType('admin')}
+                        className={`py-3 px-4 rounded-lg border-2 font-medium transition ${userType === 'admin'
+                            ? 'border-orange-500 bg-orange-50 text-orange-600'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                            }`}
+                    >
+                        Admin
+                    </button>
+                </div>
+            </div>
+
+            {/* Submit Button */}
+            <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition shadow-md hover:shadow-lg">
+                Add User
+            </button>
+        </div>
+    );
 }
 
