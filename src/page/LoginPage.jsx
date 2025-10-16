@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { authLogin } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNotification } from "../context/NotificationContext"
 
 
 const Loginschema = yup.object().shape({
@@ -25,6 +26,8 @@ export function LoginPage() {
     const navigate = useNavigate()
     const dataUser = useSelector(state => state.authReducers.dataUser)
     const dispatch = useDispatch()
+        const { showNotification } = useNotification()
+    
 
     const {
         register,
@@ -39,11 +42,11 @@ export function LoginPage() {
 
         if (findUser) {
             dispatch(authLogin(findUser))
-            window.alert("User login")
+            showNotification("Berhasil Login", "success")
             navigate("/")
 
         } else {
-            window.alert("User tidak di temukan")
+            showNotification("User tidak di temukan", "error")
         }
 
     }

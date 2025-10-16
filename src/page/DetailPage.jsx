@@ -5,11 +5,13 @@ import { Icon } from "../components/Icon"
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/reducers/checkout";
+import { useNotification } from "../context/NotificationContext"
 
 export function DetailPage() {
     const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState()
     const { id } = useParams()
+    const { showNotification } = useNotification()
     const [quantiyProduct, setQuantiyProduct] = useState(0)
     const [selectedSize, setSelectedSize] = useState("")
     const [selectedTemp, setSelectedTemp] = useState("")
@@ -54,7 +56,7 @@ export function DetailPage() {
         setDataCartItems((dataOld) => [...dataOld, dataProduct]);
         setCart((dataOld) => dataOld + 1);
         console.log(dataCartItems)
-        window.alert("pesanan masuk ke cart")
+        showNotification("Product masuk ke cart", "success")
 
         setQuantiyProduct(0);
         setSelectedSize("");
@@ -79,7 +81,6 @@ export function DetailPage() {
             }
         }
 
-        window.alert("Pesanan terbeli");
         navigate("/checkout");
 
         setDataCartItems([]);
