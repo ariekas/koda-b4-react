@@ -17,7 +17,7 @@ export function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       {children}
-      <div className="fixed top-5 right-5 flex flex-col gap-3 z-50">
+      <div className="fixed top-0 md:top-5 m-2 md:m-0 md:right-5 flex flex-col gap-3 z-50">
         {notifications.map((n) => (
           <div
             key={n.id}

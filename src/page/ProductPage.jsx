@@ -2,11 +2,19 @@ import { useEffect, useState } from "react"
 import { CardMenu } from "../components/CardMenu"
 import { Icon } from "../components/Icon"
 import { Button } from "../components/Button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useNotification } from "../context/NotificationContext"
+import { useSelector } from "react-redux"
+
 export function ProductPage() {
     const arr = [1, 2]
     const [showFilter, setShowFilter] = useState(false)
     const [priceRange, setPriceRange] = useState([0, 100000])
+    const userLogin = useSelector((state) => state.authReducers.userLogin)
+    const { showNotification } = useNotification()
+    const navigate = useNavigate()
+
+
 
     function toggleFilter() {
         setShowFilter(!showFilter)
@@ -277,7 +285,14 @@ export function ProductPage() {
                         <div className="col-span-9">
                             <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
                                 {products.map((item) => (
-                                    <Link to={`/detail-product/${item.id}`} key={item.id}>
+                                    <Link key={item.id} onClick={(e) => {
+                                        e.preventDefault();
+                                        if (!userLogin) {
+                                            showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
+                                            return;
+                                        }
+                                        navigate(`/detail-product/${item.id}`)
+                                    }}>
                                         <CardMenu
                                             key={item.id}
                                             name={item.name}

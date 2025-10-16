@@ -62,10 +62,10 @@ export function SideBar({handelSideBar}) {
                         </Button>
                     ) : (
                         <>
-                            <Button style={"bg-white border-black border-1 py-2"}>
+                            <Button style={"bg-white border-black border-1 py-2"} onClick={()=> navigate("/login")}>
                                 Sign In
                             </Button>
-                            <Button style={"py-2"}>
+                            <Button style={"py-2"}  onClick={()=> navigate("/register")}>
                                 Sign Up
                             </Button>
                         </>
