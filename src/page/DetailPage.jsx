@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/Button"
 import { CardMenu } from "../components/CardMenu"
 import { Icon } from "../components/Icon"
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/reducers/checkout";
 
@@ -15,6 +15,7 @@ export function DetailPage() {
     const [selectedTemp, setSelectedTemp] = useState("")
     const [cart, setCart] = useState(0)
     const [dataCartItems, setDataCartItems] = useState([])
+    const [mainImage, setMainImage] = useState("");
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -37,6 +38,7 @@ export function DetailPage() {
         if (products.length > 0) {
             const getProductById = products.find((item) => item.id === parseInt(id))
             setProductId(getProductById)
+            setMainImage(getProductById?.image);
         }
     }, [id, products])
 
@@ -61,53 +63,68 @@ export function DetailPage() {
 
     function handleSubmit(e) {
         e.preventDefault();
-      
+
         const dataProduct = {
-          ...productId,
-          quantity: quantiyProduct,
-          size: selectedSize,
-          temperature: selectedTemp,
+            ...productId,
+            quantity: quantiyProduct,
+            size: selectedSize,
+            temperature: selectedTemp,
         };
-      
+
         if (dataCartItems.length === 0) {
-          dispatch(addCart(dataProduct));
+            dispatch(addCart(dataProduct));
         } else {
-          for (const item of dataCartItems) {
-            dispatch(addCart(item));
-          }
+            for (const item of dataCartItems) {
+                dispatch(addCart(item));
+            }
         }
-      
+
         window.alert("Pesanan terbeli");
         navigate("/checkout");
-      
+
         setDataCartItems([]);
         setCart(0);
         setQuantiyProduct(0);
         setSelectedSize("");
         setSelectedTemp("");
-      }
-      
+    }
+
 
 
     if (!productId) {
         return <p className="text-center mt-10 text-gray-500">Loading product...</p>;
     }
 
+    const thumbnails = [productId.image1, productId.image2, productId.image3].filter(Boolean);
+
+    const handleImageClick = (clickedImage) => {
+        const prevMain = mainImage;
+        setMainImage(clickedImage);
+        const index = thumbnails.indexOf(clickedImage);
+        if (index !== -1) thumbnails[index] = prevMain;
+    };
+
     return (
         <>
             <div className="pt-25 p-5">
                 <form className="lg:grid grid-cols-2 lg:px-10 xl:px-40 gap-10" onSubmit={handleSubmit}>
-
                     <div className="flex flex-col  max-w-xl gap-2">
                         <img
-                            src={productId.image}
+                            src={mainImage}
                             alt={productId.name}
-                            className="w-full"
+                            className="w-full h-[300px] md:h-[400px] object-cover rounded-xl transition-all duration-300"
                         />
+
                         <div className="grid grid-cols-3 gap-3">
-                            <img src={productId.image} alt={productId.name} className="w-full object-contain" />
-                            <img src={productId.image} alt={productId.name} className="w-full object-contain" />
-                            <img src={productId.image} alt={productId.name} className="w-full object-contain" />
+                            {thumbnails.map((thumb, index) => (
+                                <img
+                                    key={index}
+                                    src={thumb}
+                                    alt={`${productId.name}-${index}`}
+                                    onClick={() => handleImageClick(thumb)}
+                                    className="w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition"
+                                />
+                            ))}
                         </div>
 
                     </div>
@@ -227,49 +244,51 @@ export function DetailPage() {
                 </form>
 
                 <h2 className="text-xl text-center font-semibold mt-10 mb-5 lg:text-4xl lg:text-start lg:px-10 xl:px-40 lg:mt-15">Recommendation <span className="text-[#8E6447]">For You</span></h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5 lg:px-10 xl:px-40">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-5 lg:px-10 xl:px-40">
                     {products.map((item) => (
-                        <CardMenu
-                            key={item.id}
-                            name={item.name}
-                            description={item.description}
-                            price={item.price}
-                            diskonPrice={item.diskonPrice}
-                            image={item.image}
-                            isFlashSale={item.isFlashSale}
-                        >
-                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                    <svg
-                                        key={`full-${i}`}
-                                        className="w-6 h-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="#FF8906"
-                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                        />
-                                    </svg>
-                                ))}
+                        <Link to={`/detail-product/${item.id}`}>
+                            <CardMenu
+                                key={item.id}
+                                name={item.name}
+                                description={item.description}
+                                price={item.price}
+                                diskonPrice={item.diskonPrice}
+                                image={item.image}
+                                isFlashSale={item.isFlashSale}
+                            >
+                                <div className="flex gap-1 items-center text-[#FF8906]">
+                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`full-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#FF8906"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
 
-                                {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                    <svg
-                                        key={`empty-${i}`}
-                                        className="w-6 h-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fill="#4d4d4d"
-                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                        />
-                                    </svg>
-                                ))}
+                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                        <svg
+                                            key={`empty-${i}`}
+                                            className="w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="#4d4d4d"
+                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                            />
+                                        </svg>
+                                    ))}
 
-                                <span className="ml-2 text-black">{item.rating}</span>
-                            </div>
-                        </CardMenu>
+                                    <span className="ml-2 text-black">{item.rating}</span>
+                                </div>
+                            </CardMenu>
+                        </Link>
                     ))}
                 </div>
                 <div className="flex gap-5 items-center   justify-center my-10 ">

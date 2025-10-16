@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button } from "./Button"
 import { authLogout } from "../redux/reducers/auth"
 import { useNavigate, Link } from "react-router-dom"
-export function SideBar() {
+export function SideBar({handelSideBar}) {
     const userLogin = useSelector((state) => state.authReducers.userLogin)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -19,7 +19,7 @@ export function SideBar() {
                 <div className="flex flex-col gap-5">
                     <div className="flex w-full justify-between">
                         <img src="/logo.png" alt="" />
-                        <div className="p-1.5 flex items-center border-2 rounded-full border-red-500">
+                        <div className="p-1.5 flex items-center border-2 rounded-full border-red-500" onClick={handelSideBar}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
                                 <path fill="#fb0000" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" stroke-width="1" stroke="#fb0000" />
                             </svg>
@@ -36,8 +36,8 @@ export function SideBar() {
                     </div>
                     <div className="flex flex-col gap-3">
                         <Link
-                            to="/home"
-                            className={` text-lg text-black pb-1 ${location.pathname === "/home"
+                            to="/"
+                            className={` text-lg text-black pb-1 ${location.pathname === "/"
                                 ? "border-b-2 border-[#FF8906] "
                                 : "border-b-2 border-gray-300"
                                 }`}

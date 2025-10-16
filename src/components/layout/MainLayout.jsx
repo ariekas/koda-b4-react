@@ -11,6 +11,9 @@ export function MainLayout() {
         setShowSideBar(!showSideBar);
     };
 
+    const handelSideBar = () => {
+        setShowSideBar(!showSideBar)
+    }
     const isHome = location.pathname === "/";
 
     return (
@@ -27,7 +30,7 @@ export function MainLayout() {
                     className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-30
                     ${showSideBar ? "translate-x-0" : "-translate-x-full"}`}
                 >
-                    <SideBar />
+                    <SideBar handelSideBar={handelSideBar}/>
                 </div>
 
                 <Outlet />
