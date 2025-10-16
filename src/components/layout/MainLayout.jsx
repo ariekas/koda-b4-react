@@ -11,7 +11,7 @@ export function MainLayout() {
         setShowSideBar(!showSideBar);
     };
 
-    const isHome = location.pathname === "/home";
+    const isHome = location.pathname === "/";
 
     return (
         <>
