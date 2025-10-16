@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Hazelnut Latte",
+    "name": "Hazelnutal Latte",
     "slug": "Hazelnut Latte",
     "category": "Minuman",
     "image": "/coffe.png",
@@ -16,7 +16,7 @@
   },
   {
     "id": 2,
-    "name": "Hazelnut Latte",
+    "name": "Hazelnutavl Latte",
     "slug": "Hazelnut Latte",
     "category": "Minuman",
     "image": "/food1.png",
@@ -31,7 +31,7 @@
   },
   {
     "id": 3,
-    "name": "Hazelnut Latte",
+    "name": "Hazelnutasx Latte",
     "slug": "Hazelnut Latte",
     "category": "Minuman",
     "image": "/food2.png",
@@ -46,7 +46,7 @@
   },
   {
     "id": 4,
-    "name": "Hazelnut Latte",
+    "name": "Hazelnutsadm Latte",
     "slug": "Hazelnut Latte",
     "category": "Minuman",
     "image": "/food3.png",

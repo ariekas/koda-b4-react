@@ -13,11 +13,21 @@ export function Navbar({ onHamburgerClick }) {
     const navigate = useNavigate()
     const location = useLocation();
     const dispatch = useDispatch()
+    const [searchQuery, setSearchQuery] = useState("")
 
     function handleLogout() {
         dispatch(authLogout(null))
         navigate("/login")
 
+    }
+
+    function handleSearch(e) {
+        e.preventDefault()
+        if (searchQuery.trim()) {
+            navigate(`/product?search=${searchQuery}`)
+            setShowSearch(false)
+            setSearchQuery("")
+        }
     }
 
 
@@ -69,20 +79,30 @@ export function Navbar({ onHamburgerClick }) {
 
                     {showSearch && (
                         <>
-                            <div className="flex gap-2">
+                            <form onSubmit={handleSearch} className="flex gap-2">
                                 <div className="relative bg-white rounded-full">
                                     <input
                                         type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder="Enter Product Name"
-                                        className="w-80 pl-4 pr-10 py-2 bg-white rounded-full border border-gray-300  focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        className="w-80 pl-4 pr-10 py-2 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                                     />
-                                    <Search className="absolute right-3 top-2.5 text-gray-400" size={20} />
+                                    <button type="submit" className="absolute right-3 top-2.5">
+                                        <Search className="text-gray-400" size={20} />
+                                    </button>
                                 </div>
-                                <button className="bg-white rounded-full py-2 px-5" onClick={() => setShowSearch(false)}>
-                                    Cloce
+                                <button
+                                    type="button"
+                                    className="bg-white rounded-full py-2 px-5"
+                                    onClick={() => {
+                                        setShowSearch(false)
+                                        setSearchQuery("")
+                                    }}
+                                >
+                                    Close
                                 </button>
-
-                            </div>
+                            </form>
                         </>
                     )}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="cursor-pointer" onClick={() => {
