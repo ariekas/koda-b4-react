@@ -5,6 +5,7 @@ import { removeCart } from "../redux/reducers/checkout";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../context/CheckoutContext";
 
+
 export function CheckoutPage() {
 
   const payments = [
@@ -51,71 +52,74 @@ export function CheckoutPage() {
                 Add Menu
               </Button>
             </div>
-            {Array.isArray(dataCart) && dataCart.length > 0 ? (
-              dataCart.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-white shadow-md rounded-md border border-gray-200 p-4 mb-3 w-full"
-                >
-                  <div className="flex items-center gap-4 flex-col md:flex-row">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-32 h-32 object-cover rounded-md"
-                    />
+            <div className="flex flex-col gap-2">
+              {Array.isArray(dataCart) && dataCart.length > 0 ? (
+                dataCart.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-white shadow-xs rounded-md border border-gray-200 p-4 mb-3 w-full"
+                  >
+                    <div className="flex items-center gap-4 flex-col md:flex-row">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-32 h-32 object-cover rounded-md"
+                      />
 
-                    <div className="flex flex-col gap-2">
-                      {item.isFlashSale && (
-                        <div className="py-1 px-2 bg-red-500  text-white rounded-full w-23 flex justify-center">
-                          <p className="text-xs font-bold">FLASH SALE!</p>
-                        </div>
-
-                      )}
-                      <p className="text-lg font-semibold">{item.name}</p>
-                      <div className="text-sm mt-1 text-gray-700 flex gap-3">
-                        <p>Size: {item.size || "-"}</p>
-                        <div className="h-6 w-0.5 bg-black/30">
-                        </div>
-                        <p>Temp: {item.temperature || "-"}</p>
-                        <div className="h-6 w-0.5 bg-black/30">
-                        </div>
-                        <p>Qty: {item.quantity || "-"}</p>
-                        <div className="h-6 w-0.5 bg-black/30">
-                        </div>
-                        <p>Dine In</p>
-                      </div>
-                      {item.diskonPrice ? (
-                        <>
-                          <div className="flex items-center gap-2 ">
-                            <p className="text-red-500 line-through text-sm">
-                              Rp {item.price.toLocaleString("id-ID")}
-                            </p>
-                            <p className="text-[#FF8906] font-semibold">
-                              Rp {(item.diskonPrice).toLocaleString("id-ID")}
-                            </p>
-
+                      <div className="flex flex-col gap-2">
+                        {item.isFlashSale && (
+                          <div className="py-1 px-2 bg-red-500  text-white rounded-full w-23 flex justify-center">
+                            <p className="text-xs font-bold">FLASH SALE!</p>
                           </div>
-                        </>
-                      ) : (
-                        <p className="text-[#FF8906] font-semibold">
-                          Rp {item.price.toLocaleString("id-ID")}
-                        </p>
-                      )}
+
+                        )}
+                        <p className="text-lg font-semibold">{item.name}</p>
+                        <div className="text-sm mt-1 text-gray-700 flex gap-3">
+                          <p>Size: {item.size || "-"}</p>
+                          <div className="h-6 w-0.5 bg-black/30">
+                          </div>
+                          <p>Temp: {item.temperature || "-"}</p>
+                          <div className="h-6 w-0.5 bg-black/30">
+                          </div>
+                          <p>Qty: {item.quantity || "-"}</p>
+                          <div className="h-6 w-0.5 bg-black/30">
+                          </div>
+                          <p>Dine In</p>
+                        </div>
+                        {item.diskonPrice ? (
+                          <>
+                            <div className="flex items-center gap-2 ">
+                              <p className="text-red-500 line-through text-sm">
+                                Rp {item.price.toLocaleString("id-ID")}
+                              </p>
+                              <p className="text-[#FF8906] font-semibold">
+                                Rp {(item.diskonPrice).toLocaleString("id-ID")}
+                              </p>
+
+                            </div>
+                          </>
+                        ) : (
+                          <p className="text-[#FF8906] font-semibold">
+                            Rp {item.price.toLocaleString("id-ID")}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <button onClick={() => dispatch(removeCart(`${item.id}-${item.size}-${item.temperature}`))} className="cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
+                          <path fill="#d11" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" />
+                          <path fill="#d11" d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <button onClick={() => dispatch(removeCart(`${item.id}-${item.size}-${item.temperature}`))} className="cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
-                        <path fill="#d11" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" />
-                        <path fill="#d11" d="M21.4 23L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-600 mt-4 text-xl">Your cart is empty.</p>
-            )}
+                ))
+              ) : (
+                <p className="text-gray-600 mt-4 text-xl">Your cart is empty.</p>
+              )}
+            </div>
+
           </div>
           <div className=" hidden lg:flex flex-col lg:mt-0 mt-5 text-sm">
             <p className="text-lg font-bold mb-5">Total</p>
@@ -140,7 +144,7 @@ export function CheckoutPage() {
                 <p className="font-bold">Rp {total.toLocaleString("id-ID")}</p>
               </div>
 
-              <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4"  onClick={() => handleCheckout(dataCart, total)}>
+              <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4" onClick={() => handleCheckout(dataCart, total)}>
                 Checkout
               </button>
 
@@ -233,7 +237,7 @@ export function CheckoutPage() {
           </div>
         </div>
 
-        <div className=" lg:hidden flex flex-col mt-5 text-sm">
+        <div className=" lg:hidden flex flex-col my-5 text-sm">
           <p className="text-lg font-bold my-5">Total</p>
           <div className="bg-gray-100 p-4 rounded-lg flex flex-col gap-3">
             <div className="flex justify-between">
@@ -256,7 +260,7 @@ export function CheckoutPage() {
               <p className="font-bold">Rp {total.toLocaleString("id-ID")}</p>
             </div>
 
-            <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4">
+            <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4" onClick={() => handleCheckout(dataCart, total)}>
               Checkout
             </button>
 

@@ -1,8 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNotification } from "./NotificationContext"
+import { useNavigate } from "react-router-dom";
+
 
 const CheckoutContext = createContext();
 
 export function CheckoutProvider({ children }) {
+  const { showNotification } = useNotification()
+  const navigate = useNavigate()
   const [paymentInfo, setPaymentInfo] = useState(() => {
     const stored = localStorage.getItem("paymentInfo");
     return stored ? JSON.parse(stored) : "";
@@ -31,21 +36,24 @@ export function CheckoutProvider({ children }) {
   }, [history]);
 
   const handleCheckout = (cartItems, total) => {
-    const checkoutData = {
-      id: Date.now(),
-      items: cartItems,
-      payment: paymentInfo,
-      delivery: deliveryInfo,
-      total,
-      date: new Date().toLocaleString(),
-    };
+    if (Array.isArray(cartItems) && cartItems.length > 0) {
+      const checkoutData = {
+        id: Date.now(),
+        items: cartItems,
+        payment: paymentInfo,
+        delivery: deliveryInfo,
+        total,
+        date: new Date().toLocaleString(),
+      };
 
-    setHistory((prev) => [...prev, checkoutData]);
+      setHistory((prev) => [...prev, checkoutData]);
+      localStorage.removeItem("paymentInfo");
+      localStorage.removeItem("deliveryInfo");
 
-    alert("✅ Checkout berhasil!");
-
-    localStorage.removeItem("paymentInfo");
-    localStorage.removeItem("deliveryInfo");
+      navigate("/history")
+    } else {
+      showNotification("Cart kosong, tidak bisa melanjutkan", "error")
+    }
   };
 
   return (
