@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNotification } from "./NotificationContext"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../redux/reducers/checkout";
 
 
 const CheckoutContext = createContext();
 
 export function CheckoutProvider({ children }) {
+  const dispatch = useDispatch()
   const { showNotification } = useNotification()
   const navigate = useNavigate()
   const [paymentInfo, setPaymentInfo] = useState(() => {
@@ -49,6 +52,9 @@ export function CheckoutProvider({ children }) {
       setHistory((prev) => [...prev, checkoutData]);
       localStorage.removeItem("paymentInfo");
       localStorage.removeItem("deliveryInfo");
+
+      dispatch(clearCart());
+
 
       navigate("/history")
     } else {

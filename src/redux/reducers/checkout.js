@@ -18,10 +18,13 @@ const checkout = createSlice({
         (item) => item.uniqueKey !== action.payload
       );
     },
+    clearCart: (state) => {
+      state.data = [];
+    },
   },
 });
 
 export const {
   reducer: checkoutReducers,
-  actions: { addCart, removeCart },
+  actions: { addCart, removeCart, clearCart},
 } = checkout;

@@ -132,7 +132,14 @@ export function ProductPage() {
                         </div>
                         <div className="flex flex-col gap-1">
                             <label htmlFor="" className="font-semibold">Search</label>
-                            <input type="search" className="py-3 bg-white text-black text-sm p-3 rounded-md" placeholder="Search Your Product" />
+                            <input
+                                type="search"
+                                value={localSearchQuery}
+                                onChange={(e) => setLocalSearchQuery(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleLocalSearch(e)}
+                                className="py-3 bg-white text-black text-sm p-3 rounded-md"
+                                placeholder="Search Your Product"
+                            />
                         </div>
                         <div className="flex flex-col gap-5">
                             <label htmlFor="" className="font-bold">Category</label>
@@ -199,83 +206,8 @@ export function ProductPage() {
                             Apply Filter
                         </Button>
                     </div>
-                    <div className="col-span-9">
-                        {filteredProducts.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-20 gap-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
-                                    <path fill="#ccc" d="m18.031 16.617l4.283 4.282l-1.415 1.415l-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9s9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617m-2.006-.742A6.98 6.98 0 0 0 18 11c0-3.867-3.133-7-7-7s-7 3.133-7 7s3.133 7 7 7a6.98 6.98 0 0 0 4.875-1.975z" />
-                                </svg>
-                                <p className="text-xl text-gray-600">Produk tidak ditemukan</p>
-                                <p className="text-sm text-gray-500">Coba kata kunci lain atau hapus filter pencarian</p>
-                                <button
-                                    onClick={() => {
-                                        navigate('/product')
-                                        setLocalSearchQuery("")
-                                    }}
-                                    className="px-6 py-2 bg-[#FF8906] text-white rounded-lg hover:bg-[#e67a05] transition-colors"
-                                >
-                                    Lihat Semua Produk
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
-                                {filteredProducts.map((item) => (
-                                    <Link key={item.id} onClick={(e) => {
-                                        e.preventDefault();
-                                        if (!userLogin) {
-                                            showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
-                                            return;
-                                        }
-                                        navigate(`/detail-product/${item.id}`)
-                                    }}>
-                                        <CardMenu
-                                            key={item.id}
-                                            name={item.name}
-                                            description={item.description}
-                                            price={item.price}
-                                            diskonPrice={item.diskonPrice}
-                                            image={item.image}
-                                            isFlashSale={item.isFlashSale}
-                                        >
-                                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                                {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                                    <svg
-                                                        key={`full-${i}`}
-                                                        className="w-6 h-6"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            fill="#FF8906"
-                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                        />
-                                                    </svg>
-                                                ))}
 
-                                                {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                                    <svg
-                                                        key={`empty-${i}`}
-                                                        className="w-6 h-6"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            fill="#4d4d4d"
-                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                        />
-                                                    </svg>
-                                                ))}
-
-                                                <span className="ml-2 text-black">{item.rating}</span>
-                                            </div>
-                                        </CardMenu>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </div>
                 </div>
-
                 <div className="flex flex-col gap-6 mt-4 ">
                     <h1 className="text-2xl font-semibold lg:text-4xl lg:px-10 xl:px-40">Today <span className="text-[#8E6447]">Promo</span></h1>
                     <div className="flex items-center overflow-x-auto gap-4">
@@ -386,79 +318,79 @@ export function ProductPage() {
                             </Button>
                         </div>
                         <div className="col-span-9">
-                        {filteredProducts.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-20 gap-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
-                                    <path fill="#ccc" d="m18.031 16.617l4.283 4.282l-1.415 1.415l-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9s9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617m-2.006-.742A6.98 6.98 0 0 0 18 11c0-3.867-3.133-7-7-7s-7 3.133-7 7s3.133 7 7 7a6.98 6.98 0 0 0 4.875-1.975z" />
-                                </svg>
-                                <p className="text-xl text-gray-600">Produk tidak ditemukan</p>
-                                <p className="text-sm text-gray-500">Coba kata kunci lain atau hapus filter pencarian</p>
-                                <button
-                                    onClick={() => {
-                                        navigate('/product')
-                                        setLocalSearchQuery("")
-                                    }}
-                                    className="px-6 py-2 bg-[#FF8906] text-white rounded-lg hover:bg-[#e67a05] transition-colors"
-                                >
-                                    Lihat Semua Produk
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
-                                {filteredProducts.map((item) => (
-                                    <Link key={item.id} onClick={(e) => {
-                                        e.preventDefault();
-                                        if (!userLogin) {
-                                            showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
-                                            return;
-                                        }
-                                        navigate(`/detail-product/${item.id}`)
-                                    }}>
-                                        <CardMenu
-                                            key={item.id}
-                                            name={item.name}
-                                            description={item.description}
-                                            price={item.price}
-                                            diskonPrice={item.diskonPrice}
-                                            image={item.image}
-                                            isFlashSale={item.isFlashSale}
-                                        >
-                                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                                {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                                    <svg
-                                                        key={`full-${i}`}
-                                                        className="w-6 h-6"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            fill="#FF8906"
-                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                        />
-                                                    </svg>
-                                                ))}
+                            {filteredProducts.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-20 gap-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
+                                        <path fill="#ccc" d="m18.031 16.617l4.283 4.282l-1.415 1.415l-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9s9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617m-2.006-.742A6.98 6.98 0 0 0 18 11c0-3.867-3.133-7-7-7s-7 3.133-7 7s3.133 7 7 7a6.98 6.98 0 0 0 4.875-1.975z" />
+                                    </svg>
+                                    <p className="text-xl text-gray-600">Produk tidak ditemukan</p>
+                                    <p className="text-sm text-gray-500">Coba kata kunci lain atau hapus filter pencarian</p>
+                                    <button
+                                        onClick={() => {
+                                            navigate('/product')
+                                            setLocalSearchQuery("")
+                                        }}
+                                        className="px-6 py-2 bg-[#FF8906] text-white rounded-lg hover:bg-[#e67a05] transition-colors"
+                                    >
+                                        Lihat Semua Produk
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-5">
+                                    {filteredProducts.map((item) => (
+                                        <Link key={item.id} onClick={(e) => {
+                                            e.preventDefault();
+                                            if (!userLogin) {
+                                                showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
+                                                return;
+                                            }
+                                            navigate(`/detail-product/${item.id}`)
+                                        }}>
+                                            <CardMenu
+                                                key={item.id}
+                                                name={item.name}
+                                                description={item.description}
+                                                price={item.price}
+                                                diskonPrice={item.diskonPrice}
+                                                image={item.image}
+                                                isFlashSale={item.isFlashSale}
+                                            >
+                                                <div className="flex gap-1 items-center text-[#FF8906]">
+                                                    {[...Array(Math.floor(item.rating))].map((_, i) => (
+                                                        <svg
+                                                            key={`full-${i}`}
+                                                            className="w-6 h-6"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                fill="#FF8906"
+                                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                            />
+                                                        </svg>
+                                                    ))}
 
-                                                {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                                    <svg
-                                                        key={`empty-${i}`}
-                                                        className="w-6 h-6"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            fill="#4d4d4d"
-                                                            d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                        />
-                                                    </svg>
-                                                ))}
+                                                    {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
+                                                        <svg
+                                                            key={`empty-${i}`}
+                                                            className="w-6 h-6"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                fill="#4d4d4d"
+                                                                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                            />
+                                                        </svg>
+                                                    ))}
 
-                                                <span className="ml-2 text-black">{item.rating}</span>
-                                            </div>
-                                        </CardMenu>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
+                                                    <span className="ml-2 text-black">{item.rating}</span>
+                                                </div>
+                                            </CardMenu>
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
