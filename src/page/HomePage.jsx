@@ -41,7 +41,7 @@ export function HomePage() {
                         </h1>
                         <p className="text-sm xl:w-lg">We provide high quality beans, good taste, and healthy meals made by love just for you. Start your day with us for a bigger smile!</p>
                         <div className="flex justify-between gap-20 relative">
-                            <Button style={"md:px-10 px-3 cursor-pointer"}>Get Started</Button>
+                            <Button style={"md:px-10 px-3 cursor-pointer"} onClick={()=> navigate("/product")}>Get Started</Button>
 
                             <button
                                 onClick={handleShowChat}

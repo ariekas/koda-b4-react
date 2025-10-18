@@ -38,7 +38,7 @@ export function CheckoutProvider({ children }) {
   const handleCheckout = (cartItems, total) => {
     if (Array.isArray(cartItems) && cartItems.length > 0) {
       const checkoutData = {
-        id: Date.now(),
+        id: Math.random(),
         items: cartItems,
         payment: paymentInfo,
         delivery: deliveryInfo,

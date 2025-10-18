@@ -46,17 +46,33 @@ export function DetailPage() {
 
     function handleCart(e) {
         e.preventDefault()
+
+        if (productId.stock === 0) {
+            showNotification("Stock produk habis!", "error")
+            return
+        }
+
+        if (quantiyProduct > productId.stock) {
+            showNotification(`Jumlah pembelian melebihi stock, stock :${productId.stock}`, "error")
+            return
+        }
         const dataProduct = {
             ...productId,
             quantity: quantiyProduct,
             size: selectedSize,
-            temperature: selectedTemp
+            temperature: selectedTemp,
+            stock: productId.stock - quantiyProduct
         }
+
+        setProductId((dataOld) => ({
+            ...dataOld,
+            stock: dataOld.stock - quantiyProduct
+        }))
 
         setDataCartItems((dataOld) => [...dataOld, dataProduct]);
         setCart((dataOld) => dataOld + 1);
-        console.log(dataCartItems)
         showNotification("Product masuk ke cart", "success")
+        console.log(dataProduct)
 
         setQuantiyProduct(0);
         setSelectedSize("");
@@ -66,12 +82,30 @@ export function DetailPage() {
     function handleSubmit(e) {
         e.preventDefault();
 
+
+        const totalQuantity = dataCartItems.reduce((sum, item) => sum + item.quantity, quantiyProduct);
+
+        if (totalQuantity > productId.stock + totalQuantity) {
+            showNotification(`Jumlah pembelian melebihi stok tersedia!`, "error");
+            return;
+        }
+
+        if (totalQuantity === 0) {
+            showNotification("Masukkan jumlah produk terlebih dahulu!", "error");
+            return;
+        }
+
         const dataProduct = {
             ...productId,
             quantity: quantiyProduct,
             size: selectedSize,
             temperature: selectedTemp,
         };
+
+        setProductId((dataOld) => ({
+            ...dataOld,
+            stock: dataOld.stock - quantiyProduct,
+        }));
 
         if (dataCartItems.length === 0) {
             dispatch(addCart(dataProduct));
@@ -81,6 +115,8 @@ export function DetailPage() {
             }
         }
 
+
+        console.log(dataProduct)
         navigate("/checkout");
 
         setDataCartItems([]);
@@ -140,8 +176,14 @@ export function DetailPage() {
                             {productId.name}
                         </h1>
                         <div className="flex items-center gap-2">
-                            <p className="text-red-500 line-through text-sm">IDR {productId.price}</p>
-                            <p className="text-lg text-[#FF8906] ">IDR {productId.diskonPrice}</p>
+                            {productId.diskonPrice > 0 ? (
+                                <>
+                                    <p className="text-[#FF8906] font-semibold">IDR {productId.diskonPrice}</p>
+                                    <p className="text-red-500 text-sm line-through">IDR {productId.price}</p>
+                                </>
+                            ) : (
+                                <p className="text-[#FF8906] font-semibold">IDR {productId.price}</p>
+                            )}
                         </div>
                         <div className="flex gap-1 items-center text-[#FF8906]">
                             {[...Array(Math.floor(productId.rating))].map((_, i) => (

@@ -11,7 +11,6 @@ import { Button } from "./Button";
  * @param {boolean} [props.isFlashSale=false] - Menentukan apakah menu sedang dalam flash sale.
  * @returns 
  */
-
 export function CardMenu({
     children,
     name,
@@ -23,7 +22,6 @@ export function CardMenu({
 }) {
     return (
         <div className="flex flex-col gap-3">
-            {/* Gambar */}
             <div className="relative">
                 <img src={image} alt={name} className="w-full rounded-md" />
                 {isFlashSale && (
@@ -41,13 +39,31 @@ export function CardMenu({
                     transition-transform duration-300
                 "
             >
-                <div className="flex flex-col gap-3 rounded-md bg-white lg:p-3">
-
+                <div className="flex flex-col gap-3 rounded-md bg-white lg:p-3 h-full">
                     <h1 className="font-bold">{name}</h1>
                     <p className="text-sm font-light text-justify">{description}</p>
                     {children}
-                    <p className="text-red-500 text-sm line-through">IDR {diskonPrice}</p>
-                    <p className="text-[#FF8906] font-semibold">IDR {price}</p>
+
+                    <div className="min-h-[40px] flex flex-col justify-center">
+                        {diskonPrice > 0 ? (
+                            <>
+                                <p className="text-[#FF8906] font-semibold">
+                                    IDR {diskonPrice}
+                                </p>
+                                <p className="text-red-500 text-sm line-through">
+                                    IDR {price}
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-[#FF8906] font-semibold">
+                                    IDR {price}
+                                </p>
+                                <p className="text-sm opacity-0">placeholder</p>
+                            </>
+                        )}
+                    </div>
+
                     <Button style="w-full">Buy</Button>
                     {/* <Button style={"border bg-white flex justify-center border-[#FF8906] w-full"}>
                         <svg
@@ -67,4 +83,3 @@ export function CardMenu({
         </div>
     );
 }
-
