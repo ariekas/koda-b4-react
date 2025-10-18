@@ -4,7 +4,7 @@ import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authLogin } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -112,10 +112,10 @@ export function LoginPage() {
                     {errors.password && (
                         <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                     )}
-                    <a href="/forget-password" className="text-[#FF8906] text-sm flex justify-end">Forget Password?</a>
+                    <Link to="/forget-password" className="text-[#FF8906] text-sm flex justify-end">Forget Password?</Link>
                     <Button type={"submit"}>Login</Button>
                 </form>
-                <p className="text-sm text-[#4F5665] flex items-center justify-center">Not Have Account? <a href="/register" className="text-[#FF8906] pl-1">Register</a></p>
+                <p className="text-sm text-[#4F5665] flex items-center justify-center">Not Have Account? <Link to="/register" className="text-[#FF8906] pl-1">Register</Link></p>
                 <div className="flex items-center gap-5">
                     <div className="bg-[#DEDEDE] w-full h-0.5"></div>
                     <p className="text-[#AAAAAA] text-xs">Or</p>

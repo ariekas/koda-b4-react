@@ -5,7 +5,7 @@ import { Icon } from "../components/Icon";
 import { authRegister } from "../redux/reducers/auth";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
 
@@ -155,7 +155,7 @@ export function RegisterPage() {
                 )}
                 <Button type={"submit"}>Register</Button>
             </form>
-            <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<a href="/login" className="text-[#FF8906] pl-1 cursor-pointer">Login</a></p>
+            <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<Link to="/login" className="text-[#FF8906] pl-1 cursor-pointer">Login</Link></p>
             <div className="flex items-center gap-5">
                 <div className="bg-[#DEDEDE] w-full h-0.5"></div>
                 <p className="text-[#AAAAAA] text-xs">Or</p>
