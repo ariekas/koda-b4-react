@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../components/Input"
 import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { authLogin } from "../redux/reducers/auth";
+import { authLogin, authRegister } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../context/NotificationContext"
@@ -26,8 +26,7 @@ export function LoginPage() {
     const navigate = useNavigate()
     const dataUser = useSelector(state => state.authReducers.dataUser)
     const dispatch = useDispatch()
-        const { showNotification } = useNotification()
-    
+    const { showNotification } = useNotification()
 
     const {
         register,
@@ -37,19 +36,36 @@ export function LoginPage() {
         resolver: yupResolver(Loginschema),
     });
 
-    function onsubmit(data) {
-        const findUser = dataUser.find((user) => user.email === data.email && user.password === data.password)
-
-        if (findUser) {
-            dispatch(authLogin(findUser))
-            showNotification("Berhasil Login", "success")
-            navigate("/")
-
-        } else {
-            showNotification("User tidak di temukan", "error")
+    useEffect(() => {
+        if (!dataUser.some(admin => admin.email === "admin123@gmail.com")) {
+            dispatch(authRegister({
+                email: "admin@gmail.com",
+                password: "admin123",
+                role: "admin",
+            }));
         }
+    }, [dispatch]);
+    
 
+    function onsubmit(data) {
+        const findUser = dataUser.find(
+            (user) => user.email === data.email && user.password === data.password
+        );
+    
+        if (findUser) {
+            dispatch(authLogin(findUser));
+            showNotification("Berhasil Login", "success");
+    
+            if (findUser.role === "admin") {
+                navigate("/admin");
+            } else {
+                navigate("/"); 
+            }
+        } else {
+            showNotification("User tidak di temukan", "error");
+        }
     }
+    
 
     return (
         <>

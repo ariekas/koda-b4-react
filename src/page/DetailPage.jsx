@@ -21,6 +21,19 @@ export function DetailPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
+    function handlePageChange(page) {
+        setCurrentPage(page);
+    }
+
     async function getDataProduct() {
         try {
             const url = "/data/dataProduct.json"
@@ -85,8 +98,9 @@ export function DetailPage() {
 
         const totalQuantity = dataCartItems.reduce((sum, item) => sum + item.quantity, quantiyProduct);
 
-        if (totalQuantity > productId.stock + totalQuantity) {
-            showNotification(`Jumlah pembelian melebihi stok tersedia!`, "error");
+
+        if (totalQuantity > productId.stock) {
+            showNotification(`Jumlah pembelian melebihi stok tersedia! stock:${productId.stock}`, "error");
             return;
         }
 
@@ -288,7 +302,7 @@ export function DetailPage() {
 
                 <h2 className="text-xl text-center font-semibold mt-10 mb-5 lg:text-4xl lg:text-start lg:px-10 xl:px-40 lg:mt-15">Recommendation <span className="text-[#8E6447]">For You</span></h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-5 lg:px-10 xl:px-40">
-                    {products.map((item) => (
+                    {currentProducts.map((item) => (
                         <Link to={`/detail-product/${item.id}`}>
                             <CardMenu
                                 key={item.id}
@@ -334,30 +348,44 @@ export function DetailPage() {
                         </Link>
                     ))}
                 </div>
-                <div className="flex gap-5 items-center   justify-center my-10 ">
-                    {/* 1 */}
-                    <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
-                        <h1>1</h1>
-                    </Icon>
-                    {/* 2 */}
-                    <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
-                        <h1>2</h1>
-                    </Icon>
-                    {/* 3 */}
-                    <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
-                        <h1>3</h1>
-                    </Icon>
-                    {/* 4 */}
-                    <Icon style={"w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full"}>
-                        <h1>4</h1>
-                    </Icon>
-                    {/* panah */}
-                    <Icon style={"w-10 h-10 flex items-center justify-center bg-[#FF8906] rounded-full"}>
+                <div className="flex flex-wrap gap-3 items-center justify-center my-10">
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        className={`w-10 h-10 flex items-center justify-center rounded-full 
+    ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FF8906] text-white hover:opacity-80 transition"}
+  `}
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="#fff" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />
+                            <path fill="currentColor" d="M20 12H7.75L13 17.25l-.66.75l-6.5-6.5l6.5-6.5l.66.75L7.75 11H20z" />
                         </svg>
-                    </Icon>
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`w-10 h-10 flex items-center justify-center rounded-full 
+        ${currentPage === page ? "bg-[#FF8906] text-white" : "bg-[#E8E8E8] text-black"} 
+        hover:bg-[#FF8906] hover:text-white transition`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        className={`w-10 h-10 flex items-center justify-center rounded-full 
+      ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-[#FF8906] text-white hover:opacity-80 transition"}
+    `}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />
+                        </svg>
+                    </button>
                 </div>
+
 
             </div >
         </>

@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Plus, Filter, Edit2, Trash2, FileText } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
+import axios from 'axios';
 
 export function AccountAdminPage() {
     const { setShowSideBarAccount } = useOutletContext();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [accounts, setAccounts] = useState([])
 
-    const accounts = [
-        {
-            id: 1,
-            image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=100&h=100&fit=crop',
-            fullname: 'Eleanor Pena',
-            phone: '(205) 555-0100',
-            address: '3517 W. Gray St. Utica, Pennsylvania 57867',
-            email: 'cikaracak@gmail.com',
-        },
-        {
-            id: 2,
-            image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop',
-            fullname: 'Ronald Richards',
-            phone: '(205) 555-0100',
-            address: '3517 W. Gray St. Utica, Pennsylvania 57867',
-            email: 'cikaracak@gmail.com',
-        },
-    ];
+    useEffect(() => {
+        const getDataOrder = async () => {
+            try {
+                const response = await axios.get("/data/dataUsers.json")
+                setAccounts(response.data)
+            } catch (error) {
+                console.log("error: ", error)
+            }
+        }
+        getDataOrder()
+    }, [])
+
     return (
         <>
             <div className="mb-8">

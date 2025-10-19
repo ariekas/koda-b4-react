@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom"
 import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 
 export function AdminLayout() {
@@ -88,51 +89,71 @@ export function Navbar() {
 }
 
 export function SideBarLeft() {
+    const location = useLocation();
+    const { pathname } = location;
+
+    const navItems = [
+        {
+            to: "/admin", label: "Dashboard", icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <path fill="#3b3a3a" d="M3.5 3.5h7v7h-7zm1 1v5zm9-1h7v7h-7zm1 1v5zm-11 9h7v7h-7zm1 1v5zm12-1h1v3h3v1h-3v3h-1v-3h-3v-1h3zm-2-9v5h5v-5zm-10 0v5h5v-5zm0 10v5h5v-5z" />
+                </svg>
+            )
+        },
+        {
+            to: "/admin/product", label: "Product", icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48">
+                    <g fill="none" stroke="#242323" strokeLinejoin="round" strokeWidth="2">
+                        <path d="M44 14L24 4L4 14v20l20 10l20-10z" />
+                        <path strokeLinecap="round" d="m4 14l20 10m0 20V24m20-10L24 24M34 9L14 19" />
+                    </g>
+                </svg>
+            )
+        },
+        {
+            to: "/admin/order", label: "Order", icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#242323" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1">
+                        <path d="M6.45 9.23h11.1a1.85 1.85 0 0 1 1.85 1.85v6.472a3.7 3.7 0 0 1-3.7 3.698H8.3a3.7 3.7 0 0 1-3.7-3.698V11.08a1.85 1.85 0 0 1 1.85-1.85" />
+                        <path d="M16.625 11.553V7.381a4.62 4.62 0 0 0-2.852-4.278a4.627 4.627 0 0 0-6.398 4.278v4.172" />
+                    </g>
+                </svg>
+            )
+        },
+        {
+            to: "/admin/accout", label: "User", icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#242323" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1">
+                        <circle cx="12" cy="8" r="5" />
+                        <path d="M20 21a8 8 0 1 0-16 0m16 0a8 8 0 1 0-16 0" />
+                    </g>
+                </svg>
+            )
+        },
+        {
+            to: "/login", label: "Keluar", icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" d="M15 4.001H5v14a2 2 0 0 0 2 2h8m1-5l3-3m0 0l-3-3m3 3H9" strokeWidth="1" />
+                </svg>
+            )
+        }
+    ];
     return (
         <>
-            <div className="px-2 py-4 w-xs flex flex-col  justify-between h-screen">
+            <div className="px-2 py-4 w-xs flex flex-col justify-between h-screen">
                 <div className="flex flex-col gap-5">
-                    <div className="flex items-center gap-2 hover:bg-[#FF8906] p-2 rounded-lg hover:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                            <path fill="#3b3a3a" d="M3.5 3.5h7v7h-7zm1 1v5zm9-1h7v7h-7zm1 1v5zm-11 9h7v7h-7zm1 1v5zm12-1h1v3h3v1h-3v3h-1v-3h-3v-1h3zm-2-9v5h5v-5zm-10 0v5h5v-5zm0 10v5h5v-5z" />
-                        </svg>
-                        <p>Dashboard</p>
-                    </div>
-                    <div className="flex items-center gap-2 hover:bg-[#FF8906] p-2 rounded-lg hover:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48">
-                            <g fill="none" stroke="#242323" stroke-linejoin="round" stroke-width="2">
-                                <path d="M44 14L24 4L4 14v20l20 10l20-10z" />
-                                <path stroke-linecap="round" d="m4 14l20 10m0 20V24m20-10L24 24M34 9L14 19" />
-                            </g>
-                        </svg>
-                        <p>Product</p>
-                    </div>
-                    <div className="flex items-center gap-2 hover:bg-[#FF8906] p-2 rounded-lg hover:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                            <g fill="none" stroke="#242323" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                                <path d="M6.45 9.23h11.1a1.85 1.85 0 0 1 1.85 1.85v6.472a3.7 3.7 0 0 1-3.7 3.698H8.3a3.7 3.7 0 0 1-3.7-3.698V11.08a1.85 1.85 0 0 1 1.85-1.85" />
-                                <path d="M16.625 11.553V7.381a4.62 4.62 0 0 0-2.852-4.278a4.627 4.627 0 0 0-6.398 4.278v4.172" />
-                            </g>
-                        </svg>
-                        <p>Order</p>
-                    </div>
-                    <div className="flex items-center gap-2 hover:bg-[#FF8906] p-2 rounded-lg hover:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                            <g fill="none" stroke="#242323" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                                <circle cx="12" cy="8" r="5" />
-                                <path d="M20 21a8 8 0 1 0-16 0m16 0a8 8 0 1 0-16 0" />
-                            </g>
-                        </svg>
-                        <p>User</p>
-                    </div>
-                    <div className="flex items-center gap-2 hover:bg-[#FF8906] p-2 rounded-lg hover:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                            <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M15 4.001H5v14a2 2 0 0 0 2 2h8m1-5l3-3m0 0l-3-3m3 3H9" stroke-width="1" />
-                        </svg>
-                        <p>Keluar</p>
-                    </div>
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.to}
+                            to={item.to}
+                            className={`flex items-center gap-2 p-2 rounded-lg hover:bg-[#FF8906] hover:font-semibold ${pathname === item.to ? "bg-[#FF8906] font-semibold text-white" : ""
+                                }`}
+                        >
+                            {item.icon}
+                            <p>{item.label}</p>
+                        </Link>
+                    ))}
                 </div>
-
             </div>
         </>
     )

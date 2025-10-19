@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "image": "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=100&h=100&fit=crop",
+    "name": "Caramel Machiato",
+    "price": "IDR 40.000",
+    "desc": "Cold brewing is a method of brewing that...",
+    "size": "R,L,XL,250gr",
+    "method": "Deliver, Dine In",
+    "stock": 200
+  },
+  {
+    "id": 2,
+    "image": "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop",
+    "name": "Hazelnut Latte",
+    "price": "IDR 40.000",
+    "desc": "Cold brewing is a method of brewing that...",
+    "size": "R,L,XL,250gr",
+    "method": "Deliver, Dine In",
+    "stock": 200
+  },
+  {
+    "id": 3,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=100&h=100&fit=crop",
+    "name": "Kopi Susu",
+    "price": "IDR 40.000",
+    "desc": "Cold brewing is a method of brewing that...",
+    "size": "R,L,XL,250gr",
+    "method": "Dine In",
+    "stock": 200
+  },
+  {
+    "id": 4,
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=100&h=100&fit=crop",
+    "name": "Espresso Supreme",
+    "price": "IDR 40.000",
+    "desc": "Cold brewing is a method of brewing that...",
+    "size": "R,L,XL,250gr",
+    "method": "Deliver",
+    "stock": 200
+  },
+  {
+    "id": 5,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=100&h=100&fit=crop",
+    "name": "Caramel Velvet Latte",
+    "price": "IDR 40.000",
+    "desc": "Cold brewing is a method of brewing that...",
+    "size": "R,L,XL,250gr",
+    "method": "Deliver, Dine In",
+    "stock": 200
+  }
+]

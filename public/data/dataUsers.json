@@ -1,0 +1,19 @@
+[
+    {
+      "id": 1,
+      "image": "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=100&h=100&fit=crop",
+      "fullname": "Eleanor Pena",
+      "phone": "(205) 555-0100",
+      "address": "3517 W. Gray St. Utica, Pennsylvania 57867",
+      "email": "cikaracak@gmail.com"
+    },
+    {
+      "id": 2,
+      "image": "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop",
+      "fullname": "Ronald Richards",
+      "phone": "(205) 555-0100",
+      "address": "3517 W. Gray St. Utica, Pennsylvania 57867",
+      "email": "cikaracak@gmail.com"
+    }
+  ]
+  

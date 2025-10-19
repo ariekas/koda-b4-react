@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import axios from "axios";
 import {
     Chart as ChartJS,
     LineElement,
@@ -14,7 +15,7 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip,
 export function DashboardAdminPage() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRange, setSelectedRange] = useState("16 - 23 January 2023");
-
+    const [products, setProduct] = useState([]);
     const dateRanges = [
         "16 - 23 January 2023",
         "24 - 31 January 2023",
@@ -22,23 +23,25 @@ export function DashboardAdminPage() {
         "9 - 16 February 2023",
     ];
 
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await axios.get("/public/data/bestSellingProduct.json");
+                setProduct(response.data);
+            } catch (err) {
+                console.log("error :" + err)
+            }
+        };
+
+        getData();
+    }, []);
+
     const handleSelect = (range) => {
         setSelectedRange(range);
         setIsOpen(false);
     };
 
-    const products = [
-        { no: 1, name: "Caramel Machiato", sold: "300 Cup", profit: "IDR 9.000.000" },
-        { no: 2, name: "Hazelnut Latte", sold: "200 Cup", profit: "IDR 8.000.000" },
-        { no: 3, name: "Kopi Susu", sold: "100 Cup", profit: "IDR 7.000.000" },
-        { no: 4, name: "Espresso Supreme", sold: "90 Cup", profit: "IDR 6.000.000" },
-        { no: 5, name: "Caramel Velvet Latte", sold: "80 Cup", profit: "IDR 5.000.000" },
-        { no: 6, name: "Hazelnut Dream Brew", sold: "70 Cup", profit: "IDR 4.000.000" },
-        { no: 7, name: "Vanilla Silk Mocha", sold: "60 Cup", profit: "IDR 3.000.000" },
-        { no: 8, name: "Dark Roast Delight", sold: "50 Cup", profit: "IDR 2.000.000" },
-        { no: 9, name: "Ethiopian Yirgacheffe Euphoria", sold: "40 Cup", profit: "IDR 1.000.000" },
-        { no: 10, name: "Indonesian Sumatra Reserve", sold: "30 Cup", profit: "IDR 500.000" },
-    ];
+
 
     return (
         <>

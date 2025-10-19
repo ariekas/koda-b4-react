@@ -1,64 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Plus, Filter, Edit2, Trash2 } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
-
+import axios from 'axios';
 export default function ProductAdminPage() {
     const { setShowSideBarProduct } = useOutletContext();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [products, setProduct] = useState([])
 
-    const products = [
-        {
-            id: 1,
-            image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=100&h=100&fit=crop',
-            name: 'Caramel Machiato',
-            price: 'IDR 40.000',
-            desc: 'Cold brewing is a method of brewing that...',
-            size: 'R,L,XL,250gr',
-            method: 'Deliver, Dine In',
-            stock: 200
-        },
-        {
-            id: 2,
-            image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=100&h=100&fit=crop',
-            name: 'Hazelnut Latte',
-            price: 'IDR 40.000',
-            desc: 'Cold brewing is a method of brewing that...',
-            size: 'R,L,XL,250gr',
-            method: 'Deliver, Dine In',
-            stock: 200
-        },
-        {
-            id: 3,
-            image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=100&h=100&fit=crop',
-            name: 'Kopi Susu',
-            price: 'IDR 40.000',
-            desc: 'Cold brewing is a method of brewing that...',
-            size: 'R,L,XL,250gr',
-            method: 'Dine In',
-            stock: 200
-        },
-        {
-            id: 4,
-            image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=100&h=100&fit=crop',
-            name: 'Espresso Supreme',
-            price: 'IDR 40.000',
-            desc: 'Cold brewing is a method of brewing that...',
-            size: 'R,L,XL,250gr',
-            method: 'Deliver',
-            stock: 200
-        },
-        {
-            id: 5,
-            image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=100&h=100&fit=crop',
-            name: 'Caramel Velvet Latte',
-            price: 'IDR 40.000',
-            desc: 'Cold brewing is a method of brewing that...',
-            size: 'R,L,XL,250gr',
-            method: 'Deliver, Dine In',
-            stock: 200
-        }
-    ];
+    useEffect(() => {
+        const getDataProduct = async () => {
+            try {
+                const response = await axios.get("/public/data/dataProductAdmin.json");
+                setProduct(response.data); 
+            } catch (err) {
+                console.log("error :", err);
+            }
+        };
+    
+        getDataProduct();
+    }, []);
+    
 
     return (
         <>
@@ -66,7 +28,7 @@ export default function ProductAdminPage() {
                 <h1 className="text-3xl font-bold text-gray-900 mb-6">Product List</h1>
                 <div className="flex justify-between items-center">
                     <button onClick={() => setShowSideBarProduct(true)} className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 font-medium transition-colors">
-                        <Plus size={20}  />
+                        <Plus size={20} />
                         Add Product
                     </button>
 

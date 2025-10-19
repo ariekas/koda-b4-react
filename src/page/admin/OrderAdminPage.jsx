@@ -1,54 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Edit2, Trash2, FileText } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
+import axios from 'axios';
 
 export default function OrderAdminPage() {
     const { setShowSideBarOrder } = useOutletContext();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [orders, setOrders] = useState([]);
 
-    const orders = [
-        {
-            id: 1,
-            noorder: "#12354-09893",
-            date: '26 January 2023',
-            order: ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
-            status: 'Done',
-            total: 40000,
-        },
-        {
-            id: 2,
-            noorder: "#12354-09893",
-            date: '26 January 2023',
-            order: ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
-            status: 'Done',
-            total: 40000,
-        },
-        {
-            id: 3,
-            noorder: "#12354-09893",
-            date: '26 January 2023',
-            order: ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
-            status: 'Done',
-            total: 40000,
-        },
-        {
-            id: 4,
-            noorder: "#12354-09893",
-            date: '26 January 2023',
-            order: ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
-            status: 'Done',
-            total: 40000,
-        },
-        {
-            id: 5,
-            noorder: "#12354-09893",
-            date: '26 January 2023',
-            order: ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
-            status: 'Done',
-            total: 40000,
-        }
-    ];
+    useEffect(() => {
+        const getOrder = async () => {
+            try {
+                const response = await axios.get("/data/dataOrderAdmin.json");
+                setOrders(response.data);
+            } catch (err) {
+                console.log("error :", err);
+            }
+        };
+        getOrder();
+    }, []);
 
     return (
         <>
@@ -121,18 +92,20 @@ export default function OrderAdminPage() {
                                     {order.noorder}
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900">{order.date}</td>
-                                <td className="px-6 py-4 text-sm text-gray-900">{order.order.map((items, index) => {return(<>
-                                    <ul key={index} className='list-disc'>
-                                        <li>{items}</li>
-                                    </ul>
-                                </>)})}</td>
+                                <td className="px-6 py-4 text-sm text-gray-900">{order.order.map((items, index) => {
+                                    return (<>
+                                        <ul key={index} className='list-disc'>
+                                            <li>{items}</li>
+                                        </ul>
+                                    </>)
+                                })}</td>
                                 <td className="px-6 py-4 text-sm text-gray-600 max-w-xs">
                                     {order.status}
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900">Rp {order.total.toLocaleString("id-ID")}</td>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-2">
-                                    <button className="p-2 text-amber-950 hover:bg-amber-950/10 rounded-full transition-colors">
+                                        <button className="p-2 text-amber-950 hover:bg-amber-950/10 rounded-full transition-colors">
                                             <FileText size={18} />
                                         </button>
                                         <button className="p-2 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors">

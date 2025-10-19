@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "noorder": "#12354-09893",
+      "date": "26 January 2023",
+      "order": ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
+      "status": "Done",
+      "total": 40000
+    },
+    {
+      "id": 2,
+      "noorder": "#12354-09893",
+      "date": "26 January 2023",
+      "order": ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
+      "status": "Done",
+      "total": 40000
+    },
+    {
+      "id": 3,
+      "noorder": "#12354-09893",
+      "date": "26 January 2023",
+      "order": ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
+      "status": "Done",
+      "total": 40000
+    },
+    {
+      "id": 4,
+      "noorder": "#12354-09893",
+      "date": "26 January 2023",
+      "order": ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
+      "status": "Done",
+      "total": 40000
+    },
+    {
+      "id": 5,
+      "noorder": "#12354-09893",
+      "date": "26 January 2023",
+      "order": ["Hazelnut Latte R 1x", "Caramel Machiato L 1x"],
+      "status": "Done",
+      "total": 40000
+    }
+  ]
+  
