@@ -15,13 +15,10 @@ export function HistoryPage() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = history.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  function handlePageChange(page) {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  }
 
   if (history.length === 0) {
     return <p className="text-xl text-center mt-20">Belum ada transaksi.</p>;
@@ -112,34 +109,37 @@ export function HistoryPage() {
             )}
           </div>
 
-          <div className="flex items-center justify-center gap-3 my-10">
-            <Icon
-              onClick={handlePrev}
-              style={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage === 1 ? 'bg-gray-300' : 'bg-[#FF8906] cursor-pointer'}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                <path fill="#fff" d="M20 11H7.83l5.58-5.59L12 4l-8 8l8 8l1.41-1.41L7.83 13H20v-2Z" />
-              </svg>
-            </Icon>
-
-            {[...Array(totalPages)].map((_, index) => (
-              <Icon
-                key={index}
-                onClick={() => setCurrentPage(index + 1)}
-                style={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage === index + 1 ? 'bg-[#FF8906] text-white' : 'bg-[#E8E8E8] cursor-pointer'}`}
-              >
-                {index + 1}
-              </Icon>
-            ))}
-
-            <Icon
-              onClick={handleNext}
-              style={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage === totalPages ? 'bg-gray-300' : 'bg-[#FF8906] cursor-pointer'}`}
+          <div className="flex gap-3 items-center justify-center my-10">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full disabled:opacity-50"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path fill="#fff" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />
+                <path fill="#000" d="M20 12H7.75L13 6.75l-.66-.75l-6.5 6.5l6.5 6.5l.66-.75L7.75 13H20z" />
               </svg>
-            </Icon>
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
+                className={`w-10 h-10 flex items-center justify-center rounded-full 
+        ${currentPage === i + 1 ? "bg-[#FF8906] text-white" : "bg-[#E8E8E8] text-black"}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="w-10 h-10 flex items-center justify-center bg-[#E8E8E8] rounded-full disabled:opacity-50"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="#000" d="M4 12h12.25L11 6.75l.66-.75l6.5 6.5l-6.5 6.5l-.66-.75L16.25 13H4z" />
+              </svg>
+            </button>
           </div>
         </div>
 

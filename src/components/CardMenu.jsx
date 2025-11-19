@@ -39,7 +39,7 @@ export function CardMenu({
                     transition-transform duration-300
                 "
             >
-                <div className="flex flex-col gap-3 rounded-md bg-white lg:p-3 h-full">
+                <div className="flex flex-col rounded-md bg-white lg:p-3 h-56 lg:h-80 justify-between">
                     <h1 className="font-bold">{name}</h1>
                     <p className="text-sm font-light text-justify">{description}</p>
                     {children}

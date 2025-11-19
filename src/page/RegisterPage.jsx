@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Input } from "../components/Input"
 import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
-import { authRegister } from "../redux/reducers/auth";
+// import { authRegister } from "../redux/reducers/auth";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
@@ -13,36 +13,64 @@ const Registerschema = yup.object({
     fullname: yup.string().required("Fullname wajib diisi"),
     email: yup.string().email("Format email tidak valid").required("Email wajib diisi"),
     password: yup.string().min(6, "Password minimal 6 karakter").required("Password wajib diisi"),
-    confirm_password: yup
-        .string()
-        .oneOf([yup.ref("password"), null], "Konfirmasi password tidak sama")
-        .required("Konfirmasi password wajib diisi"),
+    // confirm_password: yup
+    //     .string()
+    //     .oneOf([yup.ref("password"), null], "Konfirmasi password tidak sama")
+    //     .required("Konfirmasi password wajib diisi"),
 });
 
 
 export function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const [message, setMessage] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
+    const navigate = useNavigate();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(Registerschema),
     });
 
-    function onSubmit(data) {
-        dispatch(authRegister(data))
-        navigate("/login")
+    async function onSubmit(data) {
+        // eslint-disable-next-line no-unused-vars
+        const { confirm_password, ...payload } = data; 
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const result = await response.json();
+
+            if (result.Success) {
+                setMessage(result.message || "Registrasi berhasil!");
+                setIsSuccess(true);
+
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1500);
+            } else {
+                setMessage(result.message || "Registrasi gagal");
+                setIsSuccess(false);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            setMessage("Terjadi kesalahan saat registrasi");
+            setIsSuccess(false);
+        }
     }
 
-
     return (
-
         <div className="flex flex-col gap-5">
-
+            {message && (
+                <p className={`text-sm text-center ${isSuccess ? "text-green-500" : "text-red-500"}`}>
+                    {message}
+                </p>
+            )}
             <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label="Fullname"
@@ -112,7 +140,7 @@ export function RegisterPage() {
                     }
                 />
                 {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-                <Input
+                {/* <Input
                     label="Confirm Password"
                     name="confirm_password"
                     {...register("confirm_password")}
@@ -152,7 +180,7 @@ export function RegisterPage() {
                 />
                 {errors.confirm_password && (
                     <p className="text-red-500 text-sm">{errors.confirm_password.message}</p>
-                )}
+                )} */}
                 <Button type={"submit"}>Register</Button>
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<Link to="/login" className="text-[#FF8906] pl-1 cursor-pointer">Login</Link></p>
