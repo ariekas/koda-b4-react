@@ -32,8 +32,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/just-sruput:latest
-            ghcr.io/${{ github.repository_owner }}/just-sruput:${{ github.ref_name }}
+            ghcr.io/ariekas/just-sruput:latest
+            ghcr.io/ariekas/just-sruput:${{ github.ref_name }}
           build-args: |
             VITE_BASE_URL=${{ vars.VITE_BASE_URL }}
 
@@ -44,6 +44,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: docker pull  ghcr.io/${{ github.repository_owner }}/just-sruput:latest
+          script: docker pull  ghcr.io/ariekas/just-sruput:latest
 
 
