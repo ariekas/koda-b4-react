@@ -1,7 +1,3 @@
-permissions:
-  contents: read
-  packages: write
-
 on:
   push:
     tags:
@@ -45,5 +41,3 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: docker pull  ghcr.io/ariekas/just-sruput:latest
-
-
