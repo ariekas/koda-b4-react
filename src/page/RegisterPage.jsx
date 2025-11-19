@@ -13,10 +13,10 @@ const Registerschema = yup.object({
     fullname: yup.string().required("Fullname wajib diisi"),
     email: yup.string().email("Format email tidak valid").required("Email wajib diisi"),
     password: yup.string().min(6, "Password minimal 6 karakter").required("Password wajib diisi"),
-    // confirm_password: yup
-    //     .string()
-    //     .oneOf([yup.ref("password"), null], "Konfirmasi password tidak sama")
-    //     .required("Konfirmasi password wajib diisi"),
+    confirm_password: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Konfirmasi password tidak sama")
+        .required("Konfirmasi password wajib diisi"),
 });
 
 
@@ -35,6 +35,11 @@ export function RegisterPage() {
         // eslint-disable-next-line no-unused-vars
         const { confirm_password, ...payload } = data; 
 
+        if (payload.password !== confirm_password) {
+            setMessage("Password dan Konfirmasi Password tidak sama");
+            setIsSuccess(false);
+            return; 
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
                 method: "POST",
@@ -140,7 +145,7 @@ export function RegisterPage() {
                     }
                 />
                 {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-                {/* <Input
+                <Input
                     label="Confirm Password"
                     name="confirm_password"
                     {...register("confirm_password")}
@@ -180,7 +185,7 @@ export function RegisterPage() {
                 />
                 {errors.confirm_password && (
                     <p className="text-red-500 text-sm">{errors.confirm_password.message}</p>
-                )} */}
+                )}
                 <Button type={"submit"}>Register</Button>
             </form>
             <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<Link to="/login" className="text-[#FF8906] pl-1 cursor-pointer">Login</Link></p>
