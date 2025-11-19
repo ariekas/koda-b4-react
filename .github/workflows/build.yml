@@ -31,10 +31,8 @@ jobs:
           push: true
           tags: |
             ghcr.io/ariekas/just-sruput-frontend:latest
-            ghcr.io/ariekas/just-sruput-frontend:${{ github.ref_name }}
           build-args: |
             VITE_BASE_URL=${{ vars.VITE_BASE_URL }}
-
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1
         with:
