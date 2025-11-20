@@ -4,32 +4,46 @@ import { CardMenu } from "../components/CardMenu"
 import { Footer } from "../components/Footer"
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { useNotification } from "../context/NotificationContext"
+// import {useSelector } from "react-redux"
+// import { useNotification } from "../context/NotificationContext"
 export function HomePage() {
-    const [showChat, setShowChat] = useState(false)
     const [products, setProducts] = useState([]);
-    const { showNotification } = useNotification()
-    const userLogin = useSelector((state) => state.authReducers.userLogin)
+    const [showChat, setShowChat] = useState(false)
+    // const { showNotification } = useNotification()
+    // const userLogin = useSelector((state) => state.authReducers.userLogin)
     const navigate = useNavigate()
     async function getDataProduct() {
         try {
-            const url = "/data/dataProduct.json"
-            const data = await fetch(url)
-            const response = await data.json()
-            setProducts(response);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/products/favorite?limit=4`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+
+            const result = await response.json();
+
+            if (result.Success) {
+                const productList = result.Data?.data || [];
+    
+                setProducts(productList);
+    
+            } else {
+                console.log("Gagal mengambil produk");
+            }
         } catch (error) {
-            console.log("error :" + error)
+            console.log("Fetch error:", error);
         }
     }
 
     useEffect(() => {
-        getDataProduct()
-    }, [])
+        getDataProduct();
+    }, []);
 
-    const handleShowChat = () => {
-        setShowChat(!showChat)
-    }
+    const handleShowChat = () => { setShowChat(!showChat) }
     return (
         <>
             <div className="flex flex-col relative mb-15">
@@ -41,7 +55,7 @@ export function HomePage() {
                         </h1>
                         <p className="text-sm xl:w-lg">We provide high quality beans, good taste, and healthy meals made by love just for you. Start your day with us for a bigger smile!</p>
                         <div className="flex justify-between gap-20 relative">
-                            <Button style={"md:px-10 px-3 cursor-pointer"} onClick={()=> navigate("/product")}>Get Started</Button>
+                            <Button style={"md:px-10 px-3 cursor-pointer"} onClick={() => navigate("/product")}>Get Started</Button>
 
                             <button
                                 onClick={handleShowChat}
@@ -161,60 +175,47 @@ export function HomePage() {
                     </div>
                     <p className="text-sm font-normal lg:text-lg lg:text-center">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
 
-                    <div className="grid md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:px-10 xl:px-40">
-                        {products.slice(0, 4).map(
-                            (item) => (
-                                <Link key={item.id} onClick={(e) => {
-                                    e.preventDefault();
-                                    if (!userLogin) {
-                                        showNotification("Silakan login terlebih dahulu untuk melihat detail produk!", "warning");
-                                        return;
-                                    }
-                                    navigate(`/detail-product/${item.id}`)
-                                }}>
-                                    <CardMenu
+                    <div className="lg:px-10 xl:px-40">
+                        {products.length === 0 ? (
+                            <p>Loading menu...</p>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+
+                                {products.slice(0, 4).map((item) => (
+                                    <Link
                                         key={item.id}
-                                        name={item.name}
-                                        description={item.description}
-                                        price={item.price}
-                                        diskonPrice={item.diskonPrice}
-                                        image={item.image}
-                                        isFlashSale={item.isFlashSale}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+
+                                            // if (!userLogin) {
+                                            //     showNotification(
+                                            //         "Silakan login terlebih dahulu untuk melihat detail produk!",
+                                            //         "warning"
+                                            //     );
+                                            //     return;
+                                            // }
+
+                                            navigate(`/detail-product/${item.id}`);
+                                        }}
                                     >
-                                        <div className="flex gap-1 items-center text-[#FF8906]">
-                                            {[...Array(Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`full-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#FF8906"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
+                                        <CardMenu
+                                            name={item.name}
+                                            description={item.description}
+                                            price={item.price}
+                                            image={item.images?.[0]?.image || "/placeholder.png"}
+                                            isFlashSale={item.is_flashsale}
+                                            rating={item.rating || 5}
+                                        >
+                                            <div className="flex gap-1 items-center text-[#FF8906]">
+                                                <span className="ml-2 text-black">
+                                                    {item.rating || 5}
+                                                </span>
+                                            </div>
+                                        </CardMenu>
+                                    </Link>
+                                ))}
 
-                                            {[...Array(5 - Math.floor(item.rating))].map((_, i) => (
-                                                <svg
-                                                    key={`empty-${i}`}
-                                                    className="w-6 h-6"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        fill="#4d4d4d"
-                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-                                                    />
-                                                </svg>
-                                            ))}
-
-                                            <span className="ml-2 text-black">{item.rating}</span>
-                                        </div>
-                                    </CardMenu>
-                                </Link>
-                            )
+                            </div>
                         )}
                     </div>
                 </div>
