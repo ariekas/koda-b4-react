@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "../components/Input"
 import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { authLogin, authRegister } from "../redux/reducers/auth";
+import { setToken, setUserLogin } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../context/NotificationContext"
@@ -24,7 +24,6 @@ const Loginschema = yup.object().shape({
 export function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
-    const dataUser = useSelector(state => state.authReducers.dataUser)
     const dispatch = useDispatch()
     const { showNotification } = useNotification()
 
@@ -36,36 +35,46 @@ export function LoginPage() {
         resolver: yupResolver(Loginschema),
     });
 
-    useEffect(() => {
-        if (!dataUser.some(admin => admin.email === "admin123@gmail.com")) {
-            dispatch(authRegister({
-                email: "admin@gmail.com",
-                password: "admin123",
-                role: "admin",
-            }));
-        }
-    }, [dispatch]);
-    
 
-    function onsubmit(data) {
-        const findUser = dataUser.find(
-            (user) => user.email === data.email && user.password === data.password
-        );
-    
-        if (findUser) {
-            dispatch(authLogin(findUser));
-            showNotification("Berhasil Login", "success");
-    
-            if (findUser.role === "admin") {
-                navigate("/admin");
-            } else {
-                navigate("/"); 
+    async function onsubmit(data) {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password,
+                }),
+            });
+
+            const result = await response.json();
+            console.log("DATA LOGIN: ", result)
+
+            if (!result.Success) {
+                showNotification(result.Message, "error");
+                return;
             }
-        } else {
-            showNotification("User tidak di temukan", "error");
+
+            const token = result.Data.token;
+            dispatch(setToken(token));
+            showNotification("Berhasil Login", "success");
+
+            dispatch(setUserLogin({ email: data.email }));
+
+            if (result.Success) {
+                if (result.Data.role == "admin") {
+                    navigate("/admin")
+                } else {
+                    navigate("/")
+                }
+            }
+
+        } catch (error) {
+            console.error("Login error:", error);
         }
     }
-    
 
     return (
         <>
