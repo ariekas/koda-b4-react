@@ -27,6 +27,7 @@ export function DetailPage() {
   useEffect(() => {
     fetchProduct();
     fetchProducts();
+    fetchCartCount();
     setPage(1);
   }, [id]);
 
@@ -55,6 +56,26 @@ export function DetailPage() {
       console.error(err);
     }
   }
+
+  async function fetchCartCount() {
+    if (!token) return; 
+  
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/cart/count`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const json = await res.json();
+      if (json.Success) {
+        setCartCount(json.Data.count); 
+      }
+    } catch (err) {
+      console.error("Error fetching cart count:", err);
+    }
+  }
+  
 
   if (!product) return <p className="text-center mt-10 text-gray-500">Loading product...</p>;
 
@@ -106,7 +127,7 @@ export function DetailPage() {
         return { success: false };
       }
 
-      setCartCount((c) => c + 1);
+      await fetchCartCount(); 
       setQuantity(0)
       setSelectedSize(0)
       setSelectedVariant(0)
