@@ -61,7 +61,7 @@ export function Navbar({ onHamburgerClick }) {
                     </Link>
                     <Link
                         to="/history"
-                        className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/product"
+                        className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/history"
                             ? "border-b-2 border-[#FF8906]"
                             : "border-b-2 border-transparent hover:border-[#FF8906]"
                             }`}

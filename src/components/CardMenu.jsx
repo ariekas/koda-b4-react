@@ -48,16 +48,16 @@ export function CardMenu({
                         {diskonPrice > 0 ? (
                             <>
                                 <p className="text-[#FF8906] font-semibold">
-                                    IDR {diskonPrice}
+                                    IDR {diskonPrice.toLocaleString("id-ID")}
                                 </p>
                                 <p className="text-red-500 text-sm line-through">
-                                    IDR {price}
+                                    IDR {price.toLocaleString("id-ID")}
                                 </p>
                             </>
                         ) : (
                             <>
                                 <p className="text-[#FF8906] font-semibold">
-                                    IDR {price}
+                                    IDR {price.toLocaleString("id-ID")}
                                 </p>
                                 <p className="text-sm opacity-0">placeholder</p>
                             </>
