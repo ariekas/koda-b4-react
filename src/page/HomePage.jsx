@@ -4,13 +4,13 @@ import { CardMenu } from "../components/CardMenu"
 import { Footer } from "../components/Footer"
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-// import {useSelector } from "react-redux"
-// import { useNotification } from "../context/NotificationContext"
+import { useSelector } from "react-redux"
+import { useNotification } from "../context/NotificationContext"
 export function HomePage() {
     const [products, setProducts] = useState([]);
     const [showChat, setShowChat] = useState(false)
-    // const { showNotification } = useNotification()
-    // const userLogin = useSelector((state) => state.authReducers.userLogin)
+    const { showNotification } = useNotification()
+    const userLogin = useSelector((state) => state.authReducers.userLogin)
     const navigate = useNavigate()
     async function getDataProduct() {
         try {
@@ -28,9 +28,7 @@ export function HomePage() {
 
             if (result.Success) {
                 const productList = result.Data?.data || [];
-    
                 setProducts(productList);
-    
             } else {
                 console.log("Gagal mengambil produk");
             }
@@ -187,13 +185,13 @@ export function HomePage() {
                                         onClick={(e) => {
                                             e.preventDefault();
 
-                                            // if (!userLogin) {
-                                            //     showNotification(
-                                            //         "Silakan login terlebih dahulu untuk melihat detail produk!",
-                                            //         "warning"
-                                            //     );
-                                            //     return;
-                                            // }
+                                            if (!userLogin) {
+                                                showNotification(
+                                                    "Silakan login terlebih dahulu untuk melihat detail produk!",
+                                                    "warning"
+                                                );
+                                                return;
+                                            }
 
                                             navigate(`/detail-product/${item.id}`);
                                         }}
@@ -204,13 +202,19 @@ export function HomePage() {
                                             price={item.price}
                                             image={item.images?.[0]?.image || "/placeholder.png"}
                                             isFlashSale={item.is_flashsale}
-                                            rating={item.rating || 5}
                                         >
-                                            <div className="flex gap-1 items-center text-[#FF8906]">
-                                                <span className="ml-2 text-black">
-                                                    {item.rating || 5}
-                                                </span>
+                                            <div className="flex items-center gap-2">
+                                                <p>5</p>
+                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path
+                                                        fill="#FF8906"
+                                                        d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+                                                    />
+                                                </svg>
+                                            ))}
                                             </div>
+                                            
                                         </CardMenu>
                                     </Link>
                                 ))}
