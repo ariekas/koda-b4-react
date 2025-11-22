@@ -1,17 +1,45 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useCheckout } from "../context/CheckoutContext";
 import { useParams } from "react-router-dom";
 export function DetailOrder() {
-    const { history } = useCheckout();
     const { id } = useParams();
-    const order = history.find((item) => item.id.toString() === id);
-    const userLogin = useSelector((state) => state.authReducers.userLogin)
-    console.log(order)
+    const token = useSelector((state) => state.authReducers.token);
+    const [order, setOrder] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+  
+    useEffect(() => {
+      const fetchDetail = async () => {
+        setLoading(true);
+        try {
+          const res = await fetch(`${import.meta.env.VITE_BASE_URL}/history/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+  
+          const data = await res.json();
+          console.log("HISTORY DETAIL", data.Data)
+          if (data.Success) {
+            setOrder(data.Data); // data dari backend
+          } else {
+            setError(data.Message || "Failed to fetch order");
+          }
+        } catch (err) {
+          setError(err.message);
+        }
+        setLoading(false);
+      };
+  
+      if (token) fetchDetail();
+    }, [id, token]);
+  
+    if (loading) return <p className="text-center mt-20">Loading...</p>;
+    if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
+    if (!order) return <p className="text-center mt-20">Order not found.</p>;
 
     return (
         <>
             <div className="pt-30 p-5 gap-5 flex flex-col lg:px-10 xl:px-40">
-                <h1 className="text-2xl">Order <span className="font-semibold">#{order.id}</span> </h1>
+                <h1 className="text-2xl">Order <span className="font-semibold">#{order.invoice}</span> </h1>
                 <p className="text-sm text-[#4F5665]">{order.date}</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div className="flex flex-col gap-5">
@@ -23,7 +51,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Full Name</p>
                             </div>
-                            <p className="text-sm font-semibold">{userLogin.fullname}</p>
+                            <p className="text-sm font-semibold">{order.fullname}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -35,7 +63,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Address</p>
                             </div>
-                            <p className="text-sm font-semibold">{order.delivery.address}</p>
+                            <p className="text-sm font-semibold">{order.address}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -44,7 +72,7 @@ export function DetailOrder() {
                                 </svg>
                                 <p>Phone</p>
                             </div>
-                            <p className="text-sm font-semibold">082116304338</p>
+                            <p className="text-sm font-semibold">{order.phone}</p>
                         </div>
                         <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                             <div className="flex items-center gap-2 text-xs">
@@ -60,10 +88,19 @@ export function DetailOrder() {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                     <path fill="#000" d="M9 7H5.145a8.5 8.5 0 0 1 8.274-3.387a.5.5 0 0 0 .162-.986A10 10 0 0 0 12 2.5a9.52 9.52 0 0 0-7.5 3.677V2.5a.5.5 0 0 0-1 0v5A.5.5 0 0 0 4 8h5a.5.5 0 0 0 0-1m-1.5 7.5a.5.5 0 0 0-.5.5v3.855a8.5 8.5 0 0 1-3.387-8.274a.5.5 0 0 0-.986-.162a9.52 9.52 0 0 0 3.55 9.081H2.5a.5.5 0 0 0 0 1h5A.5.5 0 0 0 8 20v-5a.5.5 0 0 0-.5-.5M20 16h-5a.5.5 0 0 0 0 1h3.855a8.5 8.5 0 0 1-8.274 3.387a.5.5 0 0 0-.162.986A10 10 0 0 0 12 21.5a9.52 9.52 0 0 0 7.5-3.677V21.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5m1.5-12.5h-5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V5.14a8.3 8.3 0 0 1 2.358 2.612A8.44 8.44 0 0 1 20.5 12q0 .714-.113 1.419a.499.499 0 1 0 .986.162A10 10 0 0 0 21.5 12a9.44 9.44 0 0 0-1.275-4.747A9.3 9.3 0 0 0 17.828 4.5H21.5a.5.5 0 0 0 0-1" />
                                 </svg>
+                                <p>Shiping</p>
+                            </div>
+                            <p className="text-sm font-semibold">{order.delivery}</p>
+                        </div>
+                        <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+                            <div className="flex items-center gap-2 text-xs">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="#000" d="M9 7H5.145a8.5 8.5 0 0 1 8.274-3.387a.5.5 0 0 0 .162-.986A10 10 0 0 0 12 2.5a9.52 9.52 0 0 0-7.5 3.677V2.5a.5.5 0 0 0-1 0v5A.5.5 0 0 0 4 8h5a.5.5 0 0 0 0-1m-1.5 7.5a.5.5 0 0 0-.5.5v3.855a8.5 8.5 0 0 1-3.387-8.274a.5.5 0 0 0-.986-.162a9.52 9.52 0 0 0 3.55 9.081H2.5a.5.5 0 0 0 0 1h5A.5.5 0 0 0 8 20v-5a.5.5 0 0 0-.5-.5M20 16h-5a.5.5 0 0 0 0 1h3.855a8.5 8.5 0 0 1-8.274 3.387a.5.5 0 0 0-.162.986A10 10 0 0 0 12 21.5a9.52 9.52 0 0 0 7.5-3.677V21.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5m1.5-12.5h-5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V5.14a8.3 8.3 0 0 1 2.358 2.612A8.44 8.44 0 0 1 20.5 12q0 .714-.113 1.419a.499.499 0 1 0 .986.162A10 10 0 0 0 21.5 12a9.44 9.44 0 0 0-1.275-4.747A9.3 9.3 0 0 0 17.828 4.5H21.5a.5.5 0 0 0 0-1" />
+                                </svg>
                                 <p>Status</p>
                             </div>
                             <div className="px-2 bg-green-100 text-green-500 rounded-full">
-                                <p className="text-sm font-semibold">Done</p>
+                                <p className="text-sm font-semibold">{order.status}</p>
                             </div>
                         </div>
                         <div className="flex items-center justify-between pb-2">
@@ -90,18 +127,18 @@ export function DetailOrder() {
                                         <p>|</p>
                                         <p>{items.size}</p>
                                         <p>|</p>
-                                        <p>{items.temperature}</p>
+                                        <p>{items.variant}</p>
                                         <p>|</p>
-                                        <p>{order.delivery.type}</p>
+                                        <p>{order.delivery}</p>
                                     </div>
-                                    {items.diskonPrice ? (
+                                    {items.priceDiscount ? (
                                         <>
                                             <div className="flex items-center gap-2 ">
                                                 <p className="text-red-500 line-through text-sm">
                                                     Rp {items.price.toLocaleString("id-ID")}
                                                 </p>
                                                 <p className="text-[#FF8906] font-semibold">
-                                                    Rp {(items.diskonPrice).toLocaleString("id-ID")}
+                                                    Rp {(items.priceDiscount).toLocaleString("id-ID")}
                                                 </p>
 
                                             </div>
