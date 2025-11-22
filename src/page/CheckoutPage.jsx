@@ -1,42 +1,160 @@
 import { Button } from "../components/Button"
 import { Input } from "../components/Input"
-import { useDispatch, useSelector } from "react-redux";
-import { removeCart } from "../redux/reducers/checkout";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../context/CheckoutContext";
 import { useNotification } from "../context/NotificationContext"
+import { useEffect, useState } from "react";
 
 
 export function CheckoutPage() {
   const { showNotification } = useNotification()
+  const [cart, setCart] = useState([])
+  const token = useSelector((s) => s.authReducers.token);
+  const [paymentMethod, setPaymentMethod] = useState([])
+  const [selectedPayment, setSelectedPayment] = useState(null)
+  const [userProfile, setUserProfile] = useState(null)
 
-  const payments = [
-    { id: 1, img: "/payment.png", alt: "PayPal" },
-    { id: 2, img: "/gopay.png", alt: "GoPay" },
-    { id: 3, img: "/ovo.png", alt: "OVO" },
-    { id: 4, img: "/bri.png", alt: "BRI" },
-    { id: 5, img: "/bca.png", alt: "BCA" },
-    { id: 6, img: "/dana.png", alt: "Dana" },
-  ];
+
+  async function fetchCart() {
+    if (!token) {
+      showNotification("Silakan login terlebih dahulu", "error");
+      return false;
+    }
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/cart`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const json = await res.json()
+      if (json.Success) {
+        setCart(json)
+      } else {
+        showNotification(json.Message || "Gagal mengambil Cart", "error");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function fetchUserProfile() {
+    if (!token) return;
+  
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const json = await res.json();
+      console.log("PROFILE",json.Data)
+      if (json.Success) {
+        setUserProfile(json.Data);
+      } else {
+        console.log("Gagal ambil profile:", json);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+
+  async function fetchPaymenMethod() {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/payment-method`)
+      const json = await res.json()
+
+      console.log("Payment Method:", json.data)
+      setPaymentMethod(json.data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  async function createTransaction() {
+    const finalEmail = deliveryInfo.email || userProfile?.email
+    const finalFullname = deliveryInfo.fullname || userProfile?.fullname || userProfile?.name
+    const finalAddress = deliveryInfo.address || userProfile?.address
+  
+    if (!selectedPayment) {
+      showNotification("Pilih metode pembayaran terlebih dahulu", "error")
+      return
+    }
+  
+    if (!finalEmail || !finalFullname || !finalAddress) {
+      showNotification("Data tidak lengkap dan tidak ditemukan di profil!", "error")
+      return
+    }
+  
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/transactions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: finalEmail,
+          fullname: finalFullname,
+          address: finalAddress,
+          deliveryID:
+            deliveryInfo.type === "Dine In"
+              ? 1
+              : deliveryInfo.type === "Door Delivery"
+                ? 2
+                : 3,
+          paymentMethodID: selectedPayment,
+        }),
+      });
+  
+      const json = await res.json();
+      console.log("Transaction Response:", json);
+  
+      if (res.ok) {
+        showNotification("Checkout berhasil!", "success")
+        navigate("/")
+      } else {
+        showNotification(json.error || json.message || "Gagal membuat transaksi", "error")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+
+
+  useEffect(() => {
+    fetchCart()
+    fetchPaymenMethod()
+    fetchUserProfile()
+  }, [])
+
+  console.log("Cart", cart)
 
   const {
-    setPaymentInfo,
     deliveryInfo,
     setDeliveryInfo,
-    handleCheckout,
   } = useCheckout();
 
-  const dataCart = useSelector(state => state.checkoutReducers.data)
   const deliveryCost = 5000;
   const taxCost = 10000;
+  const orderTotal = Array.isArray(cart.Data)
+    ? cart.Data.reduce((total, item) => {
+      const harga = item.priceDiscounts && item.priceDiscounts > 0
+        ? item.priceDiscounts
+        : item.price;
 
-  const orderTotal = dataCart.reduce(
-    (acc, item) => acc + (item.diskonPrice || item.price) * item.quantity,
-    0
-  );
-  const total = orderTotal + deliveryCost + taxCost;
-  const dispatch = useDispatch()
+      return total + harga * item.quantity;
+    }, 0)
+    : 0;
+  const subtotal = orderTotal + deliveryCost + taxCost
+
   const navigate = useNavigate()
+
   return (
     <>
       <div className="pt-30 px-5 lg:px-10 xl:px-40">
@@ -55,16 +173,16 @@ export function CheckoutPage() {
               </Button>
             </div>
             <div className="flex flex-col gap-2">
-              {Array.isArray(dataCart) && dataCart.length > 0 ? (
-                dataCart.map((item, index) => (
+              {Array.isArray(cart.Data) && cart.Data.length > 0 ? (
+                cart.Data.map((item, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-between bg-white shadow-xs rounded-md border border-gray-200 p-4 mb-3 w-full"
                   >
                     <div className="flex items-center gap-4 flex-col md:flex-row">
                       <img
-                        src={item.image}
-                        alt={item.name}
+                        src={item.imageUrl}
+                        alt={item.productName}
                         className="w-32 h-32 object-cover rounded-md"
                       />
 
@@ -75,27 +193,27 @@ export function CheckoutPage() {
                           </div>
 
                         )}
-                        <p className="text-lg font-semibold">{item.name}</p>
+                        <p className="text-lg font-semibold">{item.productName}</p>
                         <div className="text-sm mt-1 text-gray-700 flex gap-3">
-                          <p>Size: {item.size || "-"}</p>
+                          <p>{item.sizeName || "-"}</p>
                           <div className="h-6 w-0.5 bg-black/30">
                           </div>
-                          <p>Temp: {item.temperature || "-"}</p>
+                          <p>{item.variantName || "-"}</p>
                           <div className="h-6 w-0.5 bg-black/30">
                           </div>
-                          <p>Qty: {item.quantity || "-"}</p>
+                          <p>{item.quantity || "-"}</p>
                           <div className="h-6 w-0.5 bg-black/30">
                           </div>
                           <p>Dine In</p>
                         </div>
-                        {item.diskonPrice ? (
+                        {item.priceDiscounts ? (
                           <>
                             <div className="flex items-center gap-2 ">
                               <p className="text-red-500 line-through text-sm">
                                 Rp {item.price.toLocaleString("id-ID")}
                               </p>
                               <p className="text-[#FF8906] font-semibold">
-                                Rp {(item.diskonPrice).toLocaleString("id-ID")}
+                                Rp {(item.priceDiscounts).toLocaleString("id-ID")}
                               </p>
 
                             </div>
@@ -109,8 +227,7 @@ export function CheckoutPage() {
                     </div>
                     <div className="text-right">
                       <button onClick={() => {
-                         dispatch(removeCart(`${item.id}-${item.size}-${item.temperature}`))
-                         showNotification("Pesanan berhasil di hapus", "success")
+                        showNotification("Pesanan berhasil di hapus", "success")
                       }} className="cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
                           <path fill="#d11" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12s-5.4 12-12 12" />
@@ -146,28 +263,31 @@ export function CheckoutPage() {
 
               <div className="flex justify-between font-semibold">
                 <p>Subtotal</p>
-                <p className="font-bold">Rp {total.toLocaleString("id-ID")}</p>
+                <p className="font-bold">Rp {subtotal.toLocaleString("id-ID")}</p>
               </div>
 
-              <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4" onClick={() => handleCheckout(dataCart, total)}>
+              <button
+                className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4"
+                onClick={createTransaction}
+              >
                 Checkout
               </button>
+
 
               <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
 
               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                {payments.map((pay) => (
+                {paymentMethod.map((pay) => (
                   <button
-                    key={pay.id} onClick={() => setPaymentInfo(pay.alt)}
-                    className={`min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md cursor-pointer`}
+                    key={pay.id}
+                    onClick={() => setSelectedPayment(pay.id)}
+                    className={`min-w-[70px] h-[50px] rounded-xl flex items-center justify-center shadow-md 
+       ${selectedPayment === pay.id ? "border-2 border-orange-500" : "bg-white"}`}
                   >
-                    <img
-                      src={pay.img}
-                      alt={pay.alt}
-                      className="w-10 h-10 object-contain"
-                    />
+                    <img src={pay.imagePayment} alt={pay.name} className="w-10 h-10 object-contain" />
                   </button>
                 ))}
+
               </div>
               <p className="opacity-40">*Get Discount if you pay with BCA</p>
             </div>
@@ -248,6 +368,7 @@ export function CheckoutPage() {
             <div className="flex justify-between">
               <p>Order</p>
               <p className="font-bold">Rp {orderTotal.toLocaleString("id-ID")}</p>
+
             </div>
             <div className="flex justify-between">
               <p>Delivery</p>
@@ -262,28 +383,30 @@ export function CheckoutPage() {
 
             <div className="flex justify-between font-semibold">
               <p>Subtotal</p>
-              <p className="font-bold">Rp {total.toLocaleString("id-ID")}</p>
+              <p className="font-bold">Rp {subtotal.toLocaleString("id-ID")}</p>
             </div>
 
-            <button className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4" onClick={() => handleCheckout(dataCart, total)}>
+            <button
+              className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4"
+              onClick={createTransaction}
+            >
               Checkout
             </button>
 
             <p className="text-sm mt-4 mb-2 font-medium">We Accept</p>
 
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-              {payments.map((pay) => (
+              {paymentMethod.map((pay) => (
                 <button
                   key={pay.id}
-                  className="min-w-[70px] h-[50px] bg-white rounded-xl flex items-center justify-center shadow-md"
+                  onClick={() => setSelectedPayment(pay.id)}
+                  className={`min-w-[70px] h-[50px] rounded-xl flex items-center justify-center shadow-md 
+       ${selectedPayment === pay.id ? "border-2 border-orange-500" : "bg-white"}`}
                 >
-                  <img
-                    src={pay.img}
-                    alt={pay.alt}
-                    className="w-10 h-10 object-contain"
-                  />
+                  <img src={pay.imagePayment} alt={pay.name} className="w-10 h-10 object-contain" />
                 </button>
               ))}
+
             </div>
             <p className="opacity-40">*Get Discount if you pay with BCA</p>
           </div>
