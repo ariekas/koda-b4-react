@@ -1,9 +1,10 @@
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authLogout } from "../../redux/reducers/auth";
+import { Button } from "../Button";
 
 export function AdminLayout() {
     const [showSideBarProduct, setShowSideBarProduct] = useState(false)
@@ -92,6 +93,12 @@ export function Navbar() {
 export function SideBarLeft() {
     const location = useLocation();
     const { pathname } = location;
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    function handleLogout() {
+        dispatch(authLogout(null))
+        navigate("/login")
+    }
 
     const navItems = [
         {
@@ -131,13 +138,6 @@ export function SideBarLeft() {
                 </svg>
             )
         },
-        {
-            to: "/login", label: "Keluar", icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                    <path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" d="M15 4.001H5v14a2 2 0 0 0 2 2h8m1-5l3-3m0 0l-3-3m3 3H9" strokeWidth="1" />
-                </svg>
-            )
-        }
     ];
     return (
         <>
@@ -154,6 +154,9 @@ export function SideBarLeft() {
                             <p>{item.label}</p>
                         </Link>
                     ))}
+                    <Button style={"flex bg-white text-lg items-center gap-2 p-2 rounded-lg hover:bg-[#FF8906] hover:font-semibold"} onClick={handleLogout}>
+                        Sign Out
+                    </Button>
                 </div>
             </div>
         </>
@@ -166,22 +169,84 @@ export function SideBarProduct({ setShowSideBarProduct }) {
     const [description, setDescription] = useState("");
     const [stock, setStock] = useState("");
     const [loading, setLoading] = useState(false);
+    const [selectedImages, setSelectedImages] = useState([]); 
+    const [previewImages, setPreviewImages] = useState([]); 
     const token = useSelector((s) => s.authReducers.token);
 
+    function handleImageChange(e) {
+        const files = Array.from(e.target.files);
+        
+        const validFiles = files.filter(file => {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            const maxSize = 5 * 1024 * 1024;
+            
+            if (!validTypes.includes(file.type)) {
+                alert(`File ${file.name} bukan format gambar yang valid`);
+                return false;
+            }
+            
+            if (file.size > maxSize) {
+                alert(`File ${file.name} melebihi 5MB`);
+                return false;
+            }
+            
+            return true;
+        });
+
+        setSelectedImages(validFiles);
+
+        const previews = validFiles.map(file => URL.createObjectURL(file));
+        setPreviewImages(previews);
+    }
+
+    async function uploadProductImages(productId) {
+        if (selectedImages.length === 0) {
+            return true; 
+        }
+
+        const formData = new FormData();
+        selectedImages.forEach(file => {
+            formData.append('images', file); 
+        });
+
+        try {
+            const res = await fetch(
+                `${import.meta.env.VITE_BASE_URL}/admin/products/image/${productId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    body: formData,
+                }
+            );
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                throw new Error(result.Message || result.message || "Failed to upload images");
+            }
+
+            return true;
+        } catch (err) {
+            alert("Product created but image upload failed: " + err.message);
+            return false;
+        }
+    }
 
     async function handleCreateProduct() {
         if (!productName || !price || !description || !stock) {
             alert("Harap isi semua field!");
             return;
         }
-    
+
         if (!token) {
-            alert("Silakan login terlebih dahulu", "error");
+            alert("Silakan login terlebih dahulu");
             return;
         }
-    
+
         setLoading(true);
-    
+
         const body = {
             name: productName,
             price: Number(price),
@@ -192,7 +257,7 @@ export function SideBarProduct({ setShowSideBarProduct }) {
             isFavoriteProduct: false,
             categoryProductsId: 1,
         };
-    
+
         try {
             const res = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/products`, {
                 method: "POST",
@@ -202,27 +267,52 @@ export function SideBarProduct({ setShowSideBarProduct }) {
                 },
                 body: JSON.stringify(body),
             });
-    
+
             const result = await res.json();
-    
+        
             if (!res.ok) {
                 alert(result.message || "Failed to create product");
                 return;
             }
-    
-            alert("Success Create Product!");
+
+            const productId = result.Data?.id || result.data?.id || result.id || result.Data?.ID || result.data?.ID;
+           
+            if (!productId) {
+                alert("Product created but ID not found. Check console for response structure.");
+            }
+            
+            if (productId && selectedImages.length > 0) {
+                const uploadSuccess = await uploadProductImages(productId);
+                console.log("Image upload result:", uploadSuccess);
+            } else if (selectedImages.length === 0) {
+                console.log("No images to upload");
+            }
+
+            setProductName("");
+            setPrice("");
+            setDescription("");
+            setStock("");
+            setSelectedImages([]);
+            setPreviewImages([]);
+            
             setShowSideBarProduct(false);
-    
+
         } catch (err) {
-            console.error(err);
+            console.error("ERROR:", err);
+            alert("Error: " + err.message);
+        } finally {
+            setLoading(false);
         }
-    
-        setLoading(false);
     }
-    
+
+    useEffect(() => {
+        return () => {
+            previewImages.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [previewImages]);
 
     return (
-        <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg">
+        <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg overflow-y-auto">
             <div className="flex items-center justify-between p-4">
                 <h1 className="text-lg font-semibold text-gray-900">Add Product</h1>
                 <button
@@ -234,20 +324,48 @@ export function SideBarProduct({ setShowSideBarProduct }) {
             </div>
 
             <div className="p-4 space-y-5">
-                {/* IMAGE */}
                 <div>
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                         Photo Product
                     </label>
-                    <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-                        <Image className="w-6 h-6 text-gray-400" />
+                    
+                    <div className="flex flex-wrap gap-2 mb-3">
+                        {previewImages.length > 0 ? (
+                            previewImages.map((url, index) => (
+                                <div key={index} className="relative w-16 h-16">
+                                    <img
+                                        src={url}
+                                        alt={`Preview ${index + 1}`}
+                                        className="w-full h-full object-cover rounded-lg border-2 border-gray-300"
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                                <Image className="w-6 h-6 text-gray-400" />
+                            </div>
+                        )}
                     </div>
-                    <button className="mt-3 px-6 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors">
-                        Upload
-                    </button>
+
+                    <input
+                        type="file"
+                        id="imageUpload"
+                        multiple
+                        accept="image/jpeg,image/jpg,image/png,image/webp"
+                        onChange={handleImageChange}
+                        className="hidden"
+                    />
+                    <label
+                        htmlFor="imageUpload"
+                        className="inline-block mt-3 px-6 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors cursor-pointer"
+                    >
+                        {selectedImages.length > 0 ? `${selectedImages.length} file(s) selected` : 'Upload'}
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1">
+                        Max 5MB per file. Format: JPG, PNG, WEBP
+                    </p>
                 </div>
 
-                {/* NAME */}
                 <div>
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                         Product name
@@ -261,7 +379,6 @@ export function SideBarProduct({ setShowSideBarProduct }) {
                     />
                 </div>
 
-                {/* PRICE */}
                 <div>
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                         Price
@@ -275,7 +392,6 @@ export function SideBarProduct({ setShowSideBarProduct }) {
                     />
                 </div>
 
-                {/* DESCRIPTION */}
                 <div>
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                         Description
@@ -289,7 +405,6 @@ export function SideBarProduct({ setShowSideBarProduct }) {
                     />
                 </div>
 
-                {/* STOCK */}
                 <div>
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                         Stock
@@ -303,10 +418,9 @@ export function SideBarProduct({ setShowSideBarProduct }) {
                     />
                 </div>
 
-                {/* SAVE BUTTON */}
                 <button
                     onClick={handleCreateProduct}
-                    className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors"
+                    className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                     disabled={loading}
                 >
                     {loading ? "Saving..." : "Save Product"}
