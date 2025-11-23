@@ -147,14 +147,14 @@ export function SideBarLeft() {
                         <Link
                             key={item.to}
                             to={item.to}
-                            className={`flex items-center gap-2 p-2 rounded-lg hover:bg-[#FF8906] hover:font-semibold ${pathname === item.to ? "bg-[#FF8906] font-semibold text-white" : ""
+                            className={`flex items-center gap-2 p-2 rounded-lg hover:bg-[#2E6B0F] hover:font-semibold ${pathname === item.to ? "bg-[#2E6B0F] font-semibold text-white" : ""
                                 }`}
                         >
                             {item.icon}
                             <p>{item.label}</p>
                         </Link>
                     ))}
-                    <Button style={"flex bg-white text-lg items-center gap-2 p-2 rounded-lg hover:bg-[#FF8906] hover:font-semibold"} onClick={handleLogout}>
+                    <Button style={"flex bg-white text-lg items-center gap-2 p-2 rounded-lg hover:bg-[#2E6B0F] hover:font-semibold"} onClick={handleLogout}>
                         Sign Out
                     </Button>
                 </div>

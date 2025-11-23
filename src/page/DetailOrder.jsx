@@ -105,7 +105,7 @@ export function DetailOrder() {
                         </div>
                         <div className="flex items-center justify-between pb-2">
                             <p className="text-sm">Total Transaksi</p>
-                            <p className="text-sm font-semibold text-[#FF8906]">Rp {order.total}</p>
+                            <p className="text-sm font-semibold text-[#2E6B0F]">Rp {order.total}</p>
                         </div>
                     </div>
                     <div className="flex gap-5 flex-col  w-full">
@@ -137,14 +137,14 @@ export function DetailOrder() {
                                                 <p className="text-red-500 line-through text-sm">
                                                     Rp {items.price.toLocaleString("id-ID")}
                                                 </p>
-                                                <p className="text-[#FF8906] font-semibold">
+                                                <p className="text-[#2E6B0F] font-semibold">
                                                     Rp {(items.priceDiscount).toLocaleString("id-ID")}
                                                 </p>
 
                                             </div>
                                         </>
                                     ) : (
-                                        <p className="text-[#FF8906] font-semibold">
+                                        <p className="text-[#2E6B0F] font-semibold">
                                             Rp {items.price.toLocaleString("id-ID")}
                                         </p>
                                     )}

@@ -39,12 +39,12 @@ export function Navbar({ onHamburgerClick }) {
         <>
             <div className="flex justify-between items-center lg:px-10 xl:px-40">
                 <div className="flex lg:items-center lg:gap-20">
-                    <img src="/logo-white.png" alt="logo" className="h-10" />
+                    <img src="/logo-new.png" alt="logo" className="w-30" />
                     <Link
                         to="/"
                         className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/"
-                            ? "border-b-2 border-[#FF8906]"
-                            : "border-b-2 border-transparent hover:border-[#FF8906]"
+                            ? "border-b-2 border-[#2E6B0F]"
+                            : "border-b-2 border-transparent hover:border-[#2E6B0F]"
                             }`}
                     >
                         Home
@@ -53,8 +53,8 @@ export function Navbar({ onHamburgerClick }) {
                     <Link
                         to="/product"
                         className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/product"
-                            ? "border-b-2 border-[#FF8906]"
-                            : "border-b-2 border-transparent hover:border-[#FF8906]"
+                            ? "border-b-2 border-[#2E6B0F]"
+                            : "border-b-2 border-transparent hover:border-[#2E6B0F]"
                             }`}
                     >
                         Product
@@ -62,8 +62,8 @@ export function Navbar({ onHamburgerClick }) {
                     <Link
                         to="/history"
                         className={`hidden lg:flex text-lg text-white pb-1 ${location.pathname === "/history"
-                            ? "border-b-2 border-[#FF8906]"
-                            : "border-b-2 border-transparent hover:border-[#FF8906]"
+                            ? "border-b-2 border-[#2E6B0F]"
+                            : "border-b-2 border-transparent hover:border-[#2E6B0F]"
                             }`}
                     >
                         History

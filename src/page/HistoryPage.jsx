@@ -67,9 +67,9 @@ export function HistoryPage() {
             </div>
 
             <div className="flex gap-2 items-center bg-[#E8E8E899] p-2 rounded-md">
-              <Button style={`bg-white text-xs px-4 py-2 ${status === "1" ? "bg-[#FF8906] text-white" : ""}`} onClick={() => setStatus("1")}>On Progress</Button>
-              <Button style={`bg-white text-xs px-4 py-2 ${status === "2" ? "bg-[#FF8906] text-white" : ""}`} onClick={() => setStatus("2")}>Sending Goods</Button>
-              <Button style={`bg-white text-xs px-4 py-2 ${status === "3" ? "bg-[#FF8906] text-white" : ""}`} onClick={() => setStatus("3")}>Finish Order</Button>
+              <Button style={`bg-white text-xs px-4 py-2 ${status === "1" ? "bg-[#2E6B0F] text-white" : ""}`} onClick={() => setStatus("1")}>On Progress</Button>
+              <Button style={`bg-white text-xs px-4 py-2 ${status === "2" ? "bg-[#2E6B0F] text-white" : ""}`} onClick={() => setStatus("2")}>Sending Goods</Button>
+              <Button style={`bg-white text-xs px-4 py-2 ${status === "3" ? "bg-[#2E6B0F] text-white" : ""}`} onClick={() => setStatus("3")}>Finish Order</Button>
             </div>
           </div>
 
@@ -93,7 +93,7 @@ export function HistoryPage() {
                       </div>
                       <div className="flex flex-col gap-2">
                         <span className="text-gray-400 text-sm">Status</span>
-                        <span className="bg-orange-100 text-[#FF8906] px-3 py-1 text-xs font-semibold rounded-full inline-block w-fit">
+                        <span className="bg-orange-100 text-[#2E6B0F] px-3 py-1 text-xs font-semibold rounded-full inline-block w-fit">
                           {item.status}
                         </span>
                       </div>
@@ -102,7 +102,7 @@ export function HistoryPage() {
                     <div className="col-span-2 lg:col-span-1 flex items-end">
                       <Link
                         to={`/detail-order/${item.id}`}
-                        className="text-[#FF8906] text-sm font-semibold underline underline-offset-2"
+                        className="text-[#2E6B0F] text-sm font-semibold underline underline-offset-2"
                       >
                         View Order Detail
                       </Link>
@@ -127,7 +127,7 @@ export function HistoryPage() {
                 key={i}
                 onClick={() => setPage(i + 1)}
                 className={`w-10 h-10 flex items-center justify-center rounded-full 
-                  ${page === i + 1 ? "bg-[#FF8906] text-white" : "bg-[#E8E8E8] text-black"}`}
+                  ${page === i + 1 ? "bg-[#2E6B0F] text-white" : "bg-[#E8E8E8] text-black"}`}
               >
                 {i + 1}
               </button>
@@ -150,7 +150,7 @@ export function HistoryPage() {
             If you're unable to find an answer or your product quickly, please describe your problem
             and tell us. We will give you a solution.
           </p>
-          <Button style={"bg-[#FF8906] items-center w-full text-sm"}>
+          <Button style={"bg-[#2E6B0F] items-center w-full text-sm"}>
             Apply Menu
           </Button>
         </div>

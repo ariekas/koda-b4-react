@@ -47,7 +47,7 @@ export function CardMenu({
                 transition-transform duration-300
             "
         >
-            <div className="flex flex-col rounded-md bg-white lg:p-3 h-56 lg:h-80 gap-3">
+            <div className="flex flex-col rounded-md bg-white lg:p-3  gap-3">
                 <h1 className="font-bold">{name}</h1>
                 <p className="text-sm font-light text-justify">{description}</p>
                 {children}
@@ -55,7 +55,7 @@ export function CardMenu({
                 <div className="min-h-[40px] flex flex-col justify-center">
                     {diskonPrice > 0 ? (
                         <>
-                            <p className="text-[#FF8906] font-semibold">
+                            <p className="text-[#2E6B0F] font-semibold">
                                 IDR {diskonPrice.toLocaleString("id-ID")}
                             </p>
                             <p className="text-red-500 text-sm line-through">
@@ -64,7 +64,7 @@ export function CardMenu({
                         </>
                     ) : (
                         <>
-                            <p className="text-[#FF8906] font-semibold">
+                            <p className="text-[#2E6B0F] font-semibold">
                                 IDR {price.toLocaleString("id-ID")}
                             </p>
                             <p className="text-sm opacity-0">placeholder</p>
@@ -74,7 +74,7 @@ export function CardMenu({
     
                 <div className="grid grid-cols-3 gap-2">
                     <Button style="w-full col-span-3">Buy</Button>
-                    {/* <Button style="border bg-white flex justify-center border-[#FF8906] w-full col-span-1">
+                    {/* <Button style="border bg-white flex justify-center border-[#2E6B0F] w-full col-span-1">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -82,7 +82,7 @@ export function CardMenu({
                             viewBox="0 0 24 24"
                         >
                             <path
-                                fill="#FF8906"
+                                fill="#2E6B0F"
                                 d="M16 18a2 2 0 0 1 2 2a2 2..."
                             />
                         </svg>

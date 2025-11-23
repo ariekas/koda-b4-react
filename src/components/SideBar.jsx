@@ -18,7 +18,7 @@ export function SideBar({ handelSideBar }) {
             <div className="px-5 py-3 flex flex-col  justify-between h-screen">
                 <div className="flex flex-col gap-5">
                     <div className="flex w-full justify-between">
-                        <img src="/logo.png" alt="" />
+                        <img src="/logo-new.png" alt="" className="w-30"/>
                         <div className="p-1.5 flex items-center border-2 rounded-full border-red-500" onClick={handelSideBar}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24">
                                 <path fill="#fb0000" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z" stroke-width="1" stroke="#fb0000" />
@@ -29,7 +29,7 @@ export function SideBar({ handelSideBar }) {
                         <Link
                             to="/"
                             className={` text-lg text-black pb-1 ${location.pathname === "/"
-                                ? "border-b-2 border-[#FF8906] "
+                                ? "border-b-2 border-[#2E6B0F] "
                                 : "border-b-2 border-gray-300"
                                 }`}
                         >
@@ -38,7 +38,7 @@ export function SideBar({ handelSideBar }) {
                         <Link
                             to="/product"
                             className={`text-lg text-black pb-1 ${location.pathname === "/product"
-                                ? "border-b-2 border-[#FF8906]"
+                                ? "border-b-2 border-[#2E6B0F]"
                                 : "border-b-2 border-gray-300"
                                 }`}
                         >

@@ -188,7 +188,7 @@ export function RegisterPage() {
                 )}
                 <Button type={"submit"}>Register</Button>
             </form>
-            <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<Link to="/login" className="text-[#FF8906] pl-1 cursor-pointer">Login</Link></p>
+            <p className="text-sm text-[#4F5665] flex items-center justify-center">Have An Account?<Link to="/login" className="text-[#2E6B0F] pl-1 cursor-pointer">Login</Link></p>
             <div className="flex items-center gap-5">
                 <div className="bg-[#DEDEDE] w-full h-0.5"></div>
                 <p className="text-[#AAAAAA] text-xs">Or</p>

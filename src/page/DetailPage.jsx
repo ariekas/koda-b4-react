@@ -192,19 +192,19 @@ export function DetailPage() {
           <div className="flex items-center gap-2">
             {product.diskonPrice > 0 ? (
               <>
-                <p className="text-[#FF8906] font-semibold">IDR {product.diskonPrice}</p>
+                <p className="text-[#2E6B0F] font-semibold">IDR {product.diskonPrice}</p>
                 <p className="text-red-500 text-sm line-through">IDR {product.price}</p>
               </>
             ) : (
-              <p className="text-[#FF8906] font-semibold">IDR {product.price}</p>
+              <p className="text-[#2E6B0F] font-semibold">IDR {product.price}</p>
             )}
           </div>
 
-          <div className="flex gap-1 items-center text-[#FF8906]">
+          <div className="flex gap-1 items-center text-[#2E6B0F]">
             {Array.from({ length: 5 }).map((_, i) => (
               <svg key={i} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
-                  fill="#FF8906"
+                  fill="#2E6B0F"
                   d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
                 />
               </svg>
@@ -282,14 +282,14 @@ export function DetailPage() {
             </Button>
 
             <Button
-              style="border bg-white flex justify-center border-[#FF8906] w-full"
+              style="border bg-white flex justify-center border-[#2E6B0F] w-full"
               type="button"
               onClick={handleAddToCart}
             >
-              <div className="flex items-center text-sm text-[#FF8906] gap-2">
+              <div className="flex items-center text-sm text-[#2E6B0F] gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path
-                    fill="#FF8906"
+                    fill="#2E6B0F"
                     d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m-9-1a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M18 6H4.27l2.55 6H15c.33 0 .62-.16.8-.4l3-4c.13-.17.2-.38.2-.6a1 1 0 0 0-1-1m-3 7H6.87l-.77 1.56L6 15a1 1 0 0 0 1 1h11v1H7a2 2 0 0 1-2-2a2 2 0 0 1 .25-.97l.72-1.47L2.34 4H1V3h2l.85 2H18a2 2 0 0 1 2 2c0 .5-.17.92-.45 1.26l-2.91 3.89c-.36.51-.96.85-1.64.85"
                   />
                 </svg>
@@ -325,7 +325,7 @@ export function DetailPage() {
                   isFlashSale={item.is_flashsale}
                   rating={item.rating || 5}
                 >
-                  <div className="flex gap-1 items-center text-[#FF8906]">
+                  <div className="flex gap-1 items-center text-[#2E6B0F]">
                     <span className="ml-2 text-black">{item.rating || 5}</span>
                   </div>
                 </CardMenu>
@@ -339,7 +339,7 @@ export function DetailPage() {
                 disabled={page === 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 className={`w-10 h-10 flex items-center justify-center rounded-full ${
-                  page === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FF8906] text-white hover:opacity-80 transition"
+                  page === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#2E6B0F] text-white hover:opacity-80 transition"
                 }`}
               >
                 ‹
@@ -350,8 +350,8 @@ export function DetailPage() {
                   key={p}
                   onClick={() => setPage(p)}
                   className={`w-10 h-10 flex items-center justify-center rounded-full ${
-                    page === p ? "bg-[#FF8906] text-white" : "bg-[#E8E8E8] text-black"
-                  } hover:bg-[#FF8906] hover:text-white transition`}
+                    page === p ? "bg-[#2E6B0F] text-white" : "bg-[#E8E8E8] text-black"
+                  } hover:bg-[#2E6B0F] hover:text-white transition`}
                 >
                   {p}
                 </button>
@@ -361,7 +361,7 @@ export function DetailPage() {
                 disabled={page === totalPages}
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 className={`w-10 h-10 flex items-center justify-center rounded-full ${
-                  page === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-[#FF8906] text-white hover:opacity-80 transition"
+                  page === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-[#2E6B0F] text-white hover:opacity-80 transition"
                 }`}
               >
                 ›

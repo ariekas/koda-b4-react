@@ -189,7 +189,7 @@ export function CheckoutPage() {
           <div className="flex flex-col gap-3 col-span-2 ">
             <div className="flex justify-between items-center">
               <p className="w-full text-lg ">Your Order</p>
-              <Button style={" bg-[#FF8906] flex justify-center items-center w-full md:w-1/5 text-xs "} onClick={() => {
+              <Button style={" bg-[#2E6B0F] flex justify-center items-center w-full md:w-1/5 text-xs "} onClick={() => {
                 navigate("/product")
               }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -238,14 +238,14 @@ export function CheckoutPage() {
                               <p className="text-red-500 line-through text-sm">
                                 Rp {item.price.toLocaleString("id-ID")}
                               </p>
-                              <p className="text-[#FF8906] font-semibold">
+                              <p className="text-[#2E6B0F] font-semibold">
                                 Rp {(item.priceDiscounts).toLocaleString("id-ID")}
                               </p>
 
                             </div>
                           </>
                         ) : (
-                          <p className="text-[#FF8906] font-semibold">
+                          <p className="text-[#2E6B0F] font-semibold">
                             Rp {item.price.toLocaleString("id-ID")}
                           </p>
                         )}
@@ -291,7 +291,7 @@ export function CheckoutPage() {
               </div>
 
               <button
-                className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4"
+                className="bg-[#2E6B0F] w-full text-black font-semibold py-2 rounded-md mt-4"
                 onClick={createTransaction}
               >
                 Checkout
@@ -411,7 +411,7 @@ export function CheckoutPage() {
             </div>
 
             <button
-              className="bg-[#FF8906] w-full text-black font-semibold py-2 rounded-md mt-4"
+              className="bg-[#2E6B0F] w-full text-black font-semibold py-2 rounded-md mt-4"
               onClick={createTransaction}
             >
               Checkout

@@ -121,7 +121,7 @@ export function Profile() {
                             onChange={handleImageChange}
                         />
 
-                        <label htmlFor="uploadPic" className="w-sm rounded-lg flex items-center  justify-center py-2 bg-[#FF8906]">
+                        <label htmlFor="uploadPic" className="w-sm rounded-lg flex items-center  justify-center py-2 bg-[#2E6B0F]">
                         Upload New Photo
                         </label>
 
@@ -162,7 +162,7 @@ export function Profile() {
                         />
 
                         <div className="w-full">
-                            <p className="text-end text-sm text-[#FF8906]">Set New Password</p>
+                            <p className="text-end text-sm text-[#2E6B0F]">Set New Password</p>
 
                             <Input
                                 label="Password"
@@ -200,7 +200,7 @@ export function Profile() {
                             placeholder="Enter Your Address"
                         />
 
-                        <Button style={" bg-[#FF8906] items-center w-full text-sm py-3"}>
+                        <Button style={" bg-[#2E6B0F] items-center w-full text-sm py-3"}>
                             Submit
                         </Button>
                     </form>

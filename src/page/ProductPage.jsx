@@ -189,7 +189,7 @@ export function ProductPage() {
                             placeholder="Find Product"
                         />
                     </div>
-                    <div className="p-3 flex items-center bg-[#FF8906] rounded-lg">
+                    <div className="p-3 flex items-center bg-[#2E6B0F] rounded-lg">
                         <button onClick={toggleFilter}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                 <path fill="#000" d="M22 18.605a.75.75 0 0 1-.75.75h-5.1a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h7.74a2.93 2.93 0 0 1 5.66 0h5.1a.75.75 0 0 1 .75.75m0-13.21a.75.75 0 0 1-.75.75H18.8a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h10.39a2.93 2.93 0 0 1 5.66 0h2.45a.74.74 0 0 1 .75.75m0 6.6a.74.74 0 0 1-.75.75H9.55a2.93 2.93 0 0 1-5.66 0H2.75a.75.75 0 1 1 0-1.5h1.14a2.93 2.93 0 0 1 5.66 0h11.7a.75.75 0 0 1 .75.75" strokeWidth="1" stroke="#000" />
@@ -337,7 +337,7 @@ export function ProductPage() {
                         })}
                     </div>
                     <div className="flex items-center gap-2 lg:px-10 xl:px-40">
-                        <div className="py-1 px-3 rounded-full bg-[#FF8906]"></div>
+                        <div className="py-1 px-3 rounded-full bg-[#2E6B0F]"></div>
                         <div className="p-1 rounded-full bg-[#DDE0E4]"></div>
                         <div className="p-1 rounded-full bg-[#DDE0E4]"></div>
                         <div className="p-1 rounded-full bg-[#DDE0E4]"></div>
@@ -459,7 +459,7 @@ export function ProductPage() {
                         <div className="col-span-9">
                             {loading ? (
                                 <div className="flex flex-col items-center justify-center py-20 gap-4">
-                                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#FF8906]"></div>
+                                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2E6B0F]"></div>
                                     <p className="text-xl text-gray-600">Memuat produk...</p>
                                 </div>
                             ) : products.length === 0 ? (
@@ -471,7 +471,7 @@ export function ProductPage() {
                                     <p className="text-sm text-gray-500">Coba kata kunci lain atau hapus filter pencarian</p>
                                     <button
                                         onClick={resetFilters}
-                                        className="px-6 py-2 bg-[#FF8906] text-white rounded-lg hover:bg-[#e67a05] transition-colors"
+                                        className="px-6 py-2 bg-[#2E6B0F] text-white rounded-lg hover:bg-[#e67a05] transition-colors"
                                     >
                                         Lihat Semua Produk
                                     </button>
@@ -502,13 +502,13 @@ export function ProductPage() {
                                                     image={item.images && item.images[0] ? item.images[0].image : '/placeholder.png'}
                                                     isFlashSale={item.is_flashsale}
                                                 >
-                                                    <div className="flex gap-1 items-center text-[#FF8906]">
+                                                    <div className="flex gap-1 items-center text-[#2E6B0F]">
                                                         {item.rating && (
                                                             <>
                                                                 {[...Array(Math.floor(item.rating))].map((_, i) => (
                                                                     <svg key={`full-${i}`} className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                                         <path
-                                                                            fill="#FF8906"
+                                                                            fill="#2E6B0F"
                                                                             d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
                                                                         />
                                                                     </svg>
@@ -552,7 +552,7 @@ export function ProductPage() {
                                 key={i}
                                 onClick={() => handlePageChange(i + 1)}
                                 className={`w-10 h-10 flex items-center justify-center rounded-full 
-                                ${currentPage === i + 1 ? "bg-[#FF8906] text-white" : "bg-[#E8E8E8] text-black"}`}
+                                ${currentPage === i + 1 ? "bg-[#2E6B0F] text-white" : "bg-[#E8E8E8] text-black"}`}
                             >
                                 {i + 1}
                             </button>

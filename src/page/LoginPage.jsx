@@ -137,10 +137,10 @@ export function LoginPage() {
                     {errors.password && (
                         <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                     )}
-                    <Link to="/forget-password" className="text-[#FF8906] text-sm flex justify-end">Forget Password?</Link>
+                    <Link to="/forget-password" className="text-[#2E6B0F] text-sm flex justify-end">Forget Password?</Link>
                     <Button type={"submit"}>Login</Button>
                 </form>
-                <p className="text-sm text-[#4F5665] flex items-center justify-center">Not Have Account? <Link to="/register" className="text-[#FF8906] pl-1">Register</Link></p>
+                <p className="text-sm text-[#4F5665] flex items-center justify-center">Not Have Account? <Link to="/register" className="text-[#2E6B0F] pl-1">Register</Link></p>
                 <div className="flex items-center gap-5">
                     <div className="bg-[#DEDEDE] w-full h-0.5"></div>
                     <p className="text-[#AAAAAA] text-xs">Or</p>
