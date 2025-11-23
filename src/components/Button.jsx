@@ -12,7 +12,7 @@
 export function Button({children, style, type, onClick, value}){
     return (
         <>
-            <button type={type} value={value} className={`  bg-[#FF8906] text-black py-1.5 rounded-md cursor-pointer ${style}`} onClick={onClick}>
+            <button type={type} value={value} className={`  bg-[#2E6B0F] text-white py-1.5 rounded-md cursor-pointer ${style}`} onClick={onClick}>
                 {children}
             </button>
         </>
