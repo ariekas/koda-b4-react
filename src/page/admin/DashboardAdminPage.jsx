@@ -26,7 +26,7 @@ export function DashboardAdminPage() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await axios.get("/public/data/bestSellingProduct.json");
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/data/bestSellingProduct.json`);
                 setProduct(response.data);
             } catch (err) {
                 console.log("error :" + err)
