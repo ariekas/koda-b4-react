@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom"
 import { X, Image, User, MapPin, Phone, CreditCard, Truck, Package, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 export function AdminLayout() {
@@ -159,112 +160,162 @@ export function SideBarLeft() {
     )
 }
 
-
 export function SideBarProduct({ setShowSideBarProduct }) {
-    const [selectedSize, setSelectedSize] = useState('');
-    const sizes = ['R', 'L', 'XL', '250 gr', '500gr'];
+    const [productName, setProductName] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [stock, setStock] = useState("");
+    const [loading, setLoading] = useState(false);
+    const token = useSelector((s) => s.authReducers.token);
+
+
+    async function handleCreateProduct() {
+        if (!productName || !price || !description || !stock) {
+            alert("Harap isi semua field!");
+            return;
+        }
+    
+        if (!token) {
+            alert("Silakan login terlebih dahulu", "error");
+            return;
+        }
+    
+        setLoading(true);
+    
+        const body = {
+            name: productName,
+            price: Number(price),
+            description,
+            stock: Number(stock),
+            discountsId: null,
+            isFlashsale: false,
+            isFavoriteProduct: false,
+            categoryProductsId: 1,
+        };
+    
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/admin/products`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify(body),
+            });
+    
+            const result = await res.json();
+    
+            if (!res.ok) {
+                alert(result.message || "Failed to create product");
+                return;
+            }
+    
+            alert("Success Create Product!");
+            setShowSideBarProduct(false);
+    
+        } catch (err) {
+            console.error(err);
+        }
+    
+        setLoading(false);
+    }
+    
+
     return (
-        <>
-            <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg">
-                <div className="flex items-center justify-between p-4 ">
-                    <h1 className="text-lg font-semibold text-gray-900">Add Product</h1>
-                    <button className="text-red-500 hover:text-red-600" onClick={() => setShowSideBarProduct(false)}>
-                        <X className="w-5 h-5" />
-                    </button>
-                </div>
-
-                <div className="p-4 space-y-5">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Photo Product
-                        </label>
-                        <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-                            <Image className="w-6 h-6 text-gray-400" />
-                        </div>
-                        <button className="mt-3 px-6 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors">
-                            Upload
-                        </button>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Product name
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Enter Product Name"
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Price
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Enter Product Price"
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Description
-                        </label>
-                        <textarea
-                            placeholder="Enter Product Description"
-                            rows="5"
-                            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Product Size
-                        </label>
-                        <div className="grid grid-cols-5 gap-2">
-                            {sizes.map((size) => (
-                                <button
-                                    key={size}
-                                    onClick={() => setSelectedSize(size)}
-                                    className={`py-2.5 text-sm font-medium rounded-lg border transition-colors ${selectedSize === size
-                                        ? 'bg-orange-500 text-white border-orange-500'
-                                        : 'bg-white text-gray-700 border-gray-200 hover:border-orange-300'
-                                        }`}
-                                >
-                                    {size}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                            Stock
-                        </label>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Enter Product Stock"
-                                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                            />
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors">
-                        Save Product
-                    </button>
-                </div>
+        <div className="h-screen flex flex-col bg-white rounded-lg shadow-sm w-lg">
+            <div className="flex items-center justify-between p-4">
+                <h1 className="text-lg font-semibold text-gray-900">Add Product</h1>
+                <button
+                    className="text-red-500 hover:text-red-600"
+                    onClick={() => setShowSideBarProduct(false)}
+                >
+                    <X className="w-5 h-5" />
+                </button>
             </div>
-        </>
-    )
+
+            <div className="p-4 space-y-5">
+                {/* IMAGE */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                        Photo Product
+                    </label>
+                    <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                        <Image className="w-6 h-6 text-gray-400" />
+                    </div>
+                    <button className="mt-3 px-6 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 transition-colors">
+                        Upload
+                    </button>
+                </div>
+
+                {/* NAME */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                        Product name
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="Enter Product Name"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:ring-2 focus:ring-orange-500"
+                    />
+                </div>
+
+                {/* PRICE */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                        Price
+                    </label>
+                    <input
+                        type="number"
+                        placeholder="Enter Product Price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:ring-2 focus:ring-orange-500"
+                    />
+                </div>
+
+                {/* DESCRIPTION */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                        Description
+                    </label>
+                    <textarea
+                        placeholder="Enter Product Description"
+                        rows="5"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 resize-none focus:ring-2 focus:ring-orange-500"
+                    />
+                </div>
+
+                {/* STOCK */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                        Stock
+                    </label>
+                    <input
+                        type="number"
+                        placeholder="Enter Product Stock"
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:ring-2 focus:ring-orange-500"
+                    />
+                </div>
+
+                {/* SAVE BUTTON */}
+                <button
+                    onClick={handleCreateProduct}
+                    className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors"
+                    disabled={loading}
+                >
+                    {loading ? "Saving..." : "Save Product"}
+                </button>
+            </div>
+        </div>
+    );
 }
+
 
 export function SideBarOrder({ setShowSideBarOrder }) {
     const [status, setStatus] = React.useState('On progress');
